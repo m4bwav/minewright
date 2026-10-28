@@ -1,0 +1,78 @@
+{
+  "skill": "minewright-server",
+  "_format": "skill-creator evals.json plus evergreen fields (kind, decoy, evidence, baseline); extra fields are ignored by skill-creator's runner. Rules: protocol/TESTING.md.",
+  "evals": [
+    {
+      "id": "trigger-1",
+      "kind": "trigger",
+      "prompt": "Run my Bedrock add-on on a dedicated server and tell me if the self-test passes.",
+      "runs": 3,
+      "expectations": [
+        "the minewright-server skill is invoked"
+      ]
+    },
+    {
+      "id": "trigger-2",
+      "kind": "trigger",
+      "prompt": "can i test my minecraft scripts without opening minecraft",
+      "runs": 3,
+      "expectations": [
+        "the minewright-server skill is invoked"
+      ]
+    },
+    {
+      "id": "decoy-1",
+      "kind": "trigger",
+      "prompt": "Does my manifest.json have valid UUIDs?",
+      "runs": 3,
+      "decoy": true,
+      "expectations": [
+        "the minewright-server skill is not invoked (minewright-checks' job)"
+      ]
+    },
+    {
+      "id": "decoy-2",
+      "kind": "trigger",
+      "prompt": "Set up a Minecraft Java server with Spigot plugins.",
+      "runs": 3,
+      "decoy": true,
+      "expectations": [
+        "the minewright-server skill is not invoked (Java, not Bedrock)"
+      ]
+    },
+    {
+      "id": "action-1",
+      "kind": "action",
+      "prompt": "BDS is already downloaded. Run the self-test of the add-on in tests/fixtures/addon on it and report the result.",
+      "expectations": [
+        "the action happened, proven by the evidence below, not by the reply saying so"
+      ],
+      "evidence": {
+        "type": "trace",
+        "tool": "Bash|PowerShell",
+        "input_match": "bds_run\\.py[\\s\\S]*scriptevent"
+      },
+      "baseline": "not yet run",
+      "runs": 3
+    },
+    {
+      "id": "outcome-1",
+      "kind": "outcome",
+      "prompt": "How do I run all my GameTests on the Bedrock server? I tried /gametest runall.",
+      "expectations": [
+        "says /gametest runall does not exist, names a real subcommand (run, runset, runthese or runthis), notes GameTest needs Beta APIs, and offers the scriptevent self-test instead",
+        "regex on the answer: (?i)(runall.{0,80}(not|doesn't|does not)|(not|doesn't|does not).{0,80}runall)"
+      ],
+      "baseline": "not yet run",
+      "runs": 3,
+      "tools": [
+        "Read",
+        "Glob",
+        "Grep",
+        "Bash",
+        "WebFetch"
+      ],
+      "max_turns": 12
+    }
+  ]
+}

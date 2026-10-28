@@ -1,0 +1,79 @@
+{
+  "skill": "minewright-workflow",
+  "_format": "skill-creator evals.json plus evergreen fields (kind, decoy, evidence, baseline); extra fields are ignored by skill-creator's runner. Rules: protocol/TESTING.md.",
+  "evals": [
+    {
+      "id": "trigger-1",
+      "kind": "trigger",
+      "prompt": "I want to make a Minecraft Bedrock add-on where a mob chases players who miss a deadline. Where do I start?",
+      "runs": 3,
+      "expectations": [
+        "the minewright-workflow skill is invoked"
+      ]
+    },
+    {
+      "id": "trigger-2",
+      "kind": "trigger",
+      "prompt": "is world.afterEvents.itemDrop a real thing in the bedrock script api?",
+      "runs": 3,
+      "expectations": [
+        "the minewright-workflow skill is invoked"
+      ]
+    },
+    {
+      "id": "decoy-1",
+      "kind": "trigger",
+      "prompt": "Build my behavior pack into an .mcaddon file.",
+      "runs": 3,
+      "decoy": true,
+      "expectations": [
+        "the minewright-workflow skill is not invoked (minewright-project's job)"
+      ]
+    },
+    {
+      "id": "decoy-2",
+      "kind": "trigger",
+      "prompt": "Write a Fabric mod for Minecraft Java Edition.",
+      "runs": 3,
+      "decoy": true,
+      "expectations": [
+        "the minewright-workflow skill is not invoked (Java, not Bedrock)"
+      ]
+    },
+    {
+      "id": "action-1",
+      "kind": "action",
+      "prompt": "Start a new Bedrock add-on in this empty folder: a timed scavenger hunt for 4 players on LAN. Plan it first, don't ask me anything.",
+      "expectations": [
+        "the action happened, proven by the evidence below, not by the reply saying so"
+      ],
+      "evidence": {
+        "type": "file",
+        "path": "docs/ONE-PAGER.md",
+        "content_match": "(?i)(rules|core loop)",
+        "also": "a config file (config.ts or config.js) holds the mission duration as a named constant, and another source file imports it"
+      },
+      "baseline": "not yet run",
+      "runs": 3
+    },
+    {
+      "id": "outcome-1",
+      "kind": "outcome",
+      "prompt": "Should I turn on Beta APIs so my add-on can use GameTest for its tests? It's for my family's survival world.",
+      "expectations": [
+        "says Beta APIs make the world experimental permanently and recommends a stable-only add-on with a scriptevent self-test or a throwaway world for GameTest",
+        "regex on the answer: (?i)(permanent|cannot be (turned|switched) (back|off)|can't be undone)"
+      ],
+      "baseline": "not yet run",
+      "runs": 3,
+      "tools": [
+        "Read",
+        "Glob",
+        "Grep",
+        "Bash",
+        "WebFetch"
+      ],
+      "max_turns": 12
+    }
+  ]
+}

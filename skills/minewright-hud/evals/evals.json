@@ -1,0 +1,78 @@
+{
+  "skill": "minewright-hud",
+  "_format": "skill-creator evals.json plus evergreen fields (kind, decoy, evidence, baseline); extra fields are ignored by skill-creator's runner. Rules: protocol/TESTING.md.",
+  "evals": [
+    {
+      "id": "trigger-1",
+      "kind": "trigger",
+      "prompt": "Show a big countdown timer on screen in my Bedrock add-on.",
+      "runs": 3,
+      "expectations": [
+        "the minewright-hud skill is invoked"
+      ]
+    },
+    {
+      "id": "trigger-2",
+      "kind": "trigger",
+      "prompt": "how do i edit hud_screen.json to animate my title",
+      "runs": 3,
+      "expectations": [
+        "the minewright-hud skill is invoked"
+      ]
+    },
+    {
+      "id": "decoy-1",
+      "kind": "trigger",
+      "prompt": "Make the watcher entity's eye glow red with a render controller.",
+      "runs": 3,
+      "decoy": true,
+      "expectations": [
+        "the minewright-hud skill is not invoked (minewright-workflow's job (entity properties))"
+      ]
+    },
+    {
+      "id": "decoy-2",
+      "kind": "trigger",
+      "prompt": "Build a dashboard UI in React.",
+      "runs": 3,
+      "decoy": true,
+      "expectations": [
+        "the minewright-hud skill is not invoked (not Minecraft)"
+      ]
+    },
+    {
+      "id": "action-1",
+      "kind": "action",
+      "prompt": "Add an on-screen countdown to the add-on in this folder that works even without a resource pack.",
+      "expectations": [
+        "the action happened, proven by the evidence below, not by the reply saying so"
+      ],
+      "evidence": {
+        "type": "trace",
+        "tool": "Write|Edit|MultiEdit",
+        "input_match": "setActionBar|setTitle"
+      },
+      "baseline": "not yet run",
+      "runs": 3
+    },
+    {
+      "id": "outcome-1",
+      "kind": "outcome",
+      "prompt": "Can I make a custom HUD panel with @minecraft/server-ui that stays on screen while players move?",
+      "expectations": [
+        "says server-ui forms are dialogs that take over the screen, not a HUD, and points to title/actionbar or JSON UI with the Ore UI risk",
+        "regex on the answer: (?i)(dialog|form).{0,120}(not a hud|not.{0,20}hud|take.{0,10}over)"
+      ],
+      "baseline": "not yet run",
+      "runs": 3,
+      "tools": [
+        "Read",
+        "Glob",
+        "Grep",
+        "Bash",
+        "WebFetch"
+      ],
+      "max_turns": 12
+    }
+  ]
+}
