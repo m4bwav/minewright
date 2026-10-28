@@ -1,0 +1,39 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "given_jar:watcher",
+      "materials": {
+        "default": "entity_alphatest",
+        "eye": "entity_emissive_alpha"
+      },
+      "textures": {
+        "open": "textures/entity/watcher_open",
+        "closed": "textures/entity/watcher_closed",
+        "red": "textures/entity/watcher_red"
+      },
+      "geometry": {
+        "default": "geometry.given_jar.watcher"
+      },
+      "animations": {
+        "look": "animation.given_jar.watcher.look",
+        "bob": "animation.given_jar.watcher.bob",
+        "iris": "animation.given_jar.watcher.iris"
+      },
+      "scripts": {
+        "animate": [
+          "look",
+          "bob",
+          "iris"
+        ]
+      },
+      "render_controllers": [
+        "controller.render.given_jar.watcher"
+      ],
+      "spawn_egg": {
+        "base_color": "#14101a",
+        "overlay_color": "#d9d2c3"
+      }
+    }
+  }
+}

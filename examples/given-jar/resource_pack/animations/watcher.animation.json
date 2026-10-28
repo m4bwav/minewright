@@ -1,0 +1,41 @@
+{
+  "format_version": "1.10.0",
+  "animations": {
+    "animation.given_jar.watcher.look": {
+      "loop": true,
+      "bones": {
+        "root": {
+          "rotation": [
+            "query.target_x_rotation",
+            "query.target_y_rotation",
+            0
+          ]
+        }
+      }
+    },
+    "animation.given_jar.watcher.bob": {
+      "loop": true,
+      "bones": {
+        "root": {
+          "position": [
+            0,
+            "math.sin(query.life_time * (query.property('given_jar:mode') == 'hunting' ? 360 : 90)) * 1.5",
+            0
+          ]
+        }
+      }
+    },
+    "animation.given_jar.watcher.iris": {
+      "loop": true,
+      "bones": {
+        "iris": {
+          "position": [
+            "math.sin(query.life_time * 47) * 0.4",
+            "math.cos(query.life_time * 31) * 0.3",
+            0
+          ]
+        }
+      }
+    }
+  }
+}

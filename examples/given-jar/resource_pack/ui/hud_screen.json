@@ -1,0 +1,192 @@
+{
+  "namespace": "hud",
+
+  // given.jar HUD layer (additive). The script sends titles that start with "gj_item:" followed by a texture path.
+  // 1. hud_title_text: the vanilla title text and its background are hidden for those titles, and the item picture
+  //    shows in the middle of the screen instead, waits, then drops toward the action bar timer.
+  // 2. gj_hud_item_slot: keeps the last item picture above the action bar (Preserve Title Texts pattern) until the
+  //    script sends "gj_item:textures/given_jar/blank".
+  // Every other title works exactly as in vanilla. If this file stops loading, the vanilla title shows the raw
+  // marker text and the subtitle, chat line and action bar still name the item, so the game stays playable.
+
+  "hud_title_text": {
+    "modifications": [
+      {
+        "array_name": "controls",
+        "operation": "replace",
+        "control_name": "title_frame",
+        "value": { "title_frame@hud.gj_title_frame": {} }
+      }
+    ]
+  },
+
+  "gj_title_frame": {
+    "type": "panel",
+    "size": [ "100%", "100%cm" ],
+    "$gj_marker": "gj_item:",
+    "controls": [
+      {
+        "gj_vanilla_title": {
+          "type": "panel",
+          "size": [ "100%", "100%cm" ],
+          "bindings": [
+            {
+              "binding_name": "#hud_title_text_string",
+              "binding_type": "global"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "((#hud_title_text_string - $gj_marker) = #hud_title_text_string)",
+              "target_property_name": "#visible"
+            }
+          ],
+          "controls": [
+            {
+              "title_background": {
+                "type": "image",
+                "size": [ "100%sm + 30px", "100%sm + 6px" ],
+                "texture": "textures/ui/hud_tip_text_background",
+                "alpha": "@hud.anim_title_background_alpha_in"
+              }
+            },
+            {
+              "title": {
+                "type": "label",
+                "anchor_from": "top_middle",
+                "anchor_to": "top_middle",
+                "color": "$title_command_text_color",
+                "enable_profanity_filter": true,
+                "text": "#text",
+                "layer": 31,
+                "localize": false,
+                "font_size": "extra_large",
+                "variables": [
+                  {
+                    "requires": "(not $title_shadow)",
+                    "$show_shadow": false
+                  },
+                  {
+                    "requires": "$title_shadow",
+                    "$show_shadow": true
+                  }
+                ],
+                "shadow": "$show_shadow",
+                "text_alignment": "center",
+                "offset": [ 0, 6 ],
+                "bindings": [
+                  {
+                    "binding_name": "#hud_title_text_string",
+                    "binding_name_override": "#text",
+                    "binding_type": "global"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "gj_item_image": {
+          "type": "image",
+          "size": [ 48, 48 ],
+          "layer": 32,
+          "anchor_from": "top_middle",
+          "anchor_to": "top_middle",
+          "texture": "textures/given_jar/blank",
+          "offset": "@hud.gj_anim_item_hold",
+          "bindings": [
+            {
+              "binding_name": "#hud_title_text_string",
+              "binding_type": "global"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "(#hud_title_text_string - $gj_marker)",
+              "target_property_name": "#texture"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "(not ((#hud_title_text_string - $gj_marker) = #hud_title_text_string))",
+              "target_property_name": "#visible"
+            }
+          ]
+        }
+      }
+    ]
+  },
+
+  // Hold in the middle for 1.5 s, then drop toward the action bar. Tune the 70 px drop in a real game (ART.md).
+  "gj_anim_item_hold": {
+    "anim_type": "offset",
+    "easing": "linear",
+    "duration": 1.5,
+    "from": [ 0, 0 ],
+    "to": [ 0, 0 ],
+    "next": "@hud.gj_anim_item_drop"
+  },
+
+  "gj_anim_item_drop": {
+    "anim_type": "offset",
+    "easing": "in_quad",
+    "duration": 0.8,
+    "from": [ 0, 0 ],
+    "to": [ 0, 70 ]
+  },
+
+  "gj_hud_item_slot": {
+    "type": "image",
+    "size": [ 20, 20 ],
+    "layer": 5,
+    "anchor_from": "bottom_middle",
+    "anchor_to": "bottom_middle",
+    "offset": [ 0, -88 ],
+    "texture": "textures/given_jar/blank",
+    "$gj_marker": "gj_item:",
+    "controls": [
+      {
+        "gj_data": {
+          "type": "panel",
+          "size": [ 0, 0 ],
+          "property_bag": {
+            "#preserved_text": "gj_item:textures/given_jar/blank"
+          },
+          "bindings": [
+            {
+              "binding_name": "#hud_title_text_string"
+            },
+            {
+              "binding_name": "#hud_title_text_string",
+              "binding_name_override": "#preserved_text",
+              "binding_condition": "visibility_changed"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "(not (#hud_title_text_string = #preserved_text) and not ((#hud_title_text_string - $gj_marker) = #hud_title_text_string))",
+              "target_property_name": "#visible"
+            }
+          ]
+        }
+      }
+    ],
+    "bindings": [
+      {
+        "binding_type": "view",
+        "source_control_name": "gj_data",
+        "source_property_name": "(#preserved_text - $gj_marker)",
+        "target_property_name": "#texture"
+      }
+    ]
+  },
+
+  "root_panel": {
+    "modifications": [
+      {
+        "array_name": "controls",
+        "operation": "insert_back",
+        "value": [
+          { "gj_hud_item_slot@hud.gj_hud_item_slot": {} }
+        ]
+      }
+    ]
+  }
+}
