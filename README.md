@@ -1,5 +1,7 @@
 # minewright
 
+![A blocky voxel landscape at dusk with grass-topped hills, square trees and a still lake under a purple-to-orange sky; on the right a large matte black sphere floats above the hills with one realistic human eye on its front, its hazel-green iris looking out](https://raw.githubusercontent.com/m4bwav/minewright/main/.github/images/hero.jpg)
+
 Five self-maintaining ("evergreen") skills that teach an AI coding agent to build Minecraft Bedrock add-ons:
 design the rules before the code, set up and package the packs with current versions, check them without the
 game, run them on a real Bedrock Dedicated Server, and put information on the player's screen. Written
@@ -8,6 +10,9 @@ dated research pass (subject, tooling, practice, testing) kept per skill in `RES
 re-checks its claims on a schedule.
 
 Bedrock only for now. Java Edition, if it comes, gets its own `minewright-java-*` skills.
+
+The [wiki](https://github.com/m4bwav/minewright/wiki) has a page per skill, install steps per agent and
+platform, the checks and the server harness with real output, and the example add-on in detail.
 
 ## Why this suite exists
 

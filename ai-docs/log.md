@@ -8,3 +8,5 @@ Append-only. One line per operation: `## [YYYY-MM-DD] op | title` where op is on
 ## [2026-10-27] index | rebuilt (1 entries)
 ## [2026-10-27] add | decision: Stable APIs only; BDS scriptevent self-test instead of GameTest
 ## [2026-10-27] index | rebuilt (2 entries)
+## [2026-10-27] add | GitHub wiki for 0.1.0 (notes/2026-10-27-github-wiki.md)
+## [2026-10-27] index | rebuilt (3 entries)
