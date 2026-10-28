@@ -13,9 +13,9 @@
   "source": null,
   "topic": "Checking a Bedrock add-on without the game: JSON, manifests, identifiers, TypeScript, ESLint, Creator Tools validate, unit tests in one JSON report",
   "tier": "moderate",
-  "interval_days": 30,
+  "interval_days": 14,
   "last_checked": "2026-10-27",
-  "next_due": "2026-11-26",
+  "next_due": "2026-11-10",
   "verify_at_use": false,
   "volatile_claims": [
     "@minecraft/creator-tools 0.20.0 and its validate flags (-i, --json, --force, -o)",
@@ -26,7 +26,7 @@
   "events": [],
   "streak": {
     "quiet": 0,
-    "pinned_min": 0,
+    "pinned_min": 1,
     "pinned_max": 0,
     "vau_quiet": 0
   },
@@ -36,12 +36,18 @@
       "m": null,
       "interval_after": 30,
       "note": "created"
+    },
+    {
+      "date": "2026-10-27",
+      "m": 0.4,
+      "interval_after": 14,
+      "note": "given.jar findings folded in; contradiction fixed in C-20261027-2, cleared"
     }
   ],
   "counts": {
-    "learnings": 0,
-    "changes": 1,
-    "research": 4,
+    "learnings": 5,
+    "changes": 2,
+    "research": 6,
     "tests": 1
   },
   "consolidate_every": 25,

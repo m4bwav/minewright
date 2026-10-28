@@ -18,8 +18,8 @@ my-addon/
   behavior_pack/        manifest.json, entities/, items/, scripts/main.js (built), texts/
   resource_pack/        manifest.json, entity/, models/entity/, textures/, render_controllers/, texts/
   src/                  TypeScript sources (main.ts, config.ts, core/*.ts)
-  tests/                node --test unit tests for src/core
-  package.json  tsconfig.json  eslint.config.mjs  scripts/pack.mjs
+  test/                 node --test unit tests for src/core (*.test.ts)
+  package.json  tsconfig.json  eslint.config.mjs  scripts/pack.py (or pack.mjs)
 ```
 
 Namespace: one, lowercase letters, digits and underscores (`given_jar`, not `given.jar`). Write it in the one-pager.
@@ -51,27 +51,31 @@ Behavior pack `manifest.json` (current numbers checked 2026-10-27; re-check befo
 - Module versions are plain strings. Bedrock Dedicated Server 1.26.60.6 accepts `@minecraft/server` 0.1.0, 1.19.0, 2.11.0, 2.12.0-beta and 3.0.0-alpha, and `@minecraft/server-ui` 0.1.0, 1.3.0, 2.3.0, 2.4.0-beta and 3.0.0-alpha (listed in its error when asked for a version it lacks). Use the stable one; `-beta` needs the Beta APIs experiment (minewright-workflow Step 3).
 - Bump `header.version` on every release you hand out, or a device that already has that version may keep its cached copy.
 
+Entity and resource file `format_version`s: copy component names from a `Mojang/bedrock-samples` file at the same `format_version`, never from memory or an older tutorial. Behavior entities at 1.26.10 and later no longer accept `minecraft:pushable` (use `minecraft:pushable_by_entity: {}` and `minecraft:pushable_by_block: {}`, or neither); Bedrock Dedicated Server refuses the whole entity, and the game shows no error. Do not raise a `format_version` because Creator Tools recommends it without rerunning minewright-checks (its `components` check) and the server self-test. Vanilla resource files still use old versions (client entities 1.10.0, render controllers, animations and geometry 1.8.0), so there is no need to raise those. Details: [references/versions-and-formats.md](references/versions-and-formats.md).
+
 ## Step 3: TypeScript build
 
-The npm types must match the manifest: `npm i -E @minecraft/server@2.11.0 @minecraft/server-ui@2.3.0`, plus `typescript`, `esbuild` and `eslint` as dev dependencies. Minimal scripts:
+The npm types must match the manifest: `npm i -E @minecraft/server@2.11.0 @minecraft/server-ui@2.3.0`, plus pinned dev dependencies. The newest TypeScript (7.x) and ESLint (10.x) break the Minecraft lint plugin, so pin the set in [references/versions-and-formats.md](references/versions-and-formats.md) (TypeScript 5.9.3, ESLint 9.39.5). Minimal scripts:
 
 ```json
 "scripts": {
-  "build": "esbuild src/main.ts --bundle --format=esm --target=es2022 --outfile=behavior_pack/scripts/main.js --external:@minecraft/server --external:@minecraft/server-ui",
-  "test": "node --test tests/",
+  "build": "esbuild src/main.ts --bundle --format=esm --platform=neutral --target=es2022 --external:@minecraft/* --outfile=behavior_pack/scripts/main.js",
+  "typecheck": "tsc --noEmit",
+  "test": "node --test test/*.test.ts",
   "lint": "eslint .",
-  "pack": "node scripts/pack.mjs"
+  "pack": "npm run build && python scripts/pack.py"
 }
 ```
 
-- `@minecraft/*` stay external: the game provides them. Everything else is bundled into one file.
-- `tsconfig.json`: `"module": "es2022"`, `"moduleResolution": "bundler"`, `"strict": true`, `"noEmit": true` (esbuild emits), `"allowImportingTsExtensions": true` when tests import `.ts` files for Node 24's type stripping.
+- `@minecraft/*` stay external (esbuild accepts the wildcard): the game provides them. Everything else is bundled into one file.
+- `tsconfig.json`: `"module": "es2022"`, `"moduleResolution": "bundler"`, `"strict": true`, `"noEmit": true` (esbuild emits), and for Node 24's type stripping in tests `"allowImportingTsExtensions": true`, `"erasableSyntaxOnly": true` (no enums or parameter properties), `"verbatimModuleSyntax": true` and `"types": ["node"]`.
+- npm 11 does not run esbuild's install script until approved (`allow-scripts` warning); esbuild still works through its platform package, so leave it unapproved.
 - Official alternative: Mojang's `@minecraft/core-build-tasks` (5.7.1) with the `ts-starter` sample in `microsoft/minecraft-scripting-samples` gives `build`, `lint`, `local-deploy` and `mcaddon` tasks. The sample pins older caret ranges (`@minecraft/server ^2.0.0`); pin exact versions instead. Lint rules for Script API code: `eslint-plugin-minecraft-linting` (2.0.13).
 - Mojang's Creator Tools CLI (`mct create`, `mct add`, `mct deploy`; Node 22+) scaffolds projects too. Use it if the user prefers; keep this layout's build and tests.
 
 ## Step 4: package
 
-An `.mcaddon` is a zip holding the pack folders at its root (`behavior_pack/`, `resource_pack/`); a `.mcpack` is a zip of one pack. `scripts/pack.mjs` builds first, then zips into `dist/<name>-<version>.mcaddon` and leaves out `src/`, `tests/` and `node_modules/`. Creator Tools warns above about 100 MB because phones and Realms uploads struggle; stay well under.
+An `.mcaddon` is a zip holding the pack folders at its root (`behavior_pack/`, `resource_pack/`); a `.mcpack` is a zip of one pack. `scripts/pack.mjs` builds first, then zips into `dist/<name>-<version>.mcaddon` and leaves out `src/`, `test/` and `node_modules/`. Creator Tools warns above about 100 MB because phones and Realms uploads struggle; stay well under.
 
 ## Step 5: install, per platform
 
@@ -80,6 +84,7 @@ An `.mcaddon` is a zip holding the pack folders at its root (`behavior_pack/`, `
 - Android: open the downloaded file from the Files app and choose Minecraft. Android 12 and later hide `Android/data/com.mojang.minecraftpe` from most file managers, so import, not copy.
 - Xbox, PlayStation and Switch cannot import files. Build the world with the add-on active on Windows or a phone, upload it to a Realm, and open the Realm on the console. Experimental features do not work on Realms gameplay servers.
 - Then: create or edit a world, Behavior Packs, activate the pack (the resource pack comes along through the dependency). Leave experiments off.
+- LAN play: the host turns on Multiplayer Game and Visible to LAN Players in the world settings; others join from Play, Friends, LAN games, and download the packs on joining. Give operators (Game Directors) to whoever runs the add-on's commands. (Community-documented; Mojang's help site could not be fetched to confirm.)
 
 ## Output
 

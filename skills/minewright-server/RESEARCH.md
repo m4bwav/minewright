@@ -14,11 +14,13 @@ Topic: Live testing a Bedrock add-on on Bedrock Dedicated Server: download, worl
 - A Windows client joining a same-machine BDS still needs the loopback exemption, now given with package SIDs (`CheckNetIsolation.exe LoopbackExempt -a -p=S-1-15-2-...`).
 - Script debugging: `allow-outbound-script-debugging`, `allow-inbound-script-debugging`, `force-inbound-debug-port` (default 19144).
 
+- The console runs custom commands without a slash and prints their replies as INFO lines (R-20261027-5); a component the entity's format_version rejects shows as `[ERROR] [Actor]` and `[ERROR] [Log]` lines (R-20261027-6).
+
 ## Open questions
 
 - Does the Linux build behave the same under bds_run.py (stdout buffering, `LD_LIBRARY_PATH`)? Only Windows was run.
 - The 1.26.60.6 server.properties has `transport=nethernet`, `server-udp-ports=19132` and signs in to a signalling service at start. Can two test servers run at once without clashing on 19132, and does a run work offline?
-- Is the resource pack applied? The console's "Pack Stack" line lists only the behavior pack; with no client connected there is nothing to see.
+- Is the resource pack applied? The console's "Pack Stack" line lists only the behavior pack in both the fixture and the example runs, and no resource-pack line ever appears; with no client connected there is nothing to see (R-20261027-5).
 - Creator Tools has `mct dedicatedserve`; is it a better runner than bds_run.py for some cases?
 
 ## Search plan
@@ -48,6 +50,20 @@ Best sources: the download links API, the zip's own release-notes.txt, Microsoft
 ## Findings log
 
 Newest first. One entry per material finding. `Track` is subject, tooling, practice, or testing.
+
+### R-20261027-6 · 2026-10-27 · Subject: how a rejected entity component shows on the console
+- summary: Fixture copies with minecraft:pushable produced two lines at format_version 1.26.10 and 1.26.50 and none at 1.26.0: `[ERROR] [Log] mwtest | actor_definitions | ... | fixture:dummy | minecraft:entity |  -> components -> minecraft:pushable: this component was found in the input, but is not present in the Schema` and `[ERROR] [Actor] ... ERROR: Entity 'fixture:dummy' failed to load from JSON: parse errors occurred: ...`. bds_run.py counts both. Applied to Step 3.
+- track: subject
+- sources: local bds_run.py runs 2026-10-27 (checked 2026-10-27)
+- magnitude: 0.2 (minor)
+- applied: C-20261027-3
+
+### R-20261027-5 · 2026-10-27 · Testing: the example add-on's self-test on BDS 1.26.60.6
+- summary: `python skills/minewright-server/scripts/bds_run.py examples/given-jar --cmd "scriptevent given_jar:selftest"` with ten --expect names: ok true, `[2026-10-27 19:46:53:689 INFO] Server started.` after 4.5 s, 6.9 s in all, 11 PASS markers (scripts_loaded, config_loads, commands_registered, custom_command_runs, tickingarea_loaded, sphere_spawns, entity_properties, one_sphere_per_world, item_delivery, teleport_phases_through_blocks, state_persists), 0 errors. The console showed `Custom Command alias [summon] already in use. Required to use full name [given_jar:summon].` as a WARN (not counted). A second run with `--cmd given_jar:status --cmd "given_jar:testmode on" --cmd "scriptevent given_jar:status"` printed the status as an INFO line and showed test mode on afterwards: the console runs custom commands without a slash. Only the behavior pack appears in Pack Stack. Applied to SKILL.md Steps 2 and 3.
+- track: testing
+- sources: local runs 2026-10-27; examples/given-jar/src/main.ts in this repository (checked 2026-10-27)
+- magnitude: 0.2 (minor)
+- applied: C-20261027-3
 
 ### R-20261027-4 · 2026-10-27 · Tooling and practice: Creator Tools can run a server too; nothing else found
 - summary: Creator Tools lists `dedicatedserve`, `setserverprops` and `eula` commands (CLI README); not tried. No skill or MCP server for testing add-ons on BDS was found; the MCP registry's Minecraft entry administers servers. Practice: no dated write-up found.

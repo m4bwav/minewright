@@ -43,12 +43,13 @@ Name the page in the reply. If a page cannot be reached, say the API is unverifi
 
 Full examples and the reasons: [references/script-api-patterns.md](references/script-api-patterns.md).
 
-- One `system.runInterval` loop drives the game state machine; event handlers only record what happened. Keep the rules in a pure module with no `@minecraft/*` imports so `node --test` can test them, and a thin adapter that talks to the game.
-- Persist state in world dynamic properties (JSON string, versioned), so a reload or crash resumes. Entity properties (`minecraft:entity` `description.properties`, `client_sync: true`) carry what the client must render, read by render controllers with `query.property('ns:name')`.
-- Register slash commands in `system.beforeEvents.startup` with `customCommandRegistry.registerCommand`; names need a namespace, `cheatsRequired` defaults to true, and the permission enum is `CommandPermissionLevel`. Keep a `/scriptevent` fallback.
+- One `system.runInterval` loop drives the game state machine; event handlers only record what happened. Keep the rules in a pure module with no `@minecraft/*` imports so `node --test` can test them from `test/`, and a thin adapter that talks to the game.
+- Persist state in world dynamic properties (JSON string, versioned), loaded in `world.afterEvents.worldLoad`, so a reload or crash resumes. Entity properties (`minecraft:entity` `description.properties`, `client_sync: true`) carry what the client must render, read by render controllers with `query.property('ns:name')`.
+- Register slash commands in `system.beforeEvents.startup` with `customCommandRegistry.registerCommand`; names need a namespace, `cheatsRequired` defaults to true, and the permission enum is `CommandPermissionLevel`. The callback runs read-only: make world changes inside `system.run`. Document the full `/ns:name`, because the short alias is dropped when a vanilla command owns it (`/summon`). Keep a `/scriptevent` fallback.
 - Entities in unloaded chunks do not tick and cannot be found; a chasing or guarding entity must be re-found or re-spawned near its target, and duplicates removed.
 - Nothing records who dropped an item: `minecraft:item` has only `itemStack`. Credit the dropper by diffing each player's inventory between ticks and matching the new item entity near them.
 - `applyDamage` respects a Totem of Undying; `kill()` most likely does not (inferred, not documented). Use damage when a totem should be able to save the player.
+- Recall traps the example add-on hit: `isValid` is a property, `GameMode` values are capitalised, and reading an entity after `remove()` throws (patterns reference, section 10).
 - Creative and spectator players are exempt from anything that hunts or scores players unless the design says otherwise.
 
 ## Step 5: fair rules for young players

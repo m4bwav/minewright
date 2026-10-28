@@ -13,9 +13,9 @@
   "source": null,
   "topic": "Bedrock add-on project layout: BP and RP manifests, UUIDs, module dependencies, TypeScript build with esbuild, .mcaddon packaging, install per platform",
   "tier": "fast",
-  "interval_days": 14,
+  "interval_days": 3,
   "last_checked": "2026-10-27",
-  "next_due": "2026-11-10",
+  "next_due": "2026-10-30",
   "verify_at_use": false,
   "volatile_claims": [
     "@minecraft/server stable 2.11.0",
@@ -31,7 +31,7 @@
   "events": [],
   "streak": {
     "quiet": 0,
-    "pinned_min": 0,
+    "pinned_min": 1,
     "pinned_max": 0,
     "vau_quiet": 0
   },
@@ -41,12 +41,18 @@
       "m": null,
       "interval_after": 14,
       "note": "created"
+    },
+    {
+      "date": "2026-10-27",
+      "m": 0.4,
+      "interval_after": 3,
+      "note": "given.jar findings folded in; contradiction fixed in C-20261027-2, cleared"
     }
   ],
   "counts": {
-    "learnings": 0,
-    "changes": 1,
-    "research": 4,
+    "learnings": 8,
+    "changes": 2,
+    "research": 7,
     "tests": 1
   },
   "consolidate_every": 25,

@@ -14,7 +14,8 @@ Topic: Checking a Bedrock add-on without the game: JSON, manifests, identifiers,
 
 ## Open questions
 
-- Exit code of `mct validate` when it finds errors (assumed non-zero; not run here because installing the 160 MB package needed approval).
+- Resolved 2026-10-27 (R-20261027-5): `mct validate` exits 4 with errors and 0 without; run on a project folder it reports dev files as errors, so mw_check.py validates a packs-only copy.
+- Which other mct findings are noise? Three are known (uv_anim, client entity FORMATVER, UNLINK in UI).
 - Should the identifiers check validate against bedrock-samples' JSON schemas (format versions per file type)?
 - Should items, blocks and animations get the same reference checks as entities?
 
@@ -46,6 +47,20 @@ Best sources: Mojang's repositories and npm. Noisy: forum threads quoting old fo
 ## Findings log
 
 Newest first. One entry per material finding. `Track` is subject, tooling, practice, or testing.
+
+### R-20261027-6 · 2026-10-27 · Testing: mw_check.py on the example add-on and the new checks
+- summary: `python skills/minewright-checks/scripts/mw_check.py examples/given-jar --mct-npx` (after npm ci): json, manifest, identifiers, components, typescript, lint, mct and test all pass (8 pass, 0 fail, 0 skip); mct via npx in about 20 s with 3 noise entries. tests/test_scripts.py covers the components check (fixture entity raised to 1.26.50 fails with the pushable_by_entity fix named) and the mct check against a fake mct (packs-only staging, noise, caution, error fails).
+- track: testing
+- sources: local run 2026-10-27; tests/test_scripts.py in this repository (checked 2026-10-27)
+- magnitude: 0.4 (recommendation changed)
+- applied: C-20261027-2
+
+### R-20261027-5 · 2026-10-27 · Tooling: Creator Tools 0.20.0 on a real add-on
+- summary: `npx -y @minecraft/creator-tools@0.20.0 validate -i examples/given-jar --json --force -o <temp>` exited 4 with 14 errors, all about non-pack files (PRJINT extraneous files, UNKJSON for art workflow JSON). On a temporary behavior_packs/ + resource_packs/ copy of the same packs it exited 0: 0 errors, 1 warning (COMJSON uv_anim missing on the render controller, a false positive), 2 recommendations (FORMATVER client entity 1.10.0 vs 1.26.50; UNLINK vanilla texture in hud_screen.json). JSON goes to stdout after a banner line. Applied: mw_check.py stages the packs, adds --mct-npx and --mct-bin, files known noise; SKILL.md Step 1 and Pitfalls.
+- track: tooling
+- sources: https://registry.npmjs.org/@minecraft/creator-tools/latest, local run 2026-10-27 (checked 2026-10-27)
+- magnitude: 0.4 (recommendation changed)
+- applied: C-20261027-2
 
 ### R-20261027-4 · 2026-10-27 · Testing: mw_check.py proven on a fixture and a broken copy
 - summary: On tests/fixtures/addon json, manifest and identifiers pass (Node checks skip: no package.json). A copy with a malformed JSON file, a reused module UUID, a deleted texture and a wrong geometry id fails json, manifest and identifiers with those errors named. Practice track: nothing dated found.

@@ -29,12 +29,34 @@ Write an entry the moment a real signal happens: a user correction, the same err
 - Evidence: R-20261027-3 console logs
 - Scope: skill
 - Status: active · helpful 0 · harmful 0 · last_confirmed 2026-10-27
-<!-- Example (delete once you have a real entry):
-### L-001 · 2026-10-27 · One-line lesson in plain words
-- Trigger: what happened, with dates or counts
-- Hypothesis: why
-- Rule: the shortest instruction that prevents the trigger
-- Evidence: C-20261027-1, T-20261027-1, confirmed 2026-10-27
-- Scope: skill | repo:<slug> | env:<name> | global
+### L-004 · 2026-10-27 · A passing run prints no console; use --log
+- Trigger: The example builder needed the reply to /given_jar:status and had to rerun the kept instance by hand, because a passing report has no console lines.
+- Hypothesis: console_tail is only added on failure, to keep reports short.
+- Rule: Pass --log FILE when command replies matter.
+- Evidence: the given.jar build log (examples/given-jar, 2026-10-27)
+- Scope: skill
 - Status: active · helpful 1 · harmful 0 · last_confirmed 2026-10-27
--->
+
+### L-005 · 2026-10-27 · The BDS console runs custom commands without a slash
+- Trigger: --cmd "given_jar:status" printed the add-on's status as an INFO line, and --cmd "given_jar:testmode on" changed the state seen by the next status.
+- Hypothesis: The console is a command origin like any other.
+- Rule: Chain extra commands as more --cmd flags; use --keep and run the server by hand only for long sessions.
+- Evidence: R-20261027-5
+- Scope: skill
+- Status: active · helpful 1 · harmful 0 · last_confirmed 2026-10-27
+
+### L-006 · 2026-10-27 · Only the server catches a component the format_version rejects
+- Trigger: The example's entity passed every static check but failed to load on BDS 1.26.60.6 for minecraft:pushable; a fixture copy confirmed it fails at 1.26.10 and 1.26.50 and loads at 1.26.0.
+- Hypothesis: The entity schema changes with format_version and the game hides the error.
+- Rule: Run the self-test after any format_version change; read errors for [Actor] lines.
+- Evidence: R-20261027-6
+- Scope: skill
+- Status: active · helpful 1 · harmful 0 · last_confirmed 2026-10-27
+
+### L-007 · 2026-10-27 · Resource packs are invisible to BDS
+- Trigger: Runs with the fixture and the example list only the behavior pack in Pack Stack, and no resource-pack error ever appears.
+- Hypothesis: The dedicated server sends resource packs to clients but does not render or validate them.
+- Rule: Report HUD, textures and render controllers as untested after a BDS run.
+- Evidence: R-20261027-5
+- Scope: skill
+- Status: active · helpful 1 · harmful 0 · last_confirmed 2026-10-27

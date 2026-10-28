@@ -14,6 +14,8 @@ Topic: Designing and writing Minecraft Bedrock add-ons with an AI agent: design 
 - `kill()` bypassing a totem is an inference (separate code path), not documented.
 - Tooling: Mojang's Creator Tools (`@minecraft/creator-tools` 0.20.0) ships an MCP server (`mct mcp`) and a Claude-style plugin with six skills (create-mob, create-item, create-block, design-model, debug-addon, creator-tools-cli). It covers content scaffolding and validation; design rules, Script API patterns, a server self-test loop and HUD are not in it, which is the gap this suite fills.
 
+- Proven on BDS by the example add-on (R-20261027-6): custom command callbacks are read-only (world changes via `system.run`), short aliases clash with vanilla names, `worldLoad` is where state loads, and a ticking area makes a no-player self-test possible.
+
 ## Open questions
 
 - Does `kill()` bypass a Totem of Undying on 1.26.60? Test on BDS with a fake player is not possible; needs an in-game check.
@@ -53,6 +55,20 @@ Best sources: npm registry JSON, Microsoft Learn with `view=minecraft-bedrock-st
 ## Findings log
 
 Newest first. One entry per material finding. `Track` is subject, tooling, practice, or testing.
+
+### R-20261027-7 · 2026-10-27 · Subject: Bedrock sound ids
+- summary: beacon.activate, beacon.deactivate, random.orb, random.levelup, mob.elderguardian.curse, mob.warden.heartbeat, mob.endermen.scream and note.pling exist in the vanilla sound_definitions.json (checked by the example build). Applied to the patterns reference section 10.
+- track: subject
+- sources: https://github.com/Mojang/bedrock-samples/blob/main/resource_pack/sounds/sound_definitions.json (checked 2026-10-27)
+- magnitude: 0.4 (recommendation changed)
+- applied: C-20261027-2
+
+### R-20261027-6 · 2026-10-27 · Testing: Script API behaviour proven by the example's BDS self-test
+- summary: On BDS 1.26.60.6 the given.jar self-test passed 11 markers: a tickingarea loads a chunk with no players, spawnEntity and spawnItem work there, setProperty is readable a tick later, 0.6-block teleport steps pass a 3 by 5 stone wall, item entities keep dynamic properties, dimension.runCommand runs a custom command (successCount above 0), and state persists. The server logged the summon alias clash. Learn confirms `System.waitTicks` (stable), `worldLoad` (readable in early execution), `isValid` as a read-only property, and capitalised `GameMode` values. Custom command callbacks running read-only was observed by the example build, not stated on Learn. Applied to SKILL.md Step 4 and the patterns reference sections 3, 4, 5, 7, 8, 9, 10 and 12.
+- track: testing
+- sources: https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/system?view=minecraft-bedrock-stable, https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/worldafterevents?view=minecraft-bedrock-stable, https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/entity?view=minecraft-bedrock-stable, https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/gamemode?view=minecraft-bedrock-stable, https://learn.microsoft.com/en-us/minecraft/creator/scriptapi/minecraft/server/customcommandregistry?view=minecraft-bedrock-stable, local bds_run.py run 2026-10-27 (minewright-server R-20261027-5) (checked 2026-10-27)
+- magnitude: 0.4 (recommendation changed)
+- applied: C-20261027-2
 
 ### R-20261027-5 · 2026-10-27 · Practice and testing: no dated agent write-ups; the self-test loop proven instead
 - summary: No dated practitioner account of an AI agent building Bedrock add-ons turned up in this pass (practice gap, carried to Open questions). For testing, the scriptevent self-test with `[MWTEST]` markers was run on a real Bedrock Dedicated Server 1.26.60.6 (minewright-server R-20261027-3), so Step 1 and Step 6 rely on it.

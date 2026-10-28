@@ -23,7 +23,7 @@ It goes to `%LOCALAPPDATA%\minewright\bds\<version>` or `~/.cache/minewright/bds
 
 ## Step 2: run the self-test
 
-The add-on must answer a script event with markers, one line each, printed with `console.warn` (pattern in minewright-workflow's script-api-patterns reference, section 11):
+The add-on must answer a script event with markers, one line each, printed with `console.warn` (pattern in minewright-workflow's script-api-patterns reference, section 12):
 
 ```
 [MWTEST] PASS <name>
@@ -41,12 +41,18 @@ python <this skill>/scripts/bds_run.py <project> --cmd "scriptevent <ns>:selftes
 
 Quote the summary in the reply. No PASS marker at all usually means the script never loaded: read `errors` for a module version the server lacks (the error lists the versions it has) or a runtime exception with file and line.
 
+- On success the report has no console lines. Add `--log console.txt` to read replies to commands, warnings such as alias clashes, and the pack stack.
+- More commands are more `--cmd` flags, sent in order after start: custom commands without the slash (`--cmd "ns:status"`, whose reply is an INFO line), `--cmd "ns:testmode on"`, then `--cmd "scriptevent ns:selftest"`. For a long interactive session, `--keep` the instance and run `bedrock_server` in it by hand.
+
 ## Step 3: what was verified on BDS 1.26.60.6 (Windows, 2026-10-27)
 
 - Startup to `[... INFO] Server started.` took 3 to 6 seconds on a fresh world; a full run with stop took about 5 to 7 seconds.
 - Packs placed in the world folder and listed in `world_*_packs.json` load; the console shows `Pack Stack - [00] <name> (id: ..., version: 1.0.0) @ worlds/mwtest/behavior_packs/...`.
 - `scriptevent fixture:selftest` typed on the server console reaches `system.afterEvents.scriptEventReceive`, even with `allow-cheats=false`. The console answers `Script event fixture:selftest has been sent`.
 - `console.warn` output appears as `[... WARN] [Scripting] [MWTEST] PASS fixture`; uncaught errors as `[... ERROR] [Scripting] [<pack name>] ReferenceError: ... at <anonymous> (main.js:21)`.
+- A behavior entity with a component its `format_version` no longer accepts fails to load with `[... ERROR] [Actor] ... minecraft:pushable: this component was found in the input, but is not present in the Schema` (and a matching `[Log]` line); `bds_run.py` counts both as errors. Only the server catches this; the game shows nothing.
+- The example add-on's self-test (`examples/given-jar`, 11 markers) proved on the same server: a `tickingarea` loads a chunk with no players connected, entities and items spawn there, entity properties read back one tick after being set, teleport steps carry an entity through stone, item entities keep dynamic properties, custom commands run from `dimension.runCommand` and from the console, and world state persists. A `Custom Command alias [summon] already in use` warning is expected and not an error.
+- Not testable here: the resource pack (it is not even listed in the pack stack), JSON UI, textures, sounds and anything a player does. Those need the game.
 - The shipped `permissions.json` already allows `@minecraft/server`, `server-ui`, `server-admin`, `server-gametest`, `server-editor` and `debug-utilities`. `@minecraft/server-net` (BDS only) must be added; the script does that when a pack depends on it.
 
 ## Step 4: GameTest, if the user insists

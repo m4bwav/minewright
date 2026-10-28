@@ -4,6 +4,11 @@ Every change to [SKILL.md](SKILL.md) and its companions, newest first, each with
 
 Entry shape: `### C-YYYYMMDD-n · date · one-line summary`, then `because:` (IDs or "user request"), `files:` (file and section), and a sentence on what changed. Cite section headings, not line numbers.
 
+### C-20261027-3 · 2026-10-27 · Example-verified facts, --log and console commands
+- because: L-004 to L-007, R-20261027-5, R-20261027-6
+- files: SKILL.md Steps 2 and 3
+- Step 2 explains --log and chaining custom commands from the console; Step 3 lists what the example's self-test proved, the rejected-component error shape, and what BDS cannot test.
+
 ### C-20261027-2 · 2026-10-27 · Verified run details and download agent
 - because: R-20261027-3, L-001, L-002, L-003
 - files: scripts/bds_run.py (download), SKILL.md Step 3, LEARNINGS.md

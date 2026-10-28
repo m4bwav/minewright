@@ -13,11 +13,14 @@ Topic: Bedrock HUD and UI for add-ons: JSON UI hud_screen, Ore UI risk, title an
 - Script API display: `ScreenDisplay` has `setTitle`, `updateSubtitle`, `setActionBar`, `setHudVisibility`, `hideAllExcept`, `resetHudElementsVisibility` (stable page, checked 2026-10-27); `TitleDisplayOptions` in ticks; `HudElement` stable since 1.11.0.
 - `@minecraft/server-ui` has only forms (`ActionFormData`, `MessageFormData`, `ModalFormData`): dialogs, not a HUD. Stable version 2.3.0 on npm and on BDS 1.26.60.6 (Learn's module page still says 2.2.0).
 
+- Item texture paths must come from `item_texture.json`, whose keys often differ from item ids; compass and clock are animated atlases (R-20261027-6). Bedrock Dedicated Server cannot exercise any HUD or resource-pack work (R-20261027-7).
+
 ## Open questions
 
 - Which HUD screens has Ore UI taken over as of each release? Needs a check of `hud_screen.json` in each bedrock-samples release.
 - Does an `image` control with a bound texture path to `textures/items/<name>` work for every vanilla item (block items, flattened names)? Untested in game.
 - Is there a Microsoft Learn page for custom fonts? The guessed slug returned 404.
+- Do the example's `title_frame` replace, factory-child animation and blank-texture trick work in the game? Built, not yet seen (L-002, L-004).
 
 ## Search plan
 
@@ -47,6 +50,20 @@ Best sources: Mojang/bedrock-samples, wiki.bedrock.dev, Microsoft Learn. Noisy: 
 ## Findings log
 
 Newest first. One entry per material finding. `Track` is subject, tooling, practice, or testing.
+
+### R-20261027-7 · 2026-10-27 · Testing: BDS gives no evidence for resource-pack work
+- summary: Two BDS 1.26.60.6 runs (the fixture and the example) listed only the behavior pack in Pack Stack and never reported a resource-pack line, though both shipped one (the example with a JSON UI hud_screen.json). Applied to Step 6: HUD work is proven only in the game.
+- track: testing
+- sources: local bds_run.py runs 2026-10-27 (checked 2026-10-27)
+- magnitude: 0.4 (recommendation changed)
+- applied: C-20261027-2
+
+### R-20261027-6 · 2026-10-27 · Subject: vanilla item texture keys and the title controls
+- summary: bedrock-samples item_texture.json has keys seeds_wheat, reeds, beef_raw, totem, bucket_empty, apple_golden and diamond, array-valued keys such as bucket, and compass_item and clock_item (animated atlases). hud_screen.json defines hud_title_text and title_frame. The title_frame replace, the factory-child animation and the invisible-parent binding rule come from the example build and are not yet seen in game. Applied to Steps 3, 4 and 6.
+- track: subject
+- sources: https://github.com/Mojang/bedrock-samples/blob/main/resource_pack/textures/item_texture.json, https://github.com/Mojang/bedrock-samples/blob/main/resource_pack/ui/hud_screen.json (checked 2026-10-27)
+- magnitude: 0.4 (recommendation changed)
+- applied: C-20261027-2
 
 ### R-20261027-5 · 2026-10-27 · Tooling, practice, testing: nothing HUD-specific
 - summary: No skill, MCP server or validator for JSON UI was found; Creator Tools' skills do not cover UI. No headless way to render the Bedrock HUD exists, so testing is an in-game look with the pack on and off.

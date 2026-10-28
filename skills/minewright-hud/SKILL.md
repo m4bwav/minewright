@@ -37,11 +37,15 @@ JSON UI is the resource-pack UI language. `hud_screen.json` is still JSON UI in 
 
 The pattern, from wiki.bedrock.dev and Mojang's own item-name popup in `hud_screen.json`:
 
-1. The script sends a title with a marker prefix, for example `setTitle("gj:item:diamond")` or `gj:timer:29:41`. Vanilla shows it as plain text when the JSON UI layer is missing, so keep the marker short and readable, or hide titles with that prefix only in the JSON UI.
+1. The script sends a title whose text is a marker prefix plus the texture path the image needs, and puts the readable name in the subtitle: `setTitle("gj_item:textures/items/diamond", { subtitle: "Diamond" })`. Without the JSON UI layer, players see the marker as text and the name below it, so keep the marker short.
 2. In `resource_pack/ui/hud_screen.json`, a hidden `data_control` binds `#hud_title_text_string` with `binding_condition: "visibility_changed"` and keeps the last value in a `property_bag` (the "Preserve Title Texts" pattern), so the text stays after the title fades.
 3. A control shows when the preserved string starts with the prefix (`(#text - 'gj:item:') = #text` is false), strips the prefix, and plays animations: `anim_type` `offset` (from centre to bottom) and `alpha`, with `duration`, `easing`, `play_event` and `end_event`, the same keys Mojang uses in `ui_common.json`.
 4. For numbers, convert strings with `0 + #str` (the older `#str * 1` no longer works in some versions).
-5. Modify the vanilla file with `modifications` (insert into the root panel's `controls`) rather than replacing `hud_screen.json` whole, so game updates touch less.
+5. Modify the vanilla file with `modifications` rather than replacing `hud_screen.json` whole, so game updates touch less. To hide the vanilla title only for marker titles, `replace` the `title_frame` control (a direct child of `hud_title_text`) with one whose visibility excludes the prefix; modifications reach only direct children, not deeper controls.
+6. Put the item image inside the factory-created `hud_title_text`: the factory builds a fresh control for each title, so the offset animation replays for every title without a `play_event`.
+7. A control that is not visible stops its children's bindings. Keep the preserved-title `data_control` under an always-visible parent and switch the image to a transparent blank texture instead of hiding it.
+
+Steps 5 to 7 come from building the example add-on (`examples/given-jar/resource_pack/ui/hud_screen.json`) and have not been seen in the game yet; check them there first.
 
 References: `https://wiki.bedrock.dev/json-ui/preserve-title-texts.html`, `https://wiki.bedrock.dev/json-ui/json-ui-documentation.html`, `https://wiki.bedrock.dev/json-ui/type-conversion.html`, and the samples in `Mojang/bedrock-samples` `resource_pack/ui/`.
 
@@ -49,7 +53,8 @@ References: `https://wiki.bedrock.dev/json-ui/preserve-title-texts.html`, `https
 
 There is no JSON UI control that renders an item by id (the hotbar uses a hard-coded `custom` renderer). Options, best first:
 
-- An `image` control whose `texture` comes from a binding, set to the vanilla texture path (for example `textures/items/diamond`), sent in the title text. Keep a curated map from item id to texture path in the script; block items need their block face texture.
+- An `image` control whose `texture` comes from a binding, set to the vanilla texture path (for example `textures/items/diamond`), sent in the title text. Build the map from item id to path from the vanilla `resource_pack/textures/item_texture.json` in `Mojang/bedrock-samples`, never by guessing: its keys often differ from item ids (`wheat_seeds` is `seeds_wheat`, `sugar_cane` is `reeds`, `beef` is `beef_raw`, `totem_of_undying` is `totem`, `bucket` is `bucket_empty`, `golden_apple` is `apple_golden`), some keys hold an array of paths (buckets, dyes, pickaxes), and the compass and clock are animated atlases that look wrong as a still image, so leave them out. Block items need their block face texture.
+- Pin the map with a unit test against a saved copy of the paths you checked (the example keeps one in `test/fixtures/vanilla-item-textures.json`).
 - Custom font glyphs (`font/glyph_E1.png`, 16 by 16 cells, used as `\uE1xx` in text) render inline in titles and chat. They are unofficial (wiki: "not officially supported") and fail on Ore UI screens.
 - Text only: the item's name, which always works.
 
@@ -60,6 +65,7 @@ There is no JSON UI control that renders an item by id (the hotbar uses a hard-c
 ## Step 6: verify
 
 - minewright-checks (JSON parses, including `ui/*.json`), then in the game: the vanilla layer alone (disable the resource pack), then with the JSON UI layer, at the smallest and largest GUI scale, on a phone screen if the players use one.
+- Bedrock Dedicated Server cannot test any of this: it loads only the behavior pack's logic, has no client, and does not even list the resource pack in its pack stack. HUD, textures and render controllers always need a human look.
 - No fast flashing: alpha animations under three cycles per second.
 
 ## Output
