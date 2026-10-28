@@ -1,7 +1,7 @@
 """Check a Minecraft Bedrock add-on without the game and print one JSON object.
 
 Usage (from anywhere; stdlib only, Python 3.9+):
-    python mw_check.py [project_dir] [--only a,b] [--skip a,b] [--mct]
+    python mw_check.py [project_dir] [--only a,b] [--skip a,b] [--mct | --mct-npx | --mct-bin PATH]
 
 Packs are the folders under project_dir that hold a manifest.json (node_modules, dist and .git are
 skipped). Checks, in order:
@@ -13,14 +13,17 @@ skipped). Checks, in order:
   identifiers  one namespace for custom ids (warning otherwise), every behavior-pack entity has a
                resource-pack client entity, and client entities point at textures, geometry and render
                controllers that exist
+  components   behavior-pack entities do not use components the game rejects at their format_version
+               (minecraft:pushable at 1.26.10 and later)
   typescript   npx --no-install tsc --noEmit, when package.json and tsconfig.json exist
   lint         npx --no-install eslint ., when an ESLint config exists
-  mct          npx --no-install mct validate -i DIR --json --force -o TEMP (Minecraft Creator Tools),
-               only with --mct
+  mct          Creator Tools (mct validate --json --force) on a temporary copy holding only the packs, with
+               known false positives moved to "noise". --mct uses mct from node_modules or PATH; --mct-npx
+               runs @minecraft/creator-tools through npx -y (a download); --mct-bin names the executable.
   test         npm test, when package.json has a real test script
 Each check is "pass", "fail" or "skip" (with the reason). Exit 0 when nothing failed, 1 when a check
 failed, 2 for a usage error or when no pack was found. It never raises: a crash is reported in the JSON.
-Nothing is downloaded: npx runs with --no-install, so a tool that is not installed is a skip.
+Nothing is downloaded except with --mct-npx: npx runs with --no-install, so a missing tool is a skip.
 """
 import json
 import os
@@ -32,12 +35,18 @@ import tempfile
 import time
 from pathlib import Path
 
-CHECKS = ["json", "manifest", "identifiers", "typescript", "lint", "mct", "test"]
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import mw_mct  # noqa: E402
+
+CHECKS = ["json", "manifest", "identifiers", "components", "typescript", "lint", "mct", "test"]
 SKIP_DIRS = {".git", "node_modules", "dist", "__pycache__", ".bds", "build", "lib"}
 UUID = re.compile(r"^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
 MODULE_TYPES = {"data", "resources", "script", "client_data", "interface", "world_template", "skin_pack"}
 VANILLA_RC = {"controller.render.default", "controller.render.item_default"}
 TAIL = 25
+# Components the game refuses from an entity format_version on (first version, what to use instead).
+LEGACY = {"minecraft:pushable": ((1, 26, 10), "use minecraft:pushable_by_entity and minecraft:pushable_by_block "
+                                 "({} each) or neither; BDS 1.26.60.6 refused the whole entity at 1.26.50")}
 TIMEOUT = 600
 
 
@@ -283,7 +292,27 @@ def check_identifiers(pj):
                                      "client_entities": sorted(client_entities)})
 
 
-def run(cmd, cwd):
+def check_components(pj):
+    errors = []
+    for f, doc in sorted(pj.docs.items()):
+        ent = doc.get("minecraft:entity") if isinstance(doc, dict) else None
+        if not isinstance(ent, dict):
+            continue
+        try:
+            fv = tuple(int(x) for x in str(doc.get("format_version", "0")).split("."))[:3]
+        except ValueError:
+            continue
+        groups = [ent.get("components") or {}] + list((ent.get("component_groups") or {}).values())
+        used = {k for g in groups if isinstance(g, dict) for k in g}
+        for comp, (since, fix) in LEGACY.items():
+            if comp in used and fv >= since:
+                errors.append("%s: %s is not accepted at format_version %s (since %s); %s"
+                              % (pj.rel(f), comp, doc.get("format_version"), ".".join(map(str, since)), fix))
+    return result(errors)
+
+
+
+def run(cmd, cwd, full=False):
     t0 = time.time()
     try:
         p = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, encoding="utf-8", errors="replace",
@@ -294,26 +323,16 @@ def run(cmd, cwd):
     except OSError as e:
         out, code = str(e), -1
     lines = [l for l in out.splitlines() if l.strip()]
-    return {"status": "pass" if code == 0 else "fail", "exit": code, "seconds": round(time.time() - t0, 2),
-            "command": " ".join(cmd), "output_tail": lines[-TAIL:]}
+    r = {"status": "pass" if code == 0 else "fail", "exit": code, "seconds": round(time.time() - t0, 2),
+         "command": " ".join(cmd), "output_tail": lines[-TAIL:]}
+    if full:
+        r["full"] = out
+    return r
 
 
-def node_checks(name, root, want_mct):
+def node_checks(name, root):
     pkg = root / "package.json"
     npx, npm = shutil.which("npx"), shutil.which("npm")
-    if name == "mct":
-        if not want_mct:
-            return skip("Creator Tools validation is opt-in; pass --mct (needs @minecraft/creator-tools installed)")
-        if not npx:
-            return skip("npx not found (install Node.js)")
-        if not (root / "node_modules" / "@minecraft" / "creator-tools").is_dir() and not shutil.which("mct"):
-            return skip("@minecraft/creator-tools not installed (npm i -D @minecraft/creator-tools)")
-        # -o keeps the report files out of the project; --force skips the CLI's cached earlier results.
-        out = Path(tempfile.mkdtemp(prefix="mw-mct-"))
-        try:
-            return run([npx, "--no-install", "mct", "validate", "-i", str(root), "--json", "--force", "-o", str(out)], root)
-        finally:
-            shutil.rmtree(out, ignore_errors=True)
     if not pkg.is_file():
         return skip("no package.json")
     if not (root / "node_modules").is_dir():
@@ -347,7 +366,7 @@ def node_checks(name, root, want_mct):
 
 
 def parse_args(argv):
-    a = {"project": ".", "only": None, "skip": set(), "mct": False}
+    a = {"project": ".", "only": None, "skip": set(), "mct": False, "mct_npx": False, "mct_bin": None}
     it = iter(argv)
     for x in it:
         if x in ("--only", "--skip"):
@@ -355,8 +374,12 @@ def parse_args(argv):
             if v is None:
                 raise ValueError("%s needs a value" % x)
             a[x[2:]] = set(v.split(","))
-        elif x == "--mct":
-            a["mct"] = True
+        elif x in ("--mct", "--mct-npx"):
+            a[x[2:].replace("-", "_")] = True
+        elif x == "--mct-bin":
+            a["mct_bin"] = next(it, None)
+            if not a["mct_bin"]:
+                raise ValueError("--mct-bin needs a value")
         elif x in ("-h", "--help"):
             raise ValueError("help")
         elif x.startswith("--"):
@@ -401,8 +424,12 @@ def main(argv):
                 r = check_manifest(pj)
             elif c == "identifiers":
                 r = check_identifiers(pj)
+            elif c == "components":
+                r = check_components(pj)
+            elif c == "mct":
+                r = mw_mct.check_mct(pj, a, sys.modules[__name__])
             else:
-                r = node_checks(c, root, a["mct"])
+                r = node_checks(c, root)
             report["checks"][c] = r
             if r["status"] == "fail":
                 report["ok"] = False

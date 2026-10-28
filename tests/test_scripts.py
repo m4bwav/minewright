@@ -41,6 +41,33 @@ for line in sys.stdin:
 '''
 
 
+# Stands in for Creator Tools' `mct validate -i DIR --json --force -o OUT`; its findings mimic 0.20.0's output.
+FAKE_MCT = r'''
+import json, os, sys
+args = sys.argv[1:]
+assert args[0] == "validate" and "--json" in args and "--force" in args, args
+src = args[args.index("-i") + 1]
+assert sorted(os.listdir(src)) == ["behavior_packs", "resource_packs"], os.listdir(src)
+assert os.path.isdir(args[args.index("-o") + 1])
+items = [
+    {"type": "testPass", "message": "fine", "generatorId": "CBFG"},
+    {"type": "warning", "message": "JSON structure error", "generatorId": "COMJSON",
+     "data": "(render_controllers.controller.render.fixture_dummy.uv_anim) is missing and it is required",
+     "path": "/resource_packs/resource_pack/render_controllers/dummy.render_controllers.json"},
+    {"type": "recommendation", "generatorId": "FORMATVER", "path": "/resource_packs/resource_pack/entity/dummy.entity.json",
+     "message": "Entity type resource version (1.10.0) has a lower minor version number compared to the expected version (1.26.50)"},
+    {"type": "recommendation", "generatorId": "ENTITYTYPE130", "path": "/behavior_packs/behavior_pack/entities/dummy.json",
+     "message": "Entity format version could be updated to 1.26.50"},
+]
+if os.environ.get("FAKE_MCT_ERROR"):
+    items.append({"type": "error", "generatorId": "ENTITYTYPE1", "message": "broken", "path": "/behavior_packs/x"})
+print("Creator Tools banner line")
+print(json.dumps({"schemaVersion": "1.0.0", "command": "validate", "errors": len([i for i in items if i["type"] == "error"]),
+                  "warnings": 1, "recommendations": 2, "projects": [{"name": "in", "items": items}]}))
+sys.exit(4 if os.environ.get("FAKE_MCT_ERROR") else 0)
+'''
+
+
 def run(script, *args, env=None):
     e = dict(os.environ)
     e.update(env or {})
@@ -82,7 +109,7 @@ class CheckTests(unittest.TestCase):
         code, out, raw = run(CHECK, FIXTURE)
         self.assertEqual(code, 0, raw)
         self.assertTrue(out["ok"])
-        for c in ("json", "manifest", "identifiers"):
+        for c in ("json", "manifest", "identifiers", "components"):
             self.assertEqual(out["checks"][c]["status"], "pass", raw)
         self.assertEqual(out["checks"]["identifiers"]["namespaces"], ["fixture"])
         self.assertEqual(out["checks"]["typescript"]["status"], "skip")
@@ -128,6 +155,56 @@ class CheckTests(unittest.TestCase):
         self.assertEqual(code, 0, raw)
         self.assertIn("npm ci", out["checks"]["typescript"]["reason"])
         self.assertEqual(out["checks"]["test"]["status"], "skip")
+
+    def test_legacy_component_at_new_format_version(self):
+        # BDS 1.26.60.6 refused the whole entity when minecraft:pushable appeared at format_version 1.26.50.
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d) / "addon"
+            shutil.copytree(FIXTURE, p)
+            ent = p / "behavior_pack" / "entities" / "dummy.json"
+            ent.write_text(ent.read_text(encoding="utf-8").replace('"1.21.0"', '"1.26.50"'), encoding="utf-8")
+            code, out, raw = run(CHECK, p, "--only", "components")
+        self.assertEqual(code, 1, raw)
+        errs = " ".join(out["checks"]["components"]["errors"])
+        self.assertIn("minecraft:pushable", errs)
+        self.assertIn("pushable_by_entity", errs)
+
+    def fake_mct(self, d, error=False):
+        script = Path(d) / "fake_mct.py"
+        script.write_text(FAKE_MCT, encoding="utf-8")
+        env = {"FAKE_MCT_ERROR": "1" if error else ""}
+        return run(CHECK, FIXTURE, "--only", "mct", "--mct-bin", script, env=env)
+
+    def test_mct_runs_on_the_packs_only_and_files_known_noise(self):
+        with tempfile.TemporaryDirectory() as d:
+            code, out, raw = self.fake_mct(d)
+        self.assertEqual(code, 0, raw)
+        mct = out["checks"]["mct"]
+        self.assertEqual(mct["status"], "pass", raw)
+        self.assertEqual(mct["via"], "--mct-bin")
+        self.assertEqual(mct["errors"], [])
+        self.assertEqual(len(mct["noise"]), 2, raw)
+        self.assertTrue(any("uv_anim" in n for n in mct["noise"]))
+        self.assertTrue(any("caution" in w for w in mct["warnings"]), raw)
+
+    def test_mct_error_fails_the_check(self):
+        with tempfile.TemporaryDirectory() as d:
+            code, out, raw = self.fake_mct(d, error=True)
+        self.assertEqual(code, 1, raw)
+        self.assertEqual(out["checks"]["mct"]["status"], "fail")
+        self.assertIn("ENTITYTYPE1", out["checks"]["mct"]["errors"][0])
+
+    def test_mct_is_opt_in(self):
+        code, out, raw = run(CHECK, FIXTURE, "--skip", "typescript,lint,test")
+        self.assertIn("opt-in", out["checks"]["mct"]["reason"])
+        code, out, _ = run(CHECK, FIXTURE, "--mct-bin")
+        self.assertEqual(code, 2)
+
+    @unittest.skipIf(shutil.which("mct"), "mct is installed globally here")
+    def test_mct_missing_points_at_npx(self):
+        code, out, raw = run(CHECK, FIXTURE, "--only", "mct", "--mct")
+        self.assertEqual(code, 0, raw)
+        self.assertIn("--mct-npx", out["checks"]["mct"]["reason"])
 
     def test_usage_errors(self):
         with tempfile.TemporaryDirectory() as d:
