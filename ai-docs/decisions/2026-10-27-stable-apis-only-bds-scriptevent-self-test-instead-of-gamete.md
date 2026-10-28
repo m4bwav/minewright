@@ -18,10 +18,10 @@ The example must be verified without a Minecraft client on the development machi
 
 ## Decision
 
-Stable Script API modules only (`@minecraft/server` 2.11.0, `@minecraft/server-ui` 2.3.0 on Bedrock 1.26.60); no Beta APIs. Ladder: pure TypeScript state machine under `node --test`; `mw_check.py`; a Bedrock Dedicated Server run (`bds_run.py`) where `/scriptevent given_jar:selftest` prints `[MWTEST] PASS|FAIL` lines; then the human playtest (PLAYTEST.md).
+Stable Script API modules only (the Script API `server` module 2.11.0 and `server-ui` 2.3.0 on Bedrock 1.26.60); no Beta APIs. Ladder: pure TypeScript state machine under `node --test`; `mw_check.py`; a Bedrock Dedicated Server run (`bds_run.py`) where `/scriptevent given_jar:selftest` prints `[MWTEST] PASS|FAIL` lines; then the human playtest (PLAYTEST.md).
 
 ## Reasons
 
-- Turning on any experiment is permanent for a world, and GameTest (`@minecraft/server-gametest`) is still beta-only.
+- Turning on any experiment is permanent for a world, and GameTest (the `server-gametest` module) is still beta-only.
 - BDS 1.26.60.6 runs headless in about 5 seconds and reports script errors and markers on stdout.
 - HUD (JSON UI), visuals, sounds and the totem path cannot be proven on BDS; they stay owed to the human playtest.
