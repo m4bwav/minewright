@@ -4,6 +4,11 @@ Every change to [SKILL.md](SKILL.md) and its companions, newest first, each with
 
 Entry shape: `### C-YYYYMMDD-n · date · one-line summary`, then `because:` (IDs or "user request"), `files:` (file and section), and a sentence on what changed. Cite section headings, not line numbers.
 
+### C-20261027-4 · 2026-10-27 · Step 1 writes the config file with the one-pager
+- because: T-20261027-2 (action-1, no-op), L-012
+- files: SKILL.md Step 1
+- The plan step now creates the config file beside docs/ONE-PAGER.md even when stopping for approval, and confirms both paths before replying, so the step leaves evidence. Re-run of action-1 owed (headless harness quota).
+
 ### C-20261027-3 · 2026-10-27 · Description: API-existence phrasing, .mcaddon routed to minewright-project; outcome-1 regex widened
 - because: T-20261027-2, L-012
 - files: SKILL.md (description), evals/evals.json (outcome-1 regex, baselines)

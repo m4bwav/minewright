@@ -20,7 +20,7 @@ For a new add-on or a gameplay feature, write `docs/ONE-PAGER.md` in the project
 - A config file (`src/config.ts` or `scripts/config.js`) holding every duration, speed, radius and count, with a test mode that turns minutes into seconds. Code reads the config; no magic numbers.
 - A self-test the add-on runs on `/scriptevent <ns>:selftest` that prints `[MWTEST] PASS|FAIL <name>` lines (minewright-server runs it on a real server).
 
-Bug fixes and reviews skip this step.
+Write the config file in the same step as the one-pager, even when you stop for approval: the plan is done only when both `docs/ONE-PAGER.md` and the config file exist on disk. Confirm both paths before replying. Bug fixes and reviews skip this step.
 
 ## Step 2: look it up, do not recall it
 

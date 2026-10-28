@@ -4,6 +4,11 @@ Every change to [SKILL.md](SKILL.md) and its companions, newest first, each with
 
 Entry shape: `### C-YYYYMMDD-n · date · one-line summary`, then `because:` (IDs or "user request"), `files:` (file and section), and a sentence on what changed. Cite section headings, not line numbers.
 
+### C-20261027-4 · 2026-10-27 · Prefix example matches the code: gj_item:
+- because: wiki verification run 2026-10-27 (ai-docs note), L-001
+- files: SKILL.md Step 3
+- The visibility expression used 'gj:item:' while Step 3's sender and the example use 'gj_item:'.
+
 ### C-20261027-3 · 2026-10-27 · action-1 evidence accepts shell writes
 - because: T-20261027-2, L-006
 - files: evals/evals.json (action-1 evidence, baselines)

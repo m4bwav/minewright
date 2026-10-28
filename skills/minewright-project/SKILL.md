@@ -75,7 +75,7 @@ The npm types must match the manifest: `npm i -E @minecraft/server@2.11.0 @minec
 
 ## Step 4: package
 
-An `.mcaddon` is a zip holding the pack folders at its root (`behavior_pack/`, `resource_pack/`); a `.mcpack` is a zip of one pack. `scripts/pack.mjs` builds first, then zips into `dist/<name>-<version>.mcaddon` and leaves out `src/`, `test/` and `node_modules/`. Creator Tools warns above about 100 MB because phones and Realms uploads struggle; stay well under.
+An `.mcaddon` is a zip holding the pack folders at its root (`behavior_pack/`, `resource_pack/`); a `.mcpack` is a zip of one pack. `scripts/pack.py` (the example's packer; a `pack.mjs` works the same) builds first, then zips into `dist/<name>-<version>.mcaddon` and leaves out `src/`, `test/` and `node_modules/`. Creator Tools warns above about 100 MB because phones and Realms uploads struggle; stay well under.
 
 ## Step 5: install, per platform
 

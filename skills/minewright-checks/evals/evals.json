@@ -58,12 +58,17 @@
     {
       "id": "outcome-1",
       "kind": "outcome",
-      "prompt": "The typescript and lint checks were skipped but json, manifest and identifiers passed. Is my add-on verified?",
+      "prompt": "Check the add-on in tests/fixtures/addon (I haven't run npm install) and tell me if it's verified.",
       "expectations": [
-        "says a skip is not a pass, names the reason to look for (node_modules missing, run npm ci) and that a server self-test is still owed",
-        "regex on the answer: (?i)(skip.{0,80}(not|n't).{0,20}pass|not a pass)"
+        "runs mw_check.py (trace evidence) and says the typescript/lint/test checks that skipped are not passes, naming npm ci and the server self-test still owed",
+        "regex on the answer: (?i)(skip.{0,80}(not|n't).{0,20}pass|not a pass|not verified)"
       ],
-      "baseline": "2026-10-27, one run, skills disabled: pass ('a skipped check isn't a pass', named missing tools). Redundant on one run.",
+      "evidence": {
+        "type": "trace",
+        "tool": "Bash|PowerShell",
+        "input_match": "mw_check\\.py"
+      },
+      "baseline": "rewritten 2026-10-27 (C-20261027-4): the old pure-question prompt passed without the skill (redundant); baseline for this prompt not yet run",
       "runs": 3,
       "tools": [
         "Read",
