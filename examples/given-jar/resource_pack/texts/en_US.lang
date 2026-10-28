@@ -1,0 +1,4 @@
+pack.name=given.jar
+pack.description=The watcher's look and the HUD item picture.
+entity.given_jar:watcher.name=Watcher
+item.spawn_egg.entity.given_jar:watcher.name=Watcher Spawn Egg
