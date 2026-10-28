@@ -1,7 +1,7 @@
 # Checks the skills' structure, manifests, links and public-safety guards, and tests both scripts on the three
 # operating systems on the oldest and newest Python supported. mw_check.py is proven on a fixture add-on (pass) and
 # a broken copy (fail); bds_run.py is tested against a fake server. The real-server test runs only where BDS is
-# already cached, so CI never downloads it.
+# already cached, so CI never downloads it. The example job builds, tests and packs the example add-on.
 name: tests
 on:
   push:
@@ -27,7 +27,11 @@ jobs:
       - name: script tests (the real-server test skips without a cached BDS)
         run: python tests/test_scripts.py
   example:
+    # The example add-on: install, type check, lint, unit tests, bundle, .mcaddon, then the skill's own checks on it.
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: examples/given-jar
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
@@ -36,15 +40,18 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: "24"
-      - name: build, test and check the example add-on (when it exists)
-        shell: bash
-        run: |
-          if [ ! -d examples/given-jar ]; then echo "no examples/given-jar yet"; exit 0; fi
-          cd examples/given-jar
-          npm ci
-          npm run build
-          npm test
-          python ../../skills/minewright-checks/scripts/mw_check.py .
+          cache: npm
+          cache-dependency-path: examples/given-jar/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
+      - run: npm run pack
+      - name: the .mcaddon exists
+        run: ls -l dist/*.mcaddon
+      - name: mw_check.py on the example (json, manifest, identifiers, components, typescript, lint, test)
+        run: python ../../skills/minewright-checks/scripts/mw_check.py .
   budget:
     runs-on: ubuntu-latest
     steps:

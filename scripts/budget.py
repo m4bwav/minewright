@@ -19,8 +19,10 @@ BUDGETS = [
     ("all descriptions tokens together (always loaded)", 1200, 1600),
     ("largest SKILL.md tokens (loaded on every use)", 2500, 3500),
     ("largest reference or script tokens (loaded on demand)", 5000, 6500),
-    ("installed skills folder KB", 200, 400),
-    ("tracked repository KB (the example add-on included)", 768, 2048),
+    # 256, not the 200 copied from roblox-agent (itself at 222): two 20 KB scripts, and the evergreen logs grow by design.
+    ("installed skills folder KB", 256, 400),
+    ("tracked repository KB outside examples/", 768, 2048),
+    ("example add-ons KB (not installed with the skills)", 1536, 3072),
 ]
 
 
@@ -37,12 +39,14 @@ def measure():
     folder_kb = (sum(p.stat().st_size for p in files) // 1024, "")
     try:
         tracked = subprocess.run(["git", "ls-files", "-z"], cwd=ROOT, capture_output=True, check=True).stdout.split(b"\0")
-        repo_kb = sum((ROOT / t.decode()).stat().st_size for t in tracked if t and (ROOT / t.decode()).exists()) // 1024
+        sizes = [(t.decode(), (ROOT / t.decode()).stat().st_size) for t in tracked if t and (ROOT / t.decode()).exists()]
+        repo_kb = sum(s for n, s in sizes if not n.startswith("examples/")) // 1024
+        example_kb = sum(s for n, s in sizes if n.startswith("examples/")) // 1024
     except (OSError, subprocess.CalledProcessError):
-        repo_kb = folder_kb[0]
+        repo_kb, example_kb = folder_kb[0], 0
     total_desc_tokens = sum(d for d, _ in descs) // 4
     return [max(descs), (total_desc_tokens, "%d skills" % len(descs)), max(skill_tokens),
-            max(extra) if extra else (0, ""), folder_kb, (repo_kb, "")]
+            max(extra) if extra else (0, ""), folder_kb, (repo_kb, ""), (example_kb, "")]
 
 
 def main():

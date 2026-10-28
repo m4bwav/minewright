@@ -165,9 +165,7 @@ def check_links_and_text():
                     continue
                 path = target.split("#", 1)[0]
                 if path and not os.path.exists(os.path.normpath(os.path.join(os.path.dirname(f), path))):
-                    # examples/ is built in its own branch; a README link to it may land before the folder does
-                    if not path.startswith("examples/"):
-                        problems.append(f"{rel(f)}: broken relative link {target}")
+                    problems.append(f"{rel(f)}: broken relative link {target}")
         if os.path.abspath(f) == os.path.abspath(__file__):
             continue
         m = HOME_PATH.search(text)

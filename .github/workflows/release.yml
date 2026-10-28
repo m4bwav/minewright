@@ -41,13 +41,15 @@ jobs:
               for extra in ("README.md", "LICENSE", "SECURITY.md"):
                   z.write(extra, extra)
           EOF
-      - name: build the example add-on (when it exists)
+      - name: build the example add-on and attach its .mcaddon
         run: |
           if [ -d examples/given-jar ]; then
             cd examples/given-jar
             npm ci
-            npm run build
+            npm run typecheck
+            npm test
             npm run pack
+            ls dist/*.mcaddon
             cp dist/*.mcaddon ../../dist/
           else
             echo "no examples/given-jar; releasing the skills only"

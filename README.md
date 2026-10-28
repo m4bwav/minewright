@@ -91,16 +91,34 @@ Measured on Windows 11 with Python 3.14, not claimed by a model:
   `@minecraft/server-ui`).
 - `mw_check.py` passes the fixture and fails a broken copy on the JSON, manifest and identifier checks.
 
-Not verified yet: the Linux server build, `mct validate` through `--mct`, and any step that needs the game
-client (install, HUD, playtests). Each skill's RESEARCH.md lists these under Open questions.
+- The example add-on: `mw_check.py --mct-npx` passes all eight checks (Creator Tools 0.20.0 included, three known
+  false positives filed as noise), and its 11-check self-test passes on the same server.
 
-## The example add-on
+Not verified yet: the Linux server build and any step that needs the game client (install, HUD, playtests). Each skill's RESEARCH.md lists these under Open questions.
 
-[`examples/given-jar/`](examples/given-jar/) is a complete add-on built with these skills: a watcher sphere
-that hands every player the same item to find before a countdown ends, with a TypeScript state machine,
-unit tests, a scriptevent self-test for Bedrock Dedicated Server, a HUD with a vanilla fallback, and a
-kid-friendly how-to-play page. Its README has the install steps and the playtest checklist. Tagged releases
-attach its `.mcaddon`.
+## The example add-on: given.jar
+
+[`examples/given-jar/`](examples/given-jar/README.md) is a complete Bedrock add-on built with these skills, as
+their first real test. A dark sphere with one eye floats in the world and asks every player for the same item.
+Everyone in survival brings their own copy and drops it on the sphere before the countdown ends. If someone
+does not, the eye turns red and the sphere flies through walls to catch them, one player at a time. It is made
+for a few friends on one LAN world, with no experiments.
+
+What it shows:
+
+- a pure TypeScript state machine (`src/core/`) with 40 unit tests under `node --test`, and a thin Script API
+  adapter (`src/main.ts`);
+- every timing in one config file, with a test mode that turns minutes into seconds;
+- custom commands with `/scriptevent` fallbacks, state in world dynamic properties, entity properties driving
+  the render controller, and inventory-diff credit for dropped items;
+- a scriptevent self-test with 11 `[MWTEST]` checks, passed on Bedrock Dedicated Server 1.26.60.6 through
+  `bds_run.py`;
+- a HUD that pops the item up mid-screen and drops it into a timer, over a plain title and actionbar fallback.
+
+Read next: [README](examples/given-jar/README.md) (rules and commands), [HOW-TO-PLAY](examples/given-jar/HOW-TO-PLAY.md)
+(one page for players), [INSTALL](examples/given-jar/INSTALL.md) (Windows) and [PLAYTEST](examples/given-jar/PLAYTEST.md)
+(the manual checklist). Building it taught the skills 24 lessons; they are in each skill's `LEARNINGS.md` and
+`CHANGELOG.md` (2026-10-27). Tagged releases attach its `.mcaddon`.
 
 ## Testing
 
@@ -117,7 +135,7 @@ CI (`.github/workflows/tests.yml`) runs on Linux, macOS and Windows with Python 
   against a fake server. The real-server test runs only where BDS is already cached.
 - `scripts/budget.py`: the size budget.
 
-A separate job builds and tests the example add-on with Node 24 when it is present.
+A separate job runs the example add-on's `npm ci`, type check, lint, unit tests, build and `.mcaddon` pack with Node 24, then `mw_check.py` on it.
 
 ## Privacy
 
@@ -125,7 +143,8 @@ minewright has no server and collects nothing. The skills are instructions for y
 scripts run on your machine:
 
 - `mw_check.py` reads your project's files and runs your project's own Node tools (`tsc`, `eslint`, `npm
-  test`, and `mct` with `--mct`) with `npx --no-install`, so it downloads nothing.
+  test`, and `mct` with `--mct`) with `npx --no-install`, so it downloads nothing. Only `--mct-npx` downloads
+  Mojang's Creator Tools from npm.
 - `bds_run.py` downloads Bedrock Dedicated Server from minecraft.net only when you pass `--download`, into
   your user cache. The server it starts runs on a free local port with an empty allow-list, and Bedrock
   Dedicated Server itself contacts Microsoft's services at start (it logs a sign-in to a signalling service).
