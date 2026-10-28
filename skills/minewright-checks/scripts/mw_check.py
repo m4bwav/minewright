@@ -3,8 +3,8 @@
 Usage (from anywhere; stdlib only, Python 3.9+):
     python mw_check.py [project_dir] [--only a,b] [--skip a,b] [--mct | --mct-npx | --mct-bin PATH]
 
-Packs are the folders under project_dir that hold a manifest.json (node_modules, dist and .git are
-skipped). Checks, in order:
+Packs are the folders under project_dir that hold a manifest.json (.git, node_modules, dist,
+__pycache__, .bds, build and lib are skipped). Checks, in order:
   json         every .json file in every pack parses (// and /* */ comments are stripped first, as
                Bedrock tolerates them)
   manifest     format_version 2, valid and unique UUIDs, version arrays, min_engine_version, module

@@ -4,6 +4,11 @@ Every change to [SKILL.md](SKILL.md) and its companions, newest first, each with
 
 Entry shape: `### C-YYYYMMDD-n · date · one-line summary`, then `because:` (IDs or "user request"), `files:` (file and section), and a sentence on what changed. Cite section headings, not line numbers.
 
+### C-20261027-4 · 2026-10-27 · outcome-1 rewritten as a run-the-checks case
+- because: T-20261027-3, L-006
+- files: evals/evals.json (outcome-1), scripts/mw_check.py (docstring lists every skipped folder)
+- The old pure question passed without the skill and never pulled it in; the case now asks for a check of the fixture without npm install, with trace evidence of mw_check.py and the skip-is-not-a-pass regex. Re-run owed. The docstring named three of the seven skipped folders (wiki verification note).
+
 ### C-20261027-3 · 2026-10-27 · Description: skipped-checks phrasing; outcome-1 regex accepts "n't"
 - because: T-20261027-2, L-006
 - files: SKILL.md (description), evals/evals.json (outcome-1 regex, baselines)

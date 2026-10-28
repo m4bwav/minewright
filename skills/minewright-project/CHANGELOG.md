@@ -4,6 +4,11 @@ Every change to [SKILL.md](SKILL.md) and its companions, newest first, each with
 
 Entry shape: `### C-YYYYMMDD-n · date · one-line summary`, then `because:` (IDs or "user request"), `files:` (file and section), and a sentence on what changed. Cite section headings, not line numbers.
 
+### C-20261027-4 · 2026-10-27 · Packaging names pack.py
+- because: wiki verification run 2026-10-27 (ai-docs note)
+- files: SKILL.md Step 5 (packaging)
+- The packaging step named scripts/pack.mjs; the example ships scripts/pack.py. Both are named now.
+
 ### C-20261027-3 · 2026-10-27 · Description: Bedrock only, not Java
 - because: T-20261027-2, L-009
 - files: SKILL.md (description), evals/evals.json (baselines)
