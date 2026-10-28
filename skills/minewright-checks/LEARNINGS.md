@@ -45,3 +45,11 @@ Write an entry the moment a real signal happens: a user correction, the same err
 - Evidence: the given.jar build log (examples/given-jar, 2026-10-27)
 - Scope: skill
 - Status: active · helpful 0 · harmful 0 · last_confirmed 2026-10-27
+
+### L-006 · 2026-10-27 · Concept questions about checks are answered without loading the skill
+- Trigger: T-20261027-2/-3 outcome-1 ("typescript and lint were skipped ... is my add-on verified?") never invoked minewright-checks in three runs, with the description listed or not; two answers said a skip is not a pass, one did not.
+- Hypothesis: the router loads a skill to act, not to answer a yes/no question it thinks it can answer; the listing is name-only on this machine besides.
+- Rule: keep the "a skip is not a pass" rule in the skill's report step (Step 3), where action runs do load it; do not rely on the description to pull in pure questions. Consider rewriting outcome-1 as an action prompt with a mw_check.py report.
+- Evidence: T-20261027-3; C-20261027-3
+- Scope: skill
+- Status: active · helpful 0 · harmful 0 · last_confirmed 2026-10-27

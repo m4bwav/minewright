@@ -4,6 +4,11 @@ Every change to [SKILL.md](SKILL.md) and its companions, newest first, each with
 
 Entry shape: `### C-YYYYMMDD-n · date · one-line summary`, then `because:` (IDs or "user request"), `files:` (file and section), and a sentence on what changed. Cite section headings, not line numbers.
 
+### C-20261027-4 · 2026-10-27 · Description: not Java Edition, in the first line
+- because: T-20261027-2, T-20261027-3, L-008
+- files: SKILL.md (description), evals/evals.json (baselines)
+- The first sentence now reads "Test a Minecraft Bedrock add-on (not Java Edition: no Spigot or Paper) live on Bedrock Dedicated Server"; the EULA, GameTest and loopback clauses were shortened to keep it at 926 characters. A first try with the clause at the end did not pass decoy-2.
+
 ### C-20261027-3 · 2026-10-27 · Example-verified facts, --log and console commands
 - because: L-004 to L-007, R-20261027-5, R-20261027-6
 - files: SKILL.md Steps 2 and 3

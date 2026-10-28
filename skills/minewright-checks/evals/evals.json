@@ -52,7 +52,7 @@
         "tool": "Bash|PowerShell",
         "input_match": "mw_check\\.py"
       },
-      "baseline": "not yet run",
+      "baseline": "2026-10-27, one run, skills disabled: pass but contaminated. The evergreen SessionStart hook names the unit; the run found ~/.claude/skills/minewright-checks on disk with Bash, read SKILL.md and ran mw_check.py. Not a clean baseline.",
       "runs": 3
     },
     {
@@ -61,9 +61,9 @@
       "prompt": "The typescript and lint checks were skipped but json, manifest and identifiers passed. Is my add-on verified?",
       "expectations": [
         "says a skip is not a pass, names the reason to look for (node_modules missing, run npm ci) and that a server self-test is still owed",
-        "regex on the answer: (?i)(skip.{0,60}not.{0,12}pass|not a pass)"
+        "regex on the answer: (?i)(skip.{0,80}(not|n't).{0,20}pass|not a pass)"
       ],
-      "baseline": "not yet run",
+      "baseline": "2026-10-27, one run, skills disabled: pass ('a skipped check isn't a pass', named missing tools). Redundant on one run.",
       "runs": 3,
       "tools": [
         "Read",

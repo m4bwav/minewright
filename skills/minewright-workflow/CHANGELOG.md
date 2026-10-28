@@ -4,6 +4,11 @@ Every change to [SKILL.md](SKILL.md) and its companions, newest first, each with
 
 Entry shape: `### C-YYYYMMDD-n · date · one-line summary`, then `because:` (IDs or "user request"), `files:` (file and section), and a sentence on what changed. Cite section headings, not line numbers.
 
+### C-20261027-3 · 2026-10-27 · Description: API-existence phrasing, .mcaddon routed to minewright-project; outcome-1 regex widened
+- because: T-20261027-2, L-012
+- files: SKILL.md (description), evals/evals.json (outcome-1 regex, baselines)
+- The description opens with "Designing and writing", adds 'is this API real or current', and says .mcaddon packaging is minewright-project's (948 characters). outcome-1's regex also accepts "for good", "can't undo" and "no way to switch it back" (harness fix). On this machine the listing shows the skill by name only, so the edit only helps where descriptions are listed (T-20261027-3).
+
 ### C-20261027-2 · 2026-10-27 · Script API corrections from the example add-on
 - because: L-001 to L-011, R-20261027-6, R-20261027-7
 - files: SKILL.md Step 4; references/script-api-patterns.md sections 1, 3, 4, 5, 7, 8, 9, 10 (new), 12

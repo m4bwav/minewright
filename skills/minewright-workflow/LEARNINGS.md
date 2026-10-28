@@ -93,3 +93,19 @@ Write an entry the moment a real signal happens: a user correction, the same err
 - Evidence: the given.jar build log (examples/given-jar, 2026-10-27)
 - Scope: skill
 - Status: active · helpful 1 · harmful 0 · last_confirmed 2026-10-27
+
+### L-012 · 2026-10-27 · Most skills are listed by name only on this machine
+- Trigger: T-20261027-2/-3. trigger-2 (an API-existence question) got no Skill call and decoy-1 (an .mcaddon build) went to minewright-workflow. A probe asking the headless session to copy its skill listing showed about 154 skills, 116 of them name-only, minewright-workflow and minewright-project among them; with `SLASH_COMMAND_TOOL_CHAR_BUDGET=400000` every skill had its description and the same case passed.
+- Hypothesis: Claude Code trims the skill listing to a character budget; past it, descriptions are dropped and the model routes on the skill name alone, so description edits cannot change triggering here.
+- Rule: before tuning a description for a trigger failure, check whether the listing shows it (ask a headless run to copy its listing entry). If it is name-only, classify the failure `environment`, not undertrigger/overtrigger; fewer installed skills or a larger listing budget is the fix, not more words.
+- Evidence: T-20261027-3 (r1 default listing vs r2 raised budget); C-20261027-3
+- Scope: environment
+- Status: active · helpful 1 · harmful 0 · last_confirmed 2026-10-27
+
+### L-013 · 2026-10-27 · "Plan it first" stops at the one-pager
+- Trigger: T-20261027-2 action-1. Asked to plan a new add-on without questions, the run wrote docs/ONE-PAGER.md and stopped for approval; the reply named `config.js` as the home of every duration, but no config file existed.
+- Hypothesis: Step 1 lists the config file among the one-pager's contents, so the agent treats it as planned, not written, until the user approves.
+- Rule: when Step 1 runs, write the config file (every duration, test mode) next to the one-pager in the same step, or say plainly that it is not written yet; do not name a file in the reply that is not on disk.
+- Evidence: T-20261027-2 action-1 (scratch run folder had docs/ and ai-docs/ only)
+- Scope: skill
+- Status: active · helpful 0 · harmful 0 · last_confirmed 2026-10-27

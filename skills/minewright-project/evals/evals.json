@@ -53,7 +53,7 @@
         "content_match": "\"format_version\"\\s*:\\s*2[\\s\\S]*@minecraft/server",
         "also": "resource_pack/manifest.json exists, all UUIDs across both manifests are distinct and valid, and the BP depends on the RP header uuid"
       },
-      "baseline": "not yet run",
+      "baseline": "2026-10-27, one run, skills disabled: fail. Wrote Lantern_BP/ and Lantern_RP/ (not behavior_pack/), pinned @minecraft/server 2.0.0, RP depends on BP. Not redundant.",
       "runs": 3
     },
     {
@@ -64,7 +64,7 @@
         "names a plain stable version string (not -beta) and cites npm dist-tags or Microsoft Learn checked today rather than memory",
         "regex on the answer: (?i)(npm|registry\\.npmjs|dist-tags|learn\\.microsoft)"
       ],
-      "baseline": "not yet run",
+      "baseline": "2026-10-27, one run, skills disabled: pass. Ran npm view @minecraft/server dist-tags itself and named 2.11.0. Redundant on one run; sharpen (e.g. ask for server-ui and min_engine_version too).",
       "runs": 3,
       "tools": [
         "Read",

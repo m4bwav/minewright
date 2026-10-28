@@ -4,6 +4,11 @@ Every change to [SKILL.md](SKILL.md) and its companions, newest first, each with
 
 Entry shape: `### C-YYYYMMDD-n · date · one-line summary`, then `because:` (IDs or "user request"), `files:` (file and section), and a sentence on what changed. Cite section headings, not line numbers.
 
+### C-20261027-3 · 2026-10-27 · action-1 evidence accepts shell writes
+- because: T-20261027-2, L-006
+- files: evals/evals.json (action-1 evidence, baselines)
+- action-1's trace evidence now matches Write|Edit|MultiEdit|Bash|PowerShell with setActionBar|setTitle and names the script file's content as the side effect. No change to SKILL.md.
+
 ### C-20261027-2 · 2026-10-27 · Texture-path titles, title_frame, item_texture.json, BDS blind spot
 - because: L-001 to L-005, R-20261027-6, R-20261027-7
 - files: SKILL.md Steps 3, 4 and 6

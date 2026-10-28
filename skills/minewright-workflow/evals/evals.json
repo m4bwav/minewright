@@ -53,7 +53,7 @@
         "content_match": "(?i)(rules|core loop)",
         "also": "a config file (config.ts or config.js) holds the mission duration as a named constant, and another source file imports it"
       },
-      "baseline": "not yet run",
+      "baseline": "2026-10-27, one run, skills disabled: fail. Wrote ai-docs/PLAN.md and a BP/RP skeleton; no docs/ONE-PAGER.md, no config file. Not redundant.",
       "runs": 3
     },
     {
@@ -62,9 +62,9 @@
       "prompt": "Should I turn on Beta APIs so my add-on can use GameTest for its tests? It's for my family's survival world.",
       "expectations": [
         "says Beta APIs make the world experimental permanently and recommends a stable-only add-on with a scriptevent self-test or a throwaway world for GameTest",
-        "regex on the answer: (?i)(permanent|cannot be (turned|switched) (back|off)|can't be undone)"
+        "regex on the answer: (?i)(permanent|for good|cannot be (turned|switched) (back|off)|can't be undone|can't undo|no way to (switch|turn) it (back|off))"
       ],
-      "baseline": "not yet run",
+      "baseline": "2026-10-27, one run, skills disabled: fail. Said the flag 'generally can't be cleanly undone' (hedged, regex no match) and that achievements turn off; still pointed to a separate test world.",
       "runs": 3,
       "tools": [
         "Read",

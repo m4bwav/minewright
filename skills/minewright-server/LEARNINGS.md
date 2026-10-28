@@ -60,3 +60,11 @@ Write an entry the moment a real signal happens: a user correction, the same err
 - Evidence: R-20261027-5
 - Scope: skill
 - Status: active · helpful 1 · harmful 0 · last_confirmed 2026-10-27
+
+### L-008 · 2026-10-27 · A negative clause at the end of the description did not stop a Java decoy
+- Trigger: T-20261027-2/-3 decoy-2. "Set up a Minecraft Java server with Spigot plugins" invoked minewright-server with the old description and again with "Bedrock only, not Java servers (Spigot, Paper)" as its last sentence; it stopped once the clause sat in the first line ("a Minecraft Bedrock add-on (not Java Edition: no Spigot or Paper)").
+- Hypothesis: the router weighs the opening of the description; "Minecraft" plus "server" there outweighs a closing exclusion.
+- Rule: put a scope exclusion next to the first noun it qualifies, not at the end.
+- Evidence: T-20261027-3 (r1 fail, r2 and r3 pass); C-20261027-4
+- Scope: skill
+- Status: active · helpful 1 · harmful 0 · last_confirmed 2026-10-27

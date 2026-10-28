@@ -50,21 +50,26 @@
     }
   ],
   "counts": {
-    "learnings": 8,
-    "changes": 2,
+    "learnings": 9,
+    "changes": 3,
     "research": 7,
-    "tests": 1
+    "tests": 3
   },
   "consolidate_every": 25,
   "tests": {
-    "last_run": null,
-    "harness": null,
-    "env": null,
+    "last_run": "2026-10-27T20:24",
+    "harness": "claude -p headless (Claude Code 2.1.281), one run per case",
+    "env": "Windows dev machine",
     "cases": 6,
-    "passed": 0,
-    "failed": 0,
-    "failing": [],
-    "last_failure": null,
+    "passed": 5,
+    "failed": 1,
+    "failing": [
+      "decoy-2"
+    ],
+    "last_failure": {
+      "date": "2026-10-27",
+      "note": "re-run after C-20261027-3: decoy-2 fails with the default listing (name-only), passes with the listing budget raised"
+    },
     "research_after_days": null
   }
 }

@@ -4,6 +4,11 @@ Every change to [SKILL.md](SKILL.md) and its companions, newest first, each with
 
 Entry shape: `### C-YYYYMMDD-n · date · one-line summary`, then `because:` (IDs or "user request"), `files:` (file and section), and a sentence on what changed. Cite section headings, not line numbers.
 
+### C-20261027-3 · 2026-10-27 · Description: skipped-checks phrasing; outcome-1 regex accepts "n't"
+- because: T-20261027-2, L-006
+- files: SKILL.md (description), evals/evals.json (outcome-1 regex, baselines)
+- Adds 'checks were skipped, is it verified' to the trigger phrases (941 characters). outcome-1's regex now reads `skip.{0,80}(not|n't).{0,20}pass` (harness fix). The case still failed (T-20261027-3).
+
 ### C-20261027-2 · 2026-10-27 · mct runs on the packs only, through npx if asked; components check
 - because: L-001 to L-005, R-20261027-5, R-20261027-6
 - files: scripts/mw_check.py, scripts/mw_mct.py (new), SKILL.md description, Steps 1 and 2, Pitfalls; tests/test_scripts.py

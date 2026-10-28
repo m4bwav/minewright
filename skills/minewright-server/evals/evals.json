@@ -52,7 +52,7 @@
         "tool": "Bash|PowerShell",
         "input_match": "bds_run\\.py[\\s\\S]*scriptevent"
       },
-      "baseline": "not yet run",
+      "baseline": "2026-10-27, one run, skills disabled: pass but contaminated. The fixture's main.js comment names bds_run.py; the run searched the disk, found the main clone's minewright-server, read SKILL.md and ran bds_run.py. Not a clean baseline.",
       "runs": 3
     },
     {
@@ -63,7 +63,7 @@
         "says /gametest runall does not exist, names a real subcommand (run, runset, runthese or runthis), notes GameTest needs Beta APIs, and offers the scriptevent self-test instead",
         "regex on the answer: (?i)(runall.{0,80}(not|doesn't|does not)|(not|doesn't|does not).{0,80}runall)"
       ],
-      "baseline": "not yet run",
+      "baseline": "2026-10-27, one run, skills disabled: pass (runall is Java Edition, named real subcommands) with no tool calls. Redundant on one run.",
       "runs": 3,
       "tools": [
         "Read",

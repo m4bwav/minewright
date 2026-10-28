@@ -48,21 +48,24 @@
     }
   ],
   "counts": {
-    "learnings": 7,
-    "changes": 3,
+    "learnings": 8,
+    "changes": 4,
     "research": 6,
-    "tests": 1
+    "tests": 3
   },
   "consolidate_every": 25,
   "tests": {
-    "last_run": null,
-    "harness": null,
-    "env": null,
+    "last_run": "2026-10-27T20:24",
+    "harness": "claude -p headless (Claude Code 2.1.281), one run per case",
+    "env": "Windows dev machine",
     "cases": 6,
-    "passed": 0,
+    "passed": 6,
     "failed": 0,
     "failing": [],
-    "last_failure": null,
+    "last_failure": {
+      "date": "2026-10-27",
+      "note": "first run; decoy-2 Spigot invoked the skill (overtrigger)"
+    },
     "research_after_days": null
   }
 }

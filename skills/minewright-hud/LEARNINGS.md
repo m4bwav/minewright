@@ -45,3 +45,11 @@ Write an entry the moment a real signal happens: a user correction, the same err
 - Evidence: R-20261027-7
 - Scope: skill
 - Status: active · helpful 1 · harmful 0 · last_confirmed 2026-10-27
+
+### L-006 · 2026-10-27 · Agents write script files through Bash, not Write
+- Trigger: T-20261027-2 action-1. The run appended the countdown to main.js with `cat >> ... <<'EOF'` in Bash; a case that only looked for Write/Edit calls failed although the file held the code.
+- Hypothesis: in headless runs with Bash available, Claude Code often edits files through shell heredocs.
+- Rule: name action evidence as a file's content after the run, or accept Bash and PowerShell calls alongside Write/Edit.
+- Evidence: T-20261027-2; C-20261027-3
+- Scope: skill (tests)
+- Status: active · helpful 1 · harmful 0 · last_confirmed 2026-10-27
