@@ -12,7 +12,7 @@ summary: "the wiki's pages, where their git working copy is, how every output on
 
 ## Summary
 
-Wrote and published https://github.com/m4bwav/minewright/wiki with the wikiwright skill: thirteen pages plus a sidebar and footer, and a splash image on Home. Written from the README, AGENTS.md, the five SKILL.md files with their references, RESEARCH.md, LEARNINGS.md and `evergreen.json`, the two scripts and their `--help`, the tests, the CI workflows and the example's README, HOW-TO-PLAY, INSTALL, PLAYTEST and ART pages. Wiki commit `a3974a2`. `live`: 13 pages, 0 failures, sidebar and footer render, 6 anchor links, 0 broken. everwrite `tells.py`: 0 strong.
+Wrote and published https://github.com/m4bwav/minewright/wiki with the wikiwright skill: thirteen pages plus a sidebar and footer, and a splash image on Home. Written from the README, AGENTS.md, the five SKILL.md files with their references, RESEARCH.md, LEARNINGS.md and `evergreen.json`, the two scripts and their `--help`, the tests, the CI workflows and the example's README, HOW-TO-PLAY, INSTALL, PLAYTEST and ART pages. Wiki commits `a3974a2` (the pages) and `4e40b6b` (the budget report after this branch's banner and icon). `live`: 13 pages, 0 failures, sidebar and footer render, 6 anchor links, 0 broken. everwrite `tells.py`: 0 strong.
 
 Pages: Home, Getting-Started, Platforms-and-Install, Given-Jar-Example, Checks-and-the-BDS-Harness, FAQ, Design-and-Script-API (minewright-workflow), Project-and-Packaging (minewright-project), Static-Checks (minewright-checks), Live-Server-Tests (minewright-server), HUD-and-UI (minewright-hud), Research-and-Freshness, Development-and-Release, _Sidebar, _Footer. Image: `images/splash.jpg` (1920 by 1080, 212 KB).
 
@@ -65,7 +65,7 @@ Not tested:
 
 1. `git -C <wiki dir> pull --ff-only`.
 2. Run `python 2026-10-27-wiki-verify.py <checkout> <demo folder>` with BDS cached, then `wikiwright.py diffout 2026-10-27-wiki-verify.out.txt <new output>`. Every difference is a page to fix; `diffout --save` writes the new output over the old.
-3. Regenerate Checks-and-the-BDS-Harness from the new output: copy the page to a template with `{{case:<label>}}` placeholders in place of its `console` blocks, or edit the changed blocks. Then run `wikiwright.py outputs <wiki dir> <new output> --address ''`, `snippets <wiki dir> 2026-10-27-wiki-verify.py`, `check <wiki dir> --version X.Y.Z` and the everwrite checker. Refresh the `budget.py` report on Development-and-Release by hand.
+3. Regenerate Checks-and-the-BDS-Harness from the new output: copy the page to a template with `{{case:<label>}}` placeholders in place of its `console` blocks, or edit the changed blocks. Then run `wikiwright.py outputs <wiki dir> <new output> --address ''`, `snippets <wiki dir> 2026-10-27-wiki-verify.py`, `check <wiki dir> --version X.Y.Z` and the everwrite checker. Refresh the `budget.py` report on Development-and-Release by hand, after the release's files are committed (it counts tracked files).
 4. Commit, push, then `wikiwright.py live m4bwav/minewright <wiki dir>`. Pages that name the version or the date: Home ("About these pages"), Checks-and-the-BDS-Harness (the opening paragraph), Research-and-Freshness (the state table and the research counts), Development-and-Release (releases, budget), FAQ (the release and Dependabot answers), Given-Jar-Example (the tests table, install), _Footer.
 5. When a tag is pushed, remove "no release tag yet" from the footer and the "no release" sentences from FAQ, Development-and-Release and Given-Jar-Example.
 
