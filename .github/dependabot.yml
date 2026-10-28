@@ -1,0 +1,14 @@
+# Keeps the workflow actions current (checkout, setup-python, setup-node) and the example add-on's npm packages.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+  - package-ecosystem: npm
+    directory: /examples/given-jar
+    schedule:
+      interval: weekly
+    # @minecraft/* versions must match the manifest and the game; bump them by hand with a RESEARCH entry.
+    ignore:
+      - dependency-name: "@minecraft/*"
