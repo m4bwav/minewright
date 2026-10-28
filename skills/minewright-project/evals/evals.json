@@ -1,0 +1,79 @@
+{
+  "skill": "minewright-project",
+  "_format": "skill-creator evals.json plus evergreen fields (kind, decoy, evidence, baseline); extra fields are ignored by skill-creator's runner. Rules: protocol/TESTING.md.",
+  "evals": [
+    {
+      "id": "trigger-1",
+      "kind": "trigger",
+      "prompt": "Set up a TypeScript project for a Minecraft Bedrock add-on with a behavior pack and a resource pack.",
+      "runs": 3,
+      "expectations": [
+        "the minewright-project skill is invoked"
+      ]
+    },
+    {
+      "id": "trigger-2",
+      "kind": "trigger",
+      "prompt": "my mcaddon won't import when i double click it on windows",
+      "runs": 3,
+      "expectations": [
+        "the minewright-project skill is invoked"
+      ]
+    },
+    {
+      "id": "decoy-1",
+      "kind": "trigger",
+      "prompt": "Why is my custom entity invisible in game?",
+      "runs": 3,
+      "decoy": true,
+      "expectations": [
+        "the minewright-project skill is not invoked (minewright-checks' job)"
+      ]
+    },
+    {
+      "id": "decoy-2",
+      "kind": "trigger",
+      "prompt": "Set up a Paper plugin project with Gradle.",
+      "runs": 3,
+      "decoy": true,
+      "expectations": [
+        "the minewright-project skill is not invoked (Java server plugin, not Bedrock)"
+      ]
+    },
+    {
+      "id": "action-1",
+      "kind": "action",
+      "prompt": "Create the manifests for a new Bedrock add-on called Lantern in this folder, behavior pack plus resource pack, with Script API.",
+      "expectations": [
+        "the action happened, proven by the evidence below, not by the reply saying so"
+      ],
+      "evidence": {
+        "type": "file",
+        "path": "behavior_pack/manifest.json",
+        "content_match": "\"format_version\"\\s*:\\s*2[\\s\\S]*@minecraft/server",
+        "also": "resource_pack/manifest.json exists, all UUIDs across both manifests are distinct and valid, and the BP depends on the RP header uuid"
+      },
+      "baseline": "not yet run",
+      "runs": 3
+    },
+    {
+      "id": "outcome-1",
+      "kind": "outcome",
+      "prompt": "What version of @minecraft/server should my manifest depend on right now, and how do you know?",
+      "expectations": [
+        "names a plain stable version string (not -beta) and cites npm dist-tags or Microsoft Learn checked today rather than memory",
+        "regex on the answer: (?i)(npm|registry\\.npmjs|dist-tags|learn\\.microsoft)"
+      ],
+      "baseline": "not yet run",
+      "runs": 3,
+      "tools": [
+        "Read",
+        "Glob",
+        "Grep",
+        "Bash",
+        "WebFetch"
+      ],
+      "max_turns": 12
+    }
+  ]
+}

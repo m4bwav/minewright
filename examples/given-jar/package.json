@@ -1,0 +1,31 @@
+{
+  "name": "given-jar",
+  "version": "0.1.0",
+  "private": true,
+  "description": "given.jar: a Minecraft Bedrock add-on. A floating eye asks everyone for an item; whoever forgets gets hunted.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "build": "esbuild src/main.ts --bundle --format=esm --platform=neutral --target=es2022 --external:@minecraft/* --outfile=behavior_pack/scripts/main.js",
+    "test": "node --test test/*.test.ts",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "geo": "node scripts/make-geo.mjs",
+    "pack": "npm run build && python scripts/pack.py",
+    "check": "npm run typecheck && npm run lint && npm test && npm run build"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.39.5",
+    "@minecraft/server": "2.11.0",
+    "@minecraft/vanilla-data": "1.26.60",
+    "@types/node": "24.19.2",
+    "esbuild": "0.28.2",
+    "eslint": "9.39.5",
+    "eslint-plugin-minecraft-linting": "2.0.13",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.72.1"
+  }
+}

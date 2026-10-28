@@ -1,0 +1,16 @@
+{
+  "name": "minewright",
+  "owner": {
+    "name": "Mark Rogers"
+  },
+  "metadata": {
+    "description": "Skills that let AI coding agents build Minecraft Bedrock add-ons: design, project and packaging, checks without the game, live tests on Bedrock Dedicated Server, and HUD"
+  },
+  "plugins": [
+    {
+      "name": "minewright",
+      "source": "./",
+      "description": "Five evergreen Bedrock add-on skills: design and Script API patterns, manifests and .mcaddon packaging, one-command static checks, scriptevent self-tests on Bedrock Dedicated Server, and HUD with a vanilla fallback"
+    }
+  ]
+}

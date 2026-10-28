@@ -1,0 +1,28 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "minewright fixture BP",
+    "description": "Test fixture for minewright's mw_check.py and bds_run.py",
+    "uuid": "6f7e6e2d-5fe9-482e-9bf8-0e647d4658a7",
+    "version": [1, 0, 0],
+    "min_engine_version": [1, 26, 50]
+  },
+  "modules": [
+    {
+      "type": "data",
+      "uuid": "9b806dd4-cde0-4390-9165-441e369e68ad",
+      "version": [1, 0, 0]
+    },
+    {
+      "type": "script",
+      "language": "javascript",
+      "uuid": "735d0e72-c1ff-49d3-b18e-ba189797fd31",
+      "version": [1, 0, 0],
+      "entry": "scripts/main.js"
+    }
+  ],
+  "dependencies": [
+    { "uuid": "e19f4845-e13e-4539-a33f-efa0b1f93573", "version": [1, 0, 0] },
+    { "module_name": "@minecraft/server", "version": "2.11.0" }
+  ]
+}

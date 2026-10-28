@@ -1,0 +1,26 @@
+{
+  "name": "minewright",
+  "version": "0.1.0",
+  "description": "Evergreen skills for building Minecraft Bedrock add-ons with AI coding agents: design rules and Script API patterns that hold up, project layout and packaging with current module versions, one-command static checks, live self-tests on Bedrock Dedicated Server, and HUD work with a vanilla fallback. Each skill re-researches its subject on a schedule and carries the evals that prove it triggers and acts.",
+  "author": {
+    "name": "Mark Rogers"
+  },
+  "license": "MIT",
+  "keywords": [
+    "minecraft",
+    "minecraft-bedrock",
+    "bedrock-add-on",
+    "script-api",
+    "bedrock-dedicated-server",
+    "agent-skills",
+    "claude-code",
+    "evergreen",
+    "cross-agent"
+  ],
+  "skills": "./skills",
+  "repository": "https://github.com/m4bwav/minewright",
+  "homepage": "https://github.com/m4bwav/minewright",
+  "documentationUrl": "https://github.com/m4bwav/minewright#readme",
+  "supportUrl": "https://github.com/m4bwav/minewright/issues",
+  "privacyPolicyUrl": "https://github.com/m4bwav/minewright#privacy"
+}

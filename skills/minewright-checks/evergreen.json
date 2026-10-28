@@ -1,0 +1,65 @@
+{
+  "evergreen": "1.0",
+  "name": "minewright-checks",
+  "kind": "skill",
+  "main": "SKILL.md",
+  "files": {
+    "research": "RESEARCH.md",
+    "changelog": "CHANGELOG.md",
+    "learnings": "LEARNINGS.md",
+    "tests": "TESTS.md"
+  },
+  "protocol": "plugin",
+  "source": null,
+  "topic": "Checking a Bedrock add-on without the game: JSON, manifests, identifiers, TypeScript, ESLint, Creator Tools validate, unit tests in one JSON report",
+  "tier": "moderate",
+  "interval_days": 14,
+  "last_checked": "2026-10-27",
+  "next_due": "2026-11-10",
+  "verify_at_use": false,
+  "volatile_claims": [
+    "@minecraft/creator-tools 0.20.0 and its validate flags (-i, --json, --force, -o)",
+    "Creator Tools needs Node 22+",
+    "Blockception schemas release v1.21.73-0"
+  ],
+  "contradiction": null,
+  "events": [],
+  "streak": {
+    "quiet": 0,
+    "pinned_min": 1,
+    "pinned_max": 0,
+    "vau_quiet": 0
+  },
+  "history": [
+    {
+      "date": "2026-10-27",
+      "m": null,
+      "interval_after": 30,
+      "note": "created"
+    },
+    {
+      "date": "2026-10-27",
+      "m": 0.4,
+      "interval_after": 14,
+      "note": "given.jar findings folded in; contradiction fixed in C-20261027-2, cleared"
+    }
+  ],
+  "counts": {
+    "learnings": 5,
+    "changes": 2,
+    "research": 6,
+    "tests": 1
+  },
+  "consolidate_every": 25,
+  "tests": {
+    "last_run": null,
+    "harness": null,
+    "env": null,
+    "cases": 6,
+    "passed": 0,
+    "failed": 0,
+    "failing": [],
+    "last_failure": null,
+    "research_after_days": null
+  }
+}

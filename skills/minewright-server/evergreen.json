@@ -1,0 +1,68 @@
+{
+  "evergreen": "1.0",
+  "name": "minewright-server",
+  "kind": "skill",
+  "main": "SKILL.md",
+  "files": {
+    "research": "RESEARCH.md",
+    "changelog": "CHANGELOG.md",
+    "learnings": "LEARNINGS.md",
+    "tests": "TESTS.md"
+  },
+  "protocol": "plugin",
+  "source": null,
+  "topic": "Live testing a Bedrock add-on on Bedrock Dedicated Server: download, world setup, pack activation, scriptevent self-tests, markers, loopback",
+  "tier": "moderate",
+  "interval_days": 30.0,
+  "last_checked": "2026-10-27",
+  "next_due": "2026-11-26",
+  "verify_at_use": false,
+  "volatile_claims": [
+    "BDS stable 1.26.60.6 and its download URL",
+    "BDS 1.26.60.6 accepted script module versions",
+    "default permissions.json module list",
+    "no /gametest runall",
+    "loopback exemption uses package SIDs",
+    "console line formats (Server started., [Scripting] WARN/ERROR)"
+  ],
+  "contradiction": null,
+  "events": [],
+  "streak": {
+    "quiet": 0,
+    "pinned_min": 0,
+    "pinned_max": 0,
+    "vau_quiet": 0
+  },
+  "history": [
+    {
+      "date": "2026-10-27",
+      "m": null,
+      "interval_after": 30,
+      "note": "created"
+    },
+    {
+      "date": "2026-10-27",
+      "m": 0.2,
+      "interval_after": 30.0,
+      "note": "given.jar findings folded in (C-20261027-3); no claim was wrong"
+    }
+  ],
+  "counts": {
+    "learnings": 7,
+    "changes": 3,
+    "research": 6,
+    "tests": 1
+  },
+  "consolidate_every": 25,
+  "tests": {
+    "last_run": null,
+    "harness": null,
+    "env": null,
+    "cases": 6,
+    "passed": 0,
+    "failed": 0,
+    "failing": [],
+    "last_failure": null,
+    "research_after_days": null
+  }
+}

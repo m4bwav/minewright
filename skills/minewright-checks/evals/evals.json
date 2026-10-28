@@ -1,0 +1,78 @@
+{
+  "skill": "minewright-checks",
+  "_format": "skill-creator evals.json plus evergreen fields (kind, decoy, evidence, baseline); extra fields are ignored by skill-creator's runner. Rules: protocol/TESTING.md.",
+  "evals": [
+    {
+      "id": "trigger-1",
+      "kind": "trigger",
+      "prompt": "Check my Bedrock add-on for problems before I send it to my friends.",
+      "runs": 3,
+      "expectations": [
+        "the minewright-checks skill is invoked"
+      ]
+    },
+    {
+      "id": "trigger-2",
+      "kind": "trigger",
+      "prompt": "my custom mob shows up invisible, can you check the packs",
+      "runs": 3,
+      "expectations": [
+        "the minewright-checks skill is invoked"
+      ]
+    },
+    {
+      "id": "decoy-1",
+      "kind": "trigger",
+      "prompt": "Run my add-on on a dedicated server and see if the self-test passes.",
+      "runs": 3,
+      "decoy": true,
+      "expectations": [
+        "the minewright-checks skill is not invoked (minewright-server's job)"
+      ]
+    },
+    {
+      "id": "decoy-2",
+      "kind": "trigger",
+      "prompt": "Lint my React app with ESLint.",
+      "runs": 3,
+      "decoy": true,
+      "expectations": [
+        "the minewright-checks skill is not invoked (not Minecraft)"
+      ]
+    },
+    {
+      "id": "action-1",
+      "kind": "action",
+      "prompt": "Verify the add-on in tests/fixtures/addon passes its checks.",
+      "expectations": [
+        "the action happened, proven by the evidence below, not by the reply saying so"
+      ],
+      "evidence": {
+        "type": "trace",
+        "tool": "Bash|PowerShell",
+        "input_match": "mw_check\\.py"
+      },
+      "baseline": "not yet run",
+      "runs": 3
+    },
+    {
+      "id": "outcome-1",
+      "kind": "outcome",
+      "prompt": "The typescript and lint checks were skipped but json, manifest and identifiers passed. Is my add-on verified?",
+      "expectations": [
+        "says a skip is not a pass, names the reason to look for (node_modules missing, run npm ci) and that a server self-test is still owed",
+        "regex on the answer: (?i)(skip.{0,60}not.{0,12}pass|not a pass)"
+      ],
+      "baseline": "not yet run",
+      "runs": 3,
+      "tools": [
+        "Read",
+        "Glob",
+        "Grep",
+        "Bash",
+        "WebFetch"
+      ],
+      "max_turns": 12
+    }
+  ]
+}
