@@ -4,6 +4,11 @@ Every change to [SKILL.md](SKILL.md) and its companions, newest first, each with
 
 Entry shape: `### C-YYYYMMDD-n · date · one-line summary`, then `because:` (IDs or "user request"), `files:` (file and section), and a sentence on what changed. Cite section headings, not line numbers.
 
+### C-20261027-3 · 2026-10-27 · Description: Bedrock only, not Java
+- because: T-20261027-2, L-009
+- files: SKILL.md (description), evals/evals.json (baselines)
+- The description ends "Bedrock only, not Java (Paper, Spigot, Fabric)" and is trimmed elsewhere to stay at 935 characters (esbuild/core-build-tasks, GDK folder, mobile). It passes decoy-2 when descriptions are listed; on this machine the skill is listed by name only (T-20261027-3).
+
 ### C-20261027-2 · 2026-10-27 · Entity format versions, pinned dev dependencies, test/ layout, LAN
 - because: L-001 to L-008, R-20261027-5, R-20261027-6, R-20261027-7
 - files: SKILL.md Steps 1 to 5; references/versions-and-formats.md (new)

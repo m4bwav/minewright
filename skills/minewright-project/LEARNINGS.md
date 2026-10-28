@@ -69,3 +69,11 @@ Write an entry the moment a real signal happens: a user correction, the same err
 - Evidence: the given.jar build log (examples/given-jar, 2026-10-27)
 - Scope: skill
 - Status: active · helpful 0 · harmful 0 · last_confirmed 2026-10-27
+
+### L-009 · 2026-10-27 · Most skills are listed by name only on this machine
+- Trigger: T-20261027-2/-3. decoy-2 (a Paper plugin with Gradle) invoked minewright-project before and after a 'Bedrock only' clause was added. A probe asking the headless session to copy its skill listing showed about 154 skills, 116 of them name-only, minewright-project among them; with `SLASH_COMMAND_TOOL_CHAR_BUDGET=400000` every skill had its description and the same case passed.
+- Hypothesis: Claude Code trims the skill listing to a character budget; past it, descriptions are dropped and the model routes on the skill name alone, so description edits cannot change triggering here.
+- Rule: before tuning a description for a trigger failure, check whether the listing shows it (ask a headless run to copy its listing entry). If it is name-only, classify the failure `environment`, not undertrigger/overtrigger; fewer installed skills or a larger listing budget is the fix, not more words.
+- Evidence: T-20261027-3 (r1 default listing vs r2 raised budget); C-20261027-3
+- Scope: environment
+- Status: active · helpful 1 · harmful 0 · last_confirmed 2026-10-27

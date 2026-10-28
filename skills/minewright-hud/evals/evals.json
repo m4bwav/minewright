@@ -49,10 +49,11 @@
       ],
       "evidence": {
         "type": "trace",
-        "tool": "Write|Edit|MultiEdit",
-        "input_match": "setActionBar|setTitle"
+        "tool": "Write|Edit|MultiEdit|Bash|PowerShell",
+        "input_match": "setActionBar|setTitle",
+        "also": "the add-on's script file contains the setActionBar or setTitle call after the run"
       },
-      "baseline": "not yet run",
+      "baseline": "2026-10-27, one run, skills disabled: pass. Appended a setActionBar/setTitle countdown to main.js unaided. Redundant on one run.",
       "runs": 3
     },
     {
@@ -63,7 +64,7 @@
         "says server-ui forms are dialogs that take over the screen, not a HUD, and points to title/actionbar or JSON UI with the Ore UI risk",
         "regex on the answer: (?i)(dialog|form).{0,120}(not a hud|not.{0,20}hud|take.{0,10}over)"
       ],
-      "baseline": "not yet run",
+      "baseline": "2026-10-27, one run, skills disabled: pass (forms take over the screen, use actionbar or JSON UI). Redundant on one run.",
       "runs": 3,
       "tools": [
         "Read",
