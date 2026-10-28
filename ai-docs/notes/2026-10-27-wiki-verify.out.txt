@@ -1,0 +1,730 @@
+=== installed
+Python 3.14.6
+Node v24.18.0
+BDS cached: 1.26.60.6
+=== check-help
+$ python skills/minewright-checks/scripts/mw_check.py --help
+Check a Minecraft Bedrock add-on without the game and print one JSON object.
+
+Usage (from anywhere; stdlib only, Python 3.9+):
+    python mw_check.py [project_dir] [--only a,b] [--skip a,b] [--mct | --mct-npx | --mct-bin PATH]
+
+Packs are the folders under project_dir that hold a manifest.json (node_modules, dist and .git are
+skipped). Checks, in order:
+  json         every .json file in every pack parses (// and /* */ comments are stripped first, as
+               Bedrock tolerates them)
+  manifest     format_version 2, valid and unique UUIDs, version arrays, min_engine_version, module
+               types, a script module's entry file exists, pack dependencies resolve inside the project,
+               no beta script modules (warning)
+  identifiers  one namespace for custom ids (warning otherwise), every behavior-pack entity has a
+               resource-pack client entity, and client entities point at textures, geometry and render
+               controllers that exist
+  components   behavior-pack entities do not use components the game rejects at their format_version
+               (minecraft:pushable at 1.26.10 and later)
+  typescript   npx --no-install tsc --noEmit, when package.json and tsconfig.json exist
+  lint         npx --no-install eslint ., when an ESLint config exists
+  mct          Creator Tools (mct validate --json --force) on a temporary copy holding only the packs, with
+               known false positives moved to "noise". --mct uses mct from node_modules or PATH; --mct-npx
+               runs @minecraft/creator-tools through npx -y (a download); --mct-bin names the executable.
+  test         npm test, when package.json has a real test script
+Each check is "pass", "fail" or "skip" (with the reason). Exit 0 when nothing failed, 1 when a check
+failed, 2 for a usage error or when no pack was found. It never raises: a crash is reported in the JSON.
+Nothing is downloaded except with --mct-npx: npx runs with --no-install, so a missing tool is a skip.
+$ echo $?
+0
+=== bds-help
+$ python skills/minewright-server/scripts/bds_run.py --help
+usage: bds_run.py [-h] [--version VERSION] [--download] [--bds-dir BDS_DIR]
+                  [--cmd CMD] [--cmd-file CMD_FILE] [--expect EXPECT]
+                  [--wait WAIT] [--start-timeout START_TIMEOUT] [--port PORT]
+                  [--level LEVEL] [--instance INSTANCE] [--keep] [--log LOG]
+                  [--setup-only]
+                  project
+
+Run a Bedrock add-on on a throwaway Bedrock Dedicated Server (BDS) and print one JSON report.
+
+positional arguments:
+  project               add-on project folder (every folder under it with a
+                        manifest.json is a pack)
+
+options:
+  -h, --help            show this help message and exit
+  --version VERSION     BDS version to use (default 1.26.60.6)
+  --download            download BDS into the user cache if it is missing (you
+                        accept the Minecraft EULA)
+  --bds-dir BDS_DIR     use an already extracted BDS folder instead of the
+                        cache
+  --cmd CMD             console command to send after start (repeatable)
+  --cmd-file CMD_FILE   file with one console command per line
+  --expect EXPECT       marker name that must report PASS (repeatable); the
+                        run ends early when all are seen
+  --wait WAIT           seconds to read markers after the commands (default
+                        20)
+  --start-timeout START_TIMEOUT
+                        seconds to wait for startup (default 180)
+  --port PORT           IPv4 port (default: a free one; IPv6 uses port+1)
+  --level LEVEL         world folder name (default mwtest)
+  --instance INSTANCE   instance folder to build (default: a new temporary
+                        folder)
+  --keep                keep the instance folder after the run
+  --log LOG             also write the whole server console to this file
+  --setup-only          build the instance and world, do not start the server
+
+Prints one JSON object on stdout. Full notes: the docstring at the top of this file.
+$ echo $?
+0
+=== check-unbuilt
+$ python skills/minewright-checks/scripts/mw_check.py examples/given-jar
+{
+  "ok": false,
+  "project": "given-jar",
+  "checks": {
+    "json": {
+      "status": "pass",
+      "errors": [],
+      "warnings": [],
+      "files": 10
+    },
+    "manifest": {
+      "status": "fail",
+      "errors": [
+        "behavior_pack/manifest.json: script entry 'scripts/main.js' does not exist (build the TypeScript first?)"
+      ],
+      "warnings": [],
+      "packs": [
+        {
+          "path": "behavior_pack",
+          "kind": "behavior"
+        },
+        {
+          "path": "resource_pack",
+          "kind": "resource"
+        }
+      ]
+    },
+    "identifiers": {
+      "status": "pass",
+      "errors": [],
+      "warnings": [],
+      "namespaces": [
+        "given_jar"
+      ],
+      "entities": [
+        "given_jar:watcher"
+      ],
+      "client_entities": [
+        "given_jar:watcher"
+      ]
+    },
+    "components": {
+      "status": "pass",
+      "errors": [],
+      "warnings": []
+    },
+    "typescript": {
+      "status": "skip",
+      "reason": "node_modules missing; run npm ci (or npm install) first"
+    },
+    "lint": {
+      "status": "skip",
+      "reason": "node_modules missing; run npm ci (or npm install) first"
+    },
+    "mct": {
+      "status": "skip",
+      "reason": "Creator Tools validation is opt-in; pass --mct, --mct-npx or --mct-bin"
+    },
+    "test": {
+      "status": "skip",
+      "reason": "node_modules missing; run npm ci (or npm install) first"
+    }
+  },
+  "summary": {
+    "pass": 3,
+    "fail": 1,
+    "skip": 4
+  }
+}
+$ echo $?
+1
+=== bds-unbuilt
+$ python skills/minewright-server/scripts/bds_run.py examples/given-jar --cmd "scriptevent given_jar:selftest"
+{
+  "ok": false,
+  "bds_version": "1.26.60.6",
+  "project": "given-jar",
+  "packs": [
+    {
+      "name": "given.jar",
+      "kind": "behavior",
+      "uuid": "f515e726-19fd-4443-87b7-4cf0d761b02b"
+    },
+    {
+      "name": "given.jar",
+      "kind": "resource",
+      "uuid": "5c046fa8-4b5a-4a1e-8a08-ab2d8ce9e54f"
+    }
+  ],
+  "bds_dir": "<cache>\1.26.60.6",
+  "instance": null,
+  "setup": {
+    "world": "<tmp>\worlds\mwtest",
+    "port": <port>,
+    "packs": {
+      "behavior": [
+        {
+          "pack_id": "f515e726-19fd-4443-87b7-4cf0d761b02b",
+          "version": [
+            0,
+            1,
+            0
+          ]
+        }
+      ],
+      "resource": [
+        {
+          "pack_id": "5c046fa8-4b5a-4a1e-8a08-ab2d8ce9e54f",
+          "version": [
+            0,
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    "permissions_added": []
+  },
+  "started": true,
+  "startup_seconds": <s>,
+  "started_line": "[<time> INFO] Server started.",
+  "commands_sent": [
+    "scriptevent given_jar:selftest"
+  ],
+  "markers": [],
+  "errors": [
+    "[<time> ERROR] [Scripting] Plugin [given.jar - 0.1.0] - does not contain main file [main.js]."
+  ],
+  "stopped_cleanly": true,
+  "lines": 47,
+  "exit": 0,
+  "seconds": <s>,
+  "summary": {
+    "pass": 0,
+    "fail": 0,
+    "missing": [],
+    "errors": 1
+  },
+  "problems": [
+    "no [MWTEST] PASS marker seen; did the add-on load and did the command reach it?",
+    "1 script or content error line(s)"
+  ],
+  "console_tail": [
+    "NO LOG FILE! - setting up server logging...",
+    "[<time> INFO] Starting Server",
+    "[<time> INFO] Version: 1.26.60.6",
+    "[<time> INFO] Session ID: <id>",
+    "[<time> INFO] Build ID: 52886189",
+    "[<time> INFO] Branch: r/26_u6",
+    "[<time> INFO] Commit ID: 41512d4dd85848ccc1661436a414f90f617bb630",
+    "[<time> INFO] Configuration: Publish",
+    "[<time> INFO] Contents of server.properties: {\"allow-cheats\":\"true\",\"allow-inbound-script-debugging\":\"false\",\"allow-list\":\"true\",\"allow-outbound-script-debugging\":\"false\",\"block-network-ids-are-hashes\":\"true\",\"chat-restriction\":\"None\",\"client-side-chunk-generation-enabled\":\"true\",\"compression-algorithm\":\"zlib\",\"compression-threshold\":\"1\",\"content-log-console-output-enabled\":\"true\",\"content-log-file-enabled\":\"false\",\"content-log-level\":\"info\",\"default-player-permission-level\":\"member\",\"difficulty\":\"easy\",\"disable-custom-skins\":\"false\",\"disable-persona\":\"false\",\"disable-player-interaction\":\"false\",\"enable-lan-visibility\":\"true\",\"force-gamemode\":\"false\",\"gamemode\":\"creative\",\"level-name\":\"mwtest\",\"level-seed\":\"1\",\"max-players\":\"2\",\"max-threads\":\"8\",\"online-mode\":\"true\",\"persistent-ticking-area-max-chunks\":\"100\",\"persistent-ticking-area-max-count\":\"10\",\"player-idle-timeout\":\"30\",\"player-movement-action-direction-threshold\":\"0.85\",\"player-position-acceptance-threshold\":\"0.5\",\"script-debugger-auto-attach\":\"disabled\",\"server-authoritative-block-breaking-pick-range-scalar\":\"1.5\",\"server-authoritative-dismount-strict\":\"false\",\"server-authoritative-entity-attack-range-tolerance\":\"0.5\",\"server-authoritative-entity-attack-range-validation\":\"disabled\",\"server-authoritative-entity-attack-request-validation\":\"disabled\",\"server-authoritative-entity-interactions-strict\":\"false\",\"server-authoritative-movement-strict\":\"false\",\"server-build-radius-ratio\":\"Disabled\",\"server-name\":\"minewright-test\",\"server-port\":\"<port>\",\"server-portv6\":\"<port>\",\"server-udp-ports\":\"19132\",\"texturepack-required\":\"false\",\"tick-distance\":\"4\",\"transient-ticking-area-max-chunks\":\"300\",\"transport\":\"nethernet\",\"view-distance\":\"32\"}",
+    "[<time> INFO] Level Name: mwtest",
+    "[<time> INFO] Profiler config ('bootstrap.json') load result: success=1, errorMessage=(null)",
+    "[<time> INFO] No CDN config file found at: cdn_config.json for dedicated server",
+    "[<time> INFO] Game mode: 1 Creative",
+    "[<time> INFO] Difficulty: 1 EASY",
+    "[<time> INFO] Content logging to console is enabled.",
+    "[<time> INFO] ",
+    "",
+    "#####################################################",
+    "#                                                   #",
+    "#              CREATING VANILLA WORLD               #",
+    "#                                                   #",
+    "#####################################################",
+    "[<time> INFO] Opening level 'worlds/mwtest/db'",
+    "[<time> INFO] Accepting clients on [::]:<port>",
+    "[<time> INFO] Pack Stack - [00] given.jar (id: f515e726-19fd-4443-87b7-4cf0d761b02b, version: 0.1.0) @ worlds/mwtest/behavior_packs/behavior_pack",
+    "[<time> ERROR] [Scripting] Plugin [given.jar - 0.1.0] - does not contain main file [main.js].",
+    "",
+    "",
+    "[<time> INFO] Signed in to signaling service successfully",
+    "[<time> INFO] Server started.",
+    "[<time> WARN] ================ ALLOW LIST WARNING ===================",
+    "[<time> WARN] Allow list is enabled but contains no entries. ",
+    "[<time> WARN] Use allowlist add <playername> for you and your friends so that they can access the server, or modify allowlist.json manually.",
+    "[<time> WARN] ",
+    "Alternatively, the allow list can be turned off by typing allowlist off or manually toggled in the server.properties file.",
+    "[<time> WARN] =======================================================",
+    "[<time> INFO] ================ TELEMETRY MESSAGE ===================",
+    "[<time> INFO] Server Telemetry is currently not enabled. ",
+    "[<time> INFO] Enabling this telemetry helps us improve the game.",
+    "[<time> INFO] ",
+    "[<time> INFO] To enable this feature, add the line 'emit-server-telemetry=true'",
+    "[<time> INFO] to the server.properties file in the handheld/src-server directory",
+    "[<time> INFO] ======================================================",
+    "[<time> INFO] Script event given_jar:selftest has been sent",
+    "[<time> INFO] Server stop requested.",
+    "[<time> INFO] Stopping server...",
+    "Quit correctly"
+  ]
+}
+$ echo $?
+1
+=== check-no-pack
+$ python skills/minewright-checks/scripts/mw_check.py skills
+{
+  "ok": false,
+  "project": "skills",
+  "checks": {},
+  "error": "no manifest.json under <demo>\skills; not a Bedrock add-on"
+}
+$ echo $?
+2
+=== bds-not-cached
+$ python skills/minewright-server/scripts/bds_run.py examples/given-jar --version 1.0.0.1 --cmd "scriptevent given_jar:selftest"
+{
+  "ok": false,
+  "bds_version": "1.0.0.1",
+  "project": "given-jar",
+  "packs": [
+    {
+      "name": "given.jar",
+      "kind": "behavior",
+      "uuid": "f515e726-19fd-4443-87b7-4cf0d761b02b"
+    },
+    {
+      "name": "given.jar",
+      "kind": "resource",
+      "uuid": "5c046fa8-4b5a-4a1e-8a08-ab2d8ce9e54f"
+    }
+  ],
+  "error": "BDS 1.0.0.1 is not in the cache. Rerun with --download to fetch it from minecraft.net (that means you accept the Minecraft EULA), or pass --bds-dir.",
+  "cache": "<cache>\1.0.0.1"
+}
+$ echo $?
+2
+=== check-built
+$ python skills/minewright-checks/scripts/mw_check.py examples/given-jar
+{
+  "ok": true,
+  "project": "given-jar",
+  "checks": {
+    "json": {
+      "status": "pass",
+      "errors": [],
+      "warnings": [],
+      "files": 10
+    },
+    "manifest": {
+      "status": "pass",
+      "errors": [],
+      "warnings": [],
+      "packs": [
+        {
+          "path": "behavior_pack",
+          "kind": "behavior"
+        },
+        {
+          "path": "resource_pack",
+          "kind": "resource"
+        }
+      ]
+    },
+    "identifiers": {
+      "status": "pass",
+      "errors": [],
+      "warnings": [],
+      "namespaces": [
+        "given_jar"
+      ],
+      "entities": [
+        "given_jar:watcher"
+      ],
+      "client_entities": [
+        "given_jar:watcher"
+      ]
+    },
+    "components": {
+      "status": "pass",
+      "errors": [],
+      "warnings": []
+    },
+    "typescript": {
+      "status": "pass",
+      "exit": 0,
+      "seconds": <s>,
+      "command": "<node>\npx.CMD --no-install tsc --noEmit",
+      "output_tail": []
+    },
+    "lint": {
+      "status": "pass",
+      "exit": 0,
+      "seconds": <s>,
+      "command": "<node>\npx.CMD --no-install eslint .",
+      "output_tail": []
+    },
+    "mct": {
+      "status": "skip",
+      "reason": "Creator Tools validation is opt-in; pass --mct, --mct-npx or --mct-bin"
+    },
+    "test": {
+      "status": "pass",
+      "exit": 0,
+      "seconds": <s>,
+      "command": "<node>\npm.CMD test --silent",
+      "output_tail": [
+        "\u25b6 HUD and status text",
+        "  \u2714 formats time as m:ss (<ms>)",
+        "  \u2714 tells each player what to do (<ms>)",
+        "\u2714 HUD and status text (<ms>)",
+        "\u25b6 save and load",
+        "  \u2714 round-trips every field (<ms>)",
+        "  \u2714 falls back to a fresh state on missing or broken data (<ms>)",
+        "\u2714 save and load (<ms>)",
+        "\u25b6 delivery zone",
+        "  \u2714 counts items close to the watcher from any side (<ms>)",
+        "  \u2714 counts items in its path ahead, not behind or off to the side (<ms>)",
+        "\u2714 delivery zone (<ms>)",
+        "\u25b6 who dropped it",
+        "  \u2714 credits the nearest player whose count went down, not simply the nearest player (<ms>)",
+        "  \u2714 returns null when nobody lost an item nearby (<ms>)",
+        "  \u2714 snapshots remember the larger of the last two counts and settle after a credit (<ms>)",
+        "\u2714 who dropped it (<ms>)",
+        "\u2139 tests 40",
+        "\u2139 suites 13",
+        "\u2139 pass 40",
+        "\u2139 fail 0",
+        "\u2139 cancelled 0",
+        "\u2139 skipped 0",
+        "\u2139 todo 0",
+        "\u2139 duration_ms <ms>"
+      ]
+    }
+  },
+  "summary": {
+    "pass": 7,
+    "fail": 0,
+    "skip": 1
+  }
+}
+$ echo $?
+0
+=== check-only
+$ python skills/minewright-checks/scripts/mw_check.py examples/given-jar --only manifest,identifiers,components
+{
+  "ok": true,
+  "project": "given-jar",
+  "checks": {
+    "manifest": {
+      "status": "pass",
+      "errors": [],
+      "warnings": [],
+      "packs": [
+        {
+          "path": "behavior_pack",
+          "kind": "behavior"
+        },
+        {
+          "path": "resource_pack",
+          "kind": "resource"
+        }
+      ]
+    },
+    "identifiers": {
+      "status": "pass",
+      "errors": [],
+      "warnings": [],
+      "namespaces": [
+        "given_jar"
+      ],
+      "entities": [
+        "given_jar:watcher"
+      ],
+      "client_entities": [
+        "given_jar:watcher"
+      ]
+    },
+    "components": {
+      "status": "pass",
+      "errors": [],
+      "warnings": []
+    }
+  },
+  "summary": {
+    "pass": 3,
+    "fail": 0,
+    "skip": 0
+  }
+}
+$ echo $?
+0
+=== bds-built
+$ python skills/minewright-server/scripts/bds_run.py examples/given-jar --cmd "scriptevent given_jar:selftest"
+{
+  "ok": true,
+  "bds_version": "1.26.60.6",
+  "project": "given-jar",
+  "packs": [
+    {
+      "name": "given.jar",
+      "kind": "behavior",
+      "uuid": "f515e726-19fd-4443-87b7-4cf0d761b02b"
+    },
+    {
+      "name": "given.jar",
+      "kind": "resource",
+      "uuid": "5c046fa8-4b5a-4a1e-8a08-ab2d8ce9e54f"
+    }
+  ],
+  "bds_dir": "<cache>\1.26.60.6",
+  "instance": null,
+  "setup": {
+    "world": "<tmp>\worlds\mwtest",
+    "port": <port>,
+    "packs": {
+      "behavior": [
+        {
+          "pack_id": "f515e726-19fd-4443-87b7-4cf0d761b02b",
+          "version": [
+            0,
+            1,
+            0
+          ]
+        }
+      ],
+      "resource": [
+        {
+          "pack_id": "5c046fa8-4b5a-4a1e-8a08-ab2d8ce9e54f",
+          "version": [
+            0,
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    "permissions_added": []
+  },
+  "started": true,
+  "startup_seconds": <s>,
+  "started_line": "[<time> INFO] Server started.",
+  "commands_sent": [
+    "scriptevent given_jar:selftest"
+  ],
+  "markers": [
+    {
+      "result": "PASS",
+      "name": "scripts_loaded",
+      "detail": ""
+    },
+    {
+      "result": "PASS",
+      "name": "config_loads",
+      "detail": ""
+    },
+    {
+      "result": "PASS",
+      "name": "commands_registered",
+      "detail": ""
+    },
+    {
+      "result": "PASS",
+      "name": "custom_command_runs",
+      "detail": ""
+    },
+    {
+      "result": "PASS",
+      "name": "tickingarea_loaded",
+      "detail": ""
+    },
+    {
+      "result": "PASS",
+      "name": "sphere_spawns",
+      "detail": ""
+    },
+    {
+      "result": "PASS",
+      "name": "entity_properties",
+      "detail": ""
+    },
+    {
+      "result": "PASS",
+      "name": "one_sphere_per_world",
+      "detail": ""
+    },
+    {
+      "result": "PASS",
+      "name": "item_delivery",
+      "detail": ""
+    },
+    {
+      "result": "PASS",
+      "name": "teleport_phases_through_blocks",
+      "detail": ""
+    },
+    {
+      "result": "PASS",
+      "name": "state_persists",
+      "detail": ""
+    }
+  ],
+  "errors": [],
+  "stopped_cleanly": true,
+  "lines": 83,
+  "exit": 0,
+  "seconds": <s>,
+  "summary": {
+    "pass": 11,
+    "fail": 0,
+    "missing": [],
+    "errors": 0
+  },
+  "problems": []
+}
+$ echo $?
+0
+=== bds-built-log
+$ python skills/minewright-server/scripts/bds_run.py examples/given-jar --cmd "scriptevent given_jar:selftest" --log console.txt
+{
+  "ok": true,
+  "bds_version": "1.26.60.6",
+  "project": "given-jar",
+  "packs": [
+    {
+      "name": "given.jar",
+      "kind": "behavior",
+      "uuid": "f515e726-19fd-4443-87b7-4cf0d761b02b"
+    },
+    {
+      "name": "given.jar",
+      "kind": "resource",
+      "uuid": "5c046fa8-4b5a-4a1e-8a08-ab2d8ce9e54f"
+    }
+  ],
+  "bds_dir": "<cache>\1.26.60.6",
+  "instance": null,
+  "setup": {
+    "world": "<tmp>\worlds\mwtest",
+    "port": <port>,
+    "packs": {
+      "behavior": [
+        {
+          "pack_id": "f515e726-19fd-4443-87b7-4cf0d761b02b",
+          "version": [
+            0,
+            1,
+            0
+          ]
+        }
+      ],
+      "resource": [
+        {
+          "pack_id": "5c046fa8-4b5a-4a1e-8a08-ab2d8ce9e54f",
+          "version": [
+            0,
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    "permissions_added": []
+  },
+  "started": true,
+  "startup_seconds": <s>,
+  "started_line": "[<time> INFO] Server started.",
+  "commands_sent": [
+    "scriptevent given_jar:selftest"
+  ],
+  "markers": [
+    {
+      "result": "PASS",
+      "name": "scripts_loaded",
+      "detail": ""
+    },
+    {
+      "result": "PASS",
+      "name": "config_loads",
+      "detail": ""
+    },
+    {
+      "result": "PASS",
+      "name": "commands_registered",
+      "detail": ""
+    },
+    {
+      "result": "PASS",
+      "name": "custom_command_runs",
+      "detail": ""
+    },
+    {
+      "result": "PASS",
+      "name": "tickingarea_loaded",
+      "detail": ""
+    },
+    {
+      "result": "PASS",
+      "name": "sphere_spawns",
+      "detail": ""
+    },
+    {
+      "result": "PASS",
+      "name": "entity_properties",
+      "detail": ""
+    },
+    {
+      "result": "PASS",
+      "name": "one_sphere_per_world",
+      "detail": ""
+    },
+    {
+      "result": "PASS",
+      "name": "item_delivery",
+      "detail": ""
+    },
+    {
+      "result": "PASS",
+      "name": "teleport_phases_through_blocks",
+      "detail": ""
+    },
+    {
+      "result": "PASS",
+      "name": "state_persists",
+      "detail": ""
+    }
+  ],
+  "errors": [],
+  "stopped_cleanly": true,
+  "lines": 83,
+  "exit": 0,
+  "seconds": <s>,
+  "summary": {
+    "pass": 11,
+    "fail": 0,
+    "missing": [],
+    "errors": 0
+  },
+  "problems": []
+}
+$ echo $?
+0
+=== bds-built-log-scripting
+$ grep -E "Scripting|Script event" console.txt
+[<time> WARN] [Scripting] Custom Command alias [summon] already in use. Required to use full name [given_jar:summon].
+[<time> INFO] Script event given_jar:selftest has been sent
+[<time> WARN] [Scripting] [MWTEST] PASS scripts_loaded
+[<time> WARN] [Scripting] [MWTEST] PASS config_loads
+[<time> WARN] [Scripting] [MWTEST] PASS commands_registered
+[<time> WARN] [Scripting] [MWTEST] PASS custom_command_runs
+[<time> WARN] [Scripting] [MWTEST] PASS tickingarea_loaded
+[<time> WARN] [Scripting] [MWTEST] PASS sphere_spawns
+[<time> WARN] [Scripting] [MWTEST] PASS entity_properties
+[<time> WARN] [Scripting] [MWTEST] PASS one_sphere_per_world
+[<time> WARN] [Scripting] [MWTEST] PASS item_delivery
+[<time> WARN] [Scripting] [MWTEST] PASS teleport_phases_through_blocks
+[<time> WARN] [Scripting] [MWTEST] PASS state_persists
+[<time> WARN] [Scripting] [MWTEST] DONE
+=== example-pack
+$ python scripts/pack.py
+dist\given-jar-0.1.0.mcaddon: 19 files, 388 KB
+$ echo $?
+0
