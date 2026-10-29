@@ -84,7 +84,11 @@ An `.mcaddon` is a zip holding the pack folders at its root (`behavior_pack/`, `
 - Android: open the downloaded file from the Files app and choose Minecraft. Android 12 and later hide `Android/data/com.mojang.minecraftpe` from most file managers, so import, not copy.
 - Xbox, PlayStation and Switch cannot import files. Build the world with the add-on active on Windows or a phone, upload it to a Realm, and open the Realm on the console. Experimental features do not work on Realms gameplay servers.
 - Then: create or edit a world, Behavior Packs, activate the pack (the resource pack comes along through the dependency). Leave experiments off.
-- LAN play: the host turns on Multiplayer Game and Visible to LAN Players in the world settings; others join from Play, Friends, LAN games, and download the packs on joining. Give operators (Game Directors) to whoever runs the add-on's commands. (Community-documented; Mojang's help site could not be fetched to confirm.)
+- LAN play: the host turns on Multiplayer Game and Visible to LAN Players in the world settings; others join from Play, Friends, LAN games, and download the packs on joining. Give operators (Game Directors) to whoever runs the add-on's commands. (Community-documented.)
+
+## Step 6: publish
+
+CurseForge: [references/publishing.md](references/publishing.md).
 
 ## Output
 

@@ -77,3 +77,11 @@ Write an entry the moment a real signal happens: a user correction, the same err
 - Evidence: T-20261027-3 (r1 default listing vs r2 raised budget); C-20261027-3
 - Scope: environment
 - Status: active · helpful 1 · harmful 0 · last_confirmed 2026-10-27
+
+### L-010 · 2026-10-29 · CurseForge posting works end to end from the browser
+- Trigger: Posting given.jar 0.1.1: every field filled by the agent, the owner pressed Create, file and gallery uploaded, moderation queued in one session.
+- Hypothesis: What worked is repeatable: all text drafted to LISTING.md first, Markdown editor mode, owner-only Create, and a click-intercept to feed files to inputs that exist only after a click.
+- Rule: Follow references/publishing.md. Stage files with scripts/listing.py; run the upload snippet once per batch and wait for the success toast (a second run made duplicates); tag the newest version CurseForge lists and state the tested one in the description.
+- Evidence: CurseForge project 1773067, 2026-10-29; C-20261029-1
+- Scope: skill
+- Status: active · helpful 1 · harmful 0 · last_confirmed 2026-10-29

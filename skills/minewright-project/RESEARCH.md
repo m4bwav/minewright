@@ -87,6 +87,11 @@ Newest first. One entry per material finding. `Track` is subject, tooling, pract
 - magnitude: n/a (initial)
 - applied: C-20261027-1
 
+### R-20261029-1 · 2026-10-29 · Subject: CurseForge author flow for Bedrock add-ons
+- Source: https://authors.curseforge.com (create form, Files and Media tabs), observed while posting project 1773067 on 2026-10-29.
+- Finding: Create has four tabs (game, general, description, license). Bedrock files accept .mcpack and .mcaddon only; the game-version list topped out at 26.50 while the game was 1.26.60; adding a file queues the project for moderation with no separate submit; the project stays hidden until approved.
+- Magnitude: new
+
 ### R-20261027-2 · 2026-10-27 · Subject: install paths and the import-while-running bug
 - summary: GDK path and legacy UWP path from the Learn project-folder page; iOS, Android and console steps from the getting-started tutorial (console tab: Realm upload only); MCPE-227874 confirmed and open in stable. Applied to Step 5.
 - track: subject

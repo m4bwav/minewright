@@ -4,6 +4,11 @@ Every change to [SKILL.md](SKILL.md) and its companions, newest first, each with
 
 Entry shape: `### C-YYYYMMDD-n · date · one-line summary`, then `because:` (IDs or "user request"), `files:` (file and section), and a sentence on what changed. Cite section headings, not line numbers.
 
+### C-20261029-1 · 2026-10-29 · Step 6: publish on CurseForge
+- because: user request; L-010, R-20261029-1
+- files: SKILL.md Step 6 (new); references/publishing.md (new); examples/given-jar/scripts/listing.py (new)
+- Adds the CurseForge posting process proven with given.jar 0.1.1, the listing stager script, and the upload workaround for inputs created on click.
+
 ### C-20261027-4 · 2026-10-27 · Packaging names pack.py
 - because: wiki verification run 2026-10-27 (ai-docs note)
 - files: SKILL.md Step 5 (packaging)
