@@ -4,20 +4,20 @@
     "name": "given.jar",
     "description": "given.jar behavior pack: the watcher, its missions and its hunt.",
     "uuid": "f515e726-19fd-4443-87b7-4cf0d761b02b",
-    "version": [0, 1, 0],
+    "version": [0, 1, 1],
     "min_engine_version": [1, 26, 50]
   },
   "modules": [
     {
       "type": "data",
       "uuid": "e28bee26-fbee-415d-be04-f6e8561c3118",
-      "version": [0, 1, 0]
+      "version": [0, 1, 1]
     },
     {
       "type": "script",
       "language": "javascript",
       "uuid": "a6a2b093-c416-4996-a41f-522ab2200151",
-      "version": [0, 1, 0],
+      "version": [0, 1, 1],
       "entry": "scripts/main.js"
     }
   ],
@@ -28,7 +28,7 @@
     },
     {
       "uuid": "5c046fa8-4b5a-4a1e-8a08-ab2d8ce9e54f",
-      "version": [0, 1, 0]
+      "version": [0, 1, 1]
     }
   ],
   "metadata": {

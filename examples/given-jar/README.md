@@ -1,9 +1,9 @@
 # given.jar
 
-A Minecraft Bedrock add-on for a few friends on one LAN world. A dark sphere with one big eye floats in the world.
+A Minecraft Bedrock add-on for a few friends on one LAN world. A dark sphere with one big bloodshot eye, The Given, floats in the world.
 When its eye opens it asks for an item, the same item for everybody. Every player in survival must find their own
 copy and drop it on the sphere before the clock runs out. If everyone delivers, the eye closes for a break and then
-asks again. If someone does not, the eye turns red and the sphere flies through walls to catch them, one player at a
+asks again. If someone does not, the whites of the eye turn blood red and The Given flies through walls to catch them, one player at a
 time.
 
 - Players: [HOW-TO-PLAY.md](HOW-TO-PLAY.md) (one page)
@@ -49,7 +49,8 @@ Custom commands need operator rights (`GameDirectors`) but not cheats. `/given_j
 
 | Command | Fallback (needs cheats) | What it does |
 |---|---|---|
-| `/given_jar:summon` | `/scriptevent given_jar:summon` | Bring the sphere 3 blocks in front of you |
+| `/given_jar:summon` | `/scriptevent given_jar:summon` | Bring The Given 3 blocks in front of you |
+| `/given_jar:attack` | `/scriptevent given_jar:attack` | Summon The Given if it is not here, then start the hunt now on everyone in survival or adventure (to try the hunt) |
 | `/given_jar:skip` | `/scriptevent given_jar:skip` | Take 10 minutes off; below zero the hunt starts now |
 | `/given_jar:tier easy\|medium\|hard` | `/scriptevent given_jar:tier hard` | Item difficulty from the next mission on |
 | `/given_jar:testmode on\|off` | `/scriptevent given_jar:testmode on` | Minutes become seconds |

@@ -1,7 +1,8 @@
 # given.jar art: prompts and settings
 
 Generated 2026-10-27 with ComfyUI. No third-party art. Full ComfyUI API graphs are in workflows/. This folder keeps
-only what the packs use (eye_*_128.png, body_64.png, icon.png); the 1024 px sources, hero and splash are not here.
+only what the packs use (eye_*_128.png, body_64.png, icon.png; the 0.1.0 versions of eye_open, eye_red and icon are in
+base/, and scripts/bloodshot.py paints the 0.1.1 veins and red pupil onto them, see ../ART.md); the 1024 px sources, hero and splash are not here.
 scripts/make_textures.py turns these into the pack textures (layout: ../ART.md).
 
 Z-Image Turbo graph (zimage): UNETLoader z_image_turbo_bf16 + CLIPLoader qwen_3_4b (type lumina2) + VAE ae,
