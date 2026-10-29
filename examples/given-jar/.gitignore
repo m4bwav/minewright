@@ -1,3 +1,5 @@
 node_modules/
 dist/
 behavior_pack/scripts/
+listing/*
+!listing/LISTING.md
