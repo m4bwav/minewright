@@ -1,5 +1,7 @@
 # given.jar art
 
+The sphere is named **The Given** in game (entity name, spawn egg, chat). The add-on stays "given.jar".
+
 All art is our own: generated with ComfyUI (Z-Image Turbo and FLUX.2 Klein 4B, both Apache 2.0) on 2026-10-27.
 Prompts, seeds, models and post-processing steps are in [art/PROMPTS.md](art/PROMPTS.md), the ComfyUI graphs in
 `art/workflows/`. No third-party art. The HUD shows vanilla item textures by path; those are Mojang's and are not
@@ -10,10 +12,29 @@ shipped in this add-on.
 | Source (art/) | Becomes | How |
 |---|---|---|
 | `eye_open_128.png`, `eye_red_128.png`, `eye_closed_128.png` | eye and iris regions of `resource_pack/textures/entity/watcher_{open,red,closed}.png` | `python scripts/make_textures.py` |
+| `base/eye_open_128.png`, `base/eye_red_128.png`, `base/icon.png` | the bloodshot `eye_open_128.png`, `eye_red_128.png`, `icon.png` | `python scripts/bloodshot.py` (run before make_textures.py) |
 | `body_64.png` (seamless) | body region, tiled | same script |
 | `icon.png` (512) | `pack_icon.png` in both packs, 256 px | same script |
 
 `resource_pack/textures/given_jar/blank.png` is a 16x16 transparent image the HUD uses to clear the item picture.
+
+## Bloodshot (0.1.1)
+
+`scripts/bloodshot.py` paints the 0.1.1 look onto the 0.1.0 pictures kept in `art/base/`, so the style and silhouette
+stay the same. It is seeded, so every run gives the same pixels.
+
+- Veins: branching lines grown from the outer edge of the white towards the iris, drawn at 4x and scaled down, then
+  multiplied into the picture only where it is white: a ring around the pupil, bright and unsaturated pixels, and
+  (calm and hunt eye) an ellipse for the eye opening so lids and lashes stay clean.
+- Calm eye (`eye_open`): red veins on the white.
+- Hunt eye (`eye_red`): the white is multiplied blood red (215,25,30), then darker veins on top. The iris was
+  already red.
+- Icon: the eye alone on black, no sphere (asked for by the player it was made for): veins on the white, the green
+  iris recoloured blood red from its own brightness (fibres kept), black pupil, white highlight, cropped so the eye
+  fills the icon.
+
+Known since 0.1.0: the pupil of `eye_red_128.png` sits at about (66,69), not the centre, so the iris cube's crop is a
+few pixels off on the hunt eye. Nobody noticed it in game; fix by re-centring that picture if it ever shows.
 
 ## Texture layout
 

@@ -5,14 +5,14 @@ minecraft.net). No experiments are needed, and the world does not need cheats.
 
 ## 1. Get the file
 
-`given-jar-0.1.0.mcaddon` (build it with `npm run pack`; it lands in `dist/`).
+`given-jar-0.1.1.mcaddon` (build it with `npm run pack`; it lands in `dist/`).
 
 ## 2. Import it
 
 1. **Close Minecraft completely first.** On the current Windows (GDK) build, double-clicking a `.mcaddon` while the
    game is already running silently does nothing (Mojang bug MCPE-227874, fixed in a later preview, not yet in the
    release).
-2. Double-click `given-jar-0.1.0.mcaddon`. Minecraft starts and shows two "Successfully imported" messages
+2. Double-click `given-jar-0.1.1.mcaddon`. Minecraft starts and shows two "Successfully imported" messages
    (behavior pack and resource pack).
 
 If the import still does nothing, install by hand:

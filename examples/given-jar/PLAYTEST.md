@@ -41,7 +41,7 @@ Write down anything that does not match the "should happen" column.
 | 14 | B drops a second one on it | It stays on the ground (B already delivered). |
 | 15 | A stands right next to the sphere while B throws from 3 blocks | B gets the credit, not A. |
 | 16 | A drops a stack of 3 on the sphere | A is credited, 2 are left on the ground. |
-| 17 | Wait | When everyone in survival delivered: level-up sound, eye closes, chat "The eye closes for 10 seconds." |
+| 17 | Wait | When everyone in survival delivered: level-up sound, eye closes, chat "The Given closes its eye for 10 seconds." |
 | 18 | Wait 10 s | New mission, a different item. |
 
 ## Skip
@@ -52,37 +52,39 @@ Write down anything that does not match the "should happen" column.
 | 20 | Skip until below zero | "The hunt starts now!" and the hunt begins at once. |
 | 21 | B (not operator) tries `/given_jar:skip` | Not allowed. `/given_jar:status` works for B. |
 | 22 | During the break: skip | The eye opens sooner. |
+| 22b | On a world with no Given, in survival: `/given_jar:attack` | The Given appears 3 blocks in front of you, its whites turn blood red at once, chat "Time is up! The Given's eye turns red...", and it hunts you. Run it again during the hunt: "The hunt is already on." |
 
 ## Hunt
 
 | # | Do | Should happen |
 |---|---|---|
-| 23 | Let a mission run out with A and B both not delivering, B closer to the sphere | Eye turns red, curse sound, chat lists A and B. Sphere bobs fast. |
+| 23 | Let a mission run out with A and B both not delivering, B closer to the sphere | Eye turns red (iris and whites blood red, still veined), curse sound, chat lists A and B. Sphere bobs fast. |
 | 24 | Watch | It flies at B first, straight through walls and the ground, about 6 blocks a second. B hears a heartbeat. B's action bar "RUN!...". |
-| 25 | B gets touched (no totem) | B dies. Chat "The eye caught B!". Then it goes for A. |
+| 25 | B gets touched (no totem) | B dies. Chat "The Given caught B!". Then it goes for A. |
 | 26 | A runs into a nether portal while hunted | Counts as caught; hunt ends. Eye closes for 10 s. |
 | 27 | Repeat with A logging off while hunted | Counts as caught. |
 | 28 | Repeat with A dying from a fall while hunted | Counts as caught. |
 | 29 | Repeat with A in creative when time runs out | A is not on the list. |
 | 30 | Repeat with B far away (more than 4 chunks) | The sphere reappears about 20 blocks behind B; no second sphere is left behind when you go back. |
+| 31 | Watch the eye through a whole hunt, close up | Calm eye before: white with red veins, green-grey iris. During the hunt: whites blood red. When the hunt ends: the eye closes, and at the next mission it opens calm (white whites) again. |
 
 ## Totem jump-scare
 
 | # | Do | Should happen |
 |---|---|---|
-| 31 | B holds a Totem of Undying, fails a mission, gets touched | Totem animation, B survives. Eye closes, sphere backs away for about 3 s, then nothing for about 4 s. |
-| 32 | Keep looking around | The sphere appears right in front of B's face with the red eye open and a scream. No flashing. Chat "The eye got B! BOO!". It counts as caught; the hunt moves on or ends. |
+| 32 | B holds a Totem of Undying, fails a mission, gets touched | Totem animation, B survives. Eye closes, sphere backs away for about 3 s, then nothing for about 4 s. |
+| 33 | Keep looking around | The sphere appears right in front of B's face with the red eye open and a scream. No flashing. Chat "The Given got B! BOO!". It counts as caught; the hunt moves on or ends. |
 
 ## Saving
 
 | # | Do | Should happen |
 |---|---|---|
-| 33 | Quit the world mid-mission and load it again | Same item, time continues from about where it was (time does not run while the world is closed). |
-| 34 | `/given_jar:testmode off` | Clock scales back to minutes. |
-| 35 | `/given_jar:tier hard`, wait for the next mission | A hard item (diamond, blaze rod, ...). |
+| 34 | Quit the world mid-mission and load it again | Same item, time continues from about where it was (time does not run while the world is closed). |
+| 35 | `/given_jar:testmode off` | Clock scales back to minutes. |
+| 36 | `/given_jar:tier hard`, wait for the next mission | A hard item (diamond, blaze rod, ...). |
 
 ## Look and feel
 
 - Is the open eye clearly an eye at 5, 10 and 20 blocks?
-- Does the red eye glow a bit in the dark? Does the closed eye look closed?
+- Are the veins visible on the calm eye at 5 blocks? Does the red eye glow a bit in the dark? Does the closed eye look closed?
 - Is anything too scary for the youngest player? (Change the jump-scare sound in `src/core/machine.ts`, SOUNDS.)

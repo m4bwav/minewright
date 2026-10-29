@@ -32,6 +32,7 @@ import {
   setTestMode,
   setTier,
   skip,
+  attack,
   statusText,
   summon,
   tick,
@@ -360,7 +361,7 @@ function onWatcherAppears(e: Entity, spawned: boolean): void {
     e.remove();
     if (spawned) {
       for (const p of dim.getPlayers({ location: where, maxDistance: 16 })) {
-        p.sendMessage(PREFIX + 'There can only be one watcher. The new one faded away.');
+        p.sendMessage(PREFIX + 'The Given is already here. The new one faded away.');
       }
     }
     return;
@@ -384,11 +385,11 @@ function sweepDuplicates(): void {
 }
 
 function summonAt(dim: Dimension, at: Vector3): { ok: boolean; message: string } {
-  if (getSphere()) return { ok: false, message: 'There is already a watcher in this world.' };
+  if (getSphere()) return { ok: false, message: 'The Given is already in this world.' };
   const e = trySpawnWatcher(dim, at);
-  if (!e) return { ok: false, message: 'Could not summon the watcher here.' };
+  if (!e) return { ok: false, message: 'Could not summon The Given here.' };
   adoptSphere(e);
-  return { ok: true, message: 'The watcher has arrived.' };
+  return { ok: true, message: 'The Given has arrived.' };
 }
 
 // ---------- the loop ----------
@@ -426,7 +427,8 @@ function loop(): void {
 
 // ---------- commands ----------
 
-type Action = 'skip' | 'summon' | 'tier' | 'testmode' | 'status';
+type Action = 'skip' | 'summon' | 'attack' | 'tier' | 'testmode' | 'status';
+const ACTIONS: readonly Action[] = ['skip', 'summon', 'attack', 'tier', 'testmode', 'status'];
 
 function runAction(action: Action, arg: string, source: Entity | undefined): string {
   switch (action) {
@@ -440,6 +442,15 @@ function runAction(action: Action, arg: string, source: Entity | undefined): str
       const base = source?.location ?? { x: spawn.x, y: spawn.y > 300 ? 100 : spawn.y, z: spawn.z };
       const look = source ? flatDirection(source.getViewDirection()) : { x: 0, y: 0, z: 1 };
       return summonAt(dim, up(add(base, scale(look, 3)), 1)).message;
+    }
+    case 'attack': {
+      // Summon first when there is no Given yet, then the hunt starts at once.
+      if (!getSphere()) {
+        const r = runAction('summon', '', source);
+        if (!getSphere()) return r;
+      }
+      apply(attack(state, world.getAllPlayers().map(playerView)));
+      return 'Attack mode.';
     }
     case 'tier':
       if (!isTier(arg)) return `Unknown tier "${arg}". Use ${TIERS.join(', ')}.`;
@@ -477,7 +488,12 @@ system.beforeEvents.startup.subscribe((event) => {
   const ops = CommandPermissionLevel.GameDirectors;
   const commands = [
     { name: `${NS}:skip`, description: 'given.jar: take 10 minutes off the clock', permissionLevel: ops },
-    { name: `${NS}:summon`, description: 'given.jar: summon the watcher (only one per world)', permissionLevel: ops },
+    { name: `${NS}:summon`, description: 'given.jar: summon The Given (only one per world)', permissionLevel: ops },
+    {
+      name: `${NS}:attack`,
+      description: 'given.jar: summon The Given if needed and start the hunt now',
+      permissionLevel: ops,
+    },
     {
       name: `${NS}:tier`,
       description: 'given.jar: set how hard the items are',
@@ -549,7 +565,7 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
     void selftest();
     return;
   }
-  if (!['skip', 'summon', 'tier', 'testmode', 'status'].includes(name)) return;
+  if (!(ACTIONS as readonly string[]).includes(name)) return;
   const reply = runAction(name as Action, event.message.trim(), source);
   if (source && source.typeId === 'minecraft:player') (source as Player).sendMessage(PREFIX + reply);
   else console.warn(`[given.jar] ${reply}`);
@@ -593,7 +609,7 @@ async function selftest(): Promise<void> {
       return TIERS.every((t) => ITEMS[t].length > 0) || 'empty tier';
     });
     await check('commands_registered', () => {
-      const want = ['skip', 'summon', 'tier', 'testmode', 'status'].map((n) => `${NS}:${n}`);
+      const want = ACTIONS.map((n) => `${NS}:${n}`);
       const missing = want.filter((n) => !registeredCommands.has(n));
       return missing.length === 0 || `missing ${missing.join(',')}`;
     });

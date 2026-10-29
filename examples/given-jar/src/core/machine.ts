@@ -184,7 +184,7 @@ function startMission(state: GameState, random: () => number): Effect[] {
     { kind: 'sound', sound: SOUNDS.missionStart },
     {
       kind: 'say',
-      text: `The eye opens. It wants: ${item.name}! Everyone must drop one on it. You have ${unitsText(state, state.remaining)}.`,
+      text: `The Given opens its eye. It wants: ${item.name}! Everyone must drop one on it. You have ${unitsText(state, state.remaining)}.`,
     },
     { kind: 'save' },
   ];
@@ -206,7 +206,7 @@ function closeEye(state: GameState, text: string, sound: string): Effect[] {
     { kind: 'mode', mode: 'idle' },
     { kind: 'clearTitle' },
     { kind: 'sound', sound },
-    { kind: 'say', text: `${text} The eye closes for ${unitsText(state, state.remaining)}.` },
+    { kind: 'say', text: `${text} The Given closes its eye for ${unitsText(state, state.remaining)}.` },
     { kind: 'save' },
   ];
 }
@@ -230,7 +230,7 @@ function missionOver(state: GameState, players: readonly PlayerView[]): Effect[]
     { kind: 'mode', mode: 'hunting' },
     { kind: 'clearTitle' },
     { kind: 'sound', sound: SOUNDS.huntStart },
-    { kind: 'say', text: `Time is up! The eye turns red. It is coming for: ${names}.` },
+    { kind: 'say', text: `Time is up! The Given's eye turns red. It is coming for: ${names}.` },
     { kind: 'save' },
   ];
 }
@@ -247,7 +247,7 @@ export function tick(state: GameState, dt: number, ctx: TickContext): Effect[] {
       state.remaining -= dt;
       const eligible = eligiblePlayers(ctx.players);
       if (eligible.length > 0 && eligible.every((p) => state.delivered.includes(p.id))) {
-        return closeEye(state, 'Everyone gave the eye what it wanted!', SOUNDS.allDelivered);
+        return closeEye(state, 'Everyone gave The Given what it wanted!', SOUNDS.allDelivered);
       }
       return state.remaining <= 0 ? missionOver(state, ctx.players) : [];
     }
@@ -276,7 +276,7 @@ export function deliver(
     effects: [
       { kind: 'sound', sound: SOUNDS.delivered },
       { kind: 'clearTitle', to: player.id },
-      { kind: 'say', text: `${player.name} gave the eye a ${itemName(itemId)}.` },
+      { kind: 'say', text: `${player.name} gave The Given a ${itemName(itemId)}.` },
       { kind: 'save' },
     ],
   };
@@ -285,7 +285,7 @@ export function deliver(
 /** Operator skip: cut the clock. If the mission clock drops to zero the hunt starts on the next tick. */
 export function skip(state: GameState): Effect[] {
   const cut = durations(state.testMode).skip;
-  if (!state.hasSphere) return [{ kind: 'say', text: 'There is no watcher yet. Use /given_jar:summon first.' }];
+  if (!state.hasSphere) return [{ kind: 'say', text: 'The Given is not here yet. Use /given_jar:summon first.' }];
   if (state.phase === 'hunting' || state.phase === 'jumpscare') {
     return [{ kind: 'say', text: 'The hunt is already on. Skip does nothing now.' }];
   }
@@ -295,7 +295,7 @@ export function skip(state: GameState): Effect[] {
     state.remaining = 0;
     effects.push({
       kind: 'say',
-      text: state.phase === 'mission' ? 'Skip! Time ran out. The hunt starts now!' : 'Skip! The eye opens now.',
+      text: state.phase === 'mission' ? 'Skip! Time ran out. The hunt starts now!' : 'Skip! The Given opens its eye now.',
     });
   } else {
     effects.push({
@@ -305,6 +305,22 @@ export function skip(state: GameState): Effect[] {
   }
   effects.push({ kind: 'save' });
   return effects;
+}
+
+/**
+ * Operator attack: start the hunt now on every player in survival or adventure, whatever the phase.
+ * For trying out the hunt; a normal mission starts again after it, as after any hunt.
+ */
+export function attack(state: GameState, players: readonly PlayerView[]): Effect[] {
+  if (!state.hasSphere) return [{ kind: 'say', text: 'The Given is not here yet. Use /given_jar:summon first.' }];
+  if (state.phase === 'hunting' || state.phase === 'jumpscare') {
+    return [{ kind: 'say', text: 'The hunt is already on.' }];
+  }
+  if (eligiblePlayers(players).length === 0) {
+    return [{ kind: 'say', text: 'Nobody is in survival or adventure, so The Given has nobody to hunt.' }];
+  }
+  state.delivered = [];
+  return missionOver(state, players);
 }
 
 export function setTier(state: GameState, tier: Tier): Effect[] {
@@ -362,10 +378,10 @@ function caught(state: GameState, playerId: string, how: 'caught' | 'gone' | 'ex
   state.remaining = 0;
   const name = nameOf(state, playerId);
   const text = {
-    caught: `The eye caught ${name}!`,
+    caught: `The Given caught ${name}!`,
     gone: `${name} got away... this time. That counts as caught.`,
-    exempt: `${name} is not playing in survival, so the eye leaves them alone.`,
-    scared: `The eye got ${name}! BOO!`,
+    exempt: `${name} is not playing in survival, so The Given leaves them alone.`,
+    scared: `The Given got ${name}! BOO!`,
   }[how];
   return [{ kind: 'eye', eye: 'red' }, { kind: 'mode', mode: 'hunting' }, { kind: 'say', text }, { kind: 'save' }];
 }
@@ -439,7 +455,7 @@ function huntTick(state: GameState, dt: number, ctx: TickContext): Effect[] {
     state.target = pick.id;
     state.targetDimension = p?.dimension ?? null;
     state.heartbeat = 0;
-    effects.push({ kind: 'say', text: `The eye is hunting ${nameOf(state, pick.id)}. RUN!` }, { kind: 'save' });
+    effects.push({ kind: 'say', text: `The Given is hunting ${nameOf(state, pick.id)}. RUN!` }, { kind: 'save' });
   }
   const check = targetStillValid(state, ctx);
   if (!check.player) return [...effects, ...check.effects];
@@ -505,23 +521,23 @@ export function hudLine(state: GameState, playerId: string, eligible: boolean): 
   if (!state.hasSphere) return '';
   switch (state.phase) {
     case 'idle':
-      return `The eye is closed. Next item in ${formatTime(state.remaining)}`;
+      return `The Given's eye is closed. Next item in ${formatTime(state.remaining)}`;
     case 'mission': {
       const done = state.delivered.includes(playerId);
-      const status = !eligible ? 'just watching' : done ? 'you gave it!' : 'drop it on the eye';
+      const status = !eligible ? 'just watching' : done ? 'you gave it!' : 'drop it on The Given';
       return `${itemName(state.itemId)}  ${formatTime(state.remaining)}  (${status})`;
     }
     case 'hunting':
     case 'jumpscare':
-      if (state.target === playerId) return 'RUN! The eye is coming for YOU!';
-      return state.target ? `The eye is hunting ${nameOf(state, state.target)}!` : 'The eye is hunting...';
+      if (state.target === playerId) return 'RUN! The Given is coming for YOU!';
+      return state.target ? `The Given is hunting ${nameOf(state, state.target)}!` : 'The Given is hunting...';
   }
 }
 
 export function statusText(state: GameState, players: readonly PlayerView[]): string {
   const lines = [
     `given.jar: phase ${state.phase}, tier ${state.tier}, test mode ${state.testMode ? 'on' : 'off'}`,
-    `watcher: ${state.hasSphere ? 'summoned' : 'not summoned (use /given_jar:summon or the spawn egg)'}`,
+    `The Given: ${state.hasSphere ? 'summoned' : 'not summoned (use /given_jar:summon or the spawn egg)'}`,
   ];
   if (state.phase === 'mission') {
     const eligible = eligiblePlayers(players);

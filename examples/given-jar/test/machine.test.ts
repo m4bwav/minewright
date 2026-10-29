@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { CONFIG, durations } from '../src/config.ts';
 import { ITEMS } from '../src/items.ts';
 import {
+  attack,
   chooseTarget,
   createState,
   deliver,
@@ -189,6 +190,35 @@ describe('deliveries', () => {
     const w = new World([player('a')]);
     w.run(summon(w.state));
     assert.equal(deliver(w.state, player('a'), 'minecraft:apple').reason, 'no mission');
+  });
+});
+
+describe('attack', () => {
+  it('starts the hunt at once on everyone in survival, even with the eye closed, and turns the eye red', () => {
+    const w = new World([player('a'), player('b', 5), player('c', 9, 0, { eligible: false })]);
+    w.run(summon(w.state));
+    assert.equal(w.state.phase, 'idle');
+    w.run(attack(w.state, w.players));
+    assert.equal(w.state.phase, 'hunting');
+    assert.equal(eyeFor(w.state), 'red');
+    assert.equal(modeFor(w.state), 'hunting');
+    assert.deepEqual(w.state.failed, ['a', 'b']);
+    assert.ok(w.said(/turns red/));
+  });
+
+  it('does nothing during a hunt, with nobody to hunt, or before The Given is summoned', () => {
+    const w = new World([player('a')]);
+    w.run(summon(w.state));
+    w.run(attack(w.state, w.players));
+    assert.equal(attack(w.state, w.players)[0]?.kind, 'say');
+    assert.equal(w.state.phase, 'hunting');
+    const nobody = new World([player('a', 0, 0, { eligible: false })]);
+    nobody.run(summon(nobody.state));
+    nobody.run(attack(nobody.state, nobody.players));
+    assert.equal(nobody.state.phase, 'idle');
+    const empty = createState();
+    attack(empty, [player('a')]);
+    assert.equal(empty.phase, 'idle');
   });
 });
 
@@ -381,7 +411,7 @@ describe('totem: fake retreat then jump-scare', () => {
     assert.ok(scare.some((fx) => fx.kind === 'sound' && fx.to === 'a'));
     assert.equal(eyeFor(w.state), 'red');
     w.step(CONFIG.scareHoldSeconds + DT);
-    assert.ok(w.said(/The eye got A! BOO!/), 'counted as caught');
+    assert.ok(w.said(/The Given got A! BOO!/), 'counted as caught');
     w.step(DT);
     assert.equal(w.state.phase, 'idle');
     assert.equal(w.of('strike').length, 1, 'struck only once');
@@ -470,7 +500,7 @@ describe('HUD and status text', () => {
   it('tells each player what to do', () => {
     const w = new World([player('a'), player('b', 0, 0, { eligible: false })]);
     w.startMission();
-    assert.match(hudLine(w.state, 'a', true), /^Apple {2}\d+:\d\d {2}\(drop it on the eye\)$/);
+    assert.match(hudLine(w.state, 'a', true), /^Apple {2}\d+:\d\d {2}\(drop it on The Given\)$/);
     assert.match(hudLine(w.state, 'b', false), /just watching/);
     w.give('a');
     assert.match(hudLine(w.state, 'a', true), /you gave it/);
