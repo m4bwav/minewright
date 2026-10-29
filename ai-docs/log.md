@@ -13,3 +13,5 @@ Append-only. One line per operation: `## [YYYY-MM-DD] op | title` where op is on
 ## [2026-10-27] index | rebuilt (3 entries)
 ## [2026-10-27] handoff | 18 lines
 ## [2026-10-27] index | rebuilt (3 entries)
+## [2026-10-28] update | given.jar 0.1.1 released: bloodshot art, The Given, /given_jar:attack, CI 3.9 on ubuntu-24.04
+## [2026-10-28] handoff | 21 lines
