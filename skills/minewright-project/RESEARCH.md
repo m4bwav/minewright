@@ -7,7 +7,7 @@ Topic: Bedrock add-on project layout: BP and RP manifests, UUIDs, module depende
 ## Current understanding
 
 - Versions on 2026-10-27: Minecraft Bedrock 1.26.60 (`@minecraft/vanilla-data` latest 1.26.60); `@minecraft/server` 2.11.0 and `@minecraft/server-ui` 2.3.0 stable on npm. The Learn server-ui module page still says 2.2.0 (doc lag); Bedrock Dedicated Server 1.26.60.6 accepts 2.3.0 (verified), so npm wins.
-- Manifests in `Mojang/bedrock-samples` main: `format_version` 2 and `min_engine_version` `[1, 26, 50]` (one release behind the game).
+- Manifests in `Mojang/bedrock-samples` main: `format_version` 2 and `min_engine_version` `[1, 26, 60]` since v1.26.60.5 (2026-10-28); the skill keeps [1, 26, 50] as a wider floor.
 - Build: `@minecraft/core-build-tasks` 5.7.1 (Mojang/minecraft-scripting-libraries); the `ts-starter` sample lives in `microsoft/minecraft-scripting-samples`, last touched 2025-11-07, with caret ranges `^2.0.0`. `eslint-plugin-minecraft-linting` 2.0.13. Creator Tools 0.20.0 needs Node 22+.
 - Windows GDK path `%appdata%\Minecraft Bedrock\users\shared\games\com.mojang`; the UWP LocalState path is legacy. MCPE-227874: double-click import silently fails while the game runs (confirmed, GDK label, fix slated for Preview 1.26.70.20).
 - Consoles: Microsoft's install tutorial gives no local import for consoles, only "activate on Windows, upload to a Realm". Experimental Script APIs do not run on Realms.
@@ -51,6 +51,13 @@ Best sources: npm registry, Mojang GitHub, Microsoft Learn, mojira.dev for bugs.
 ## Findings log
 
 Newest first. One entry per material finding. `Track` is subject, tooling, practice, or testing.
+
+### R-20261030-1 · 2026-10-30 · Quiet: samples manifest moved to [1, 26, 60]
+- summary: bedrock-samples v1.26.60.5 (2026-10-28) raised `min_engine_version` in behavior_pack/manifest.json to [1, 26, 60]; the skill's [1, 26, 50] stays valid (a lower floor loads on more clients). npm: @minecraft/server 2.11.0 and server-ui 2.3.0 still latest (betas 2.12.0-beta / 2.4.0-beta for 1.26.61); core-build-tasks 5.7.1, eslint-plugin-minecraft-linting 2.0.13, creator-tools 0.20.0 unchanged. MCPE-227874 still Confirmed. Tooling, practice, testing: nothing new. Known failing case decoy-2 (listing budget) unchanged; not touched.
+- track: subject (tooling, practice, testing quiet)
+- sources: https://github.com/Mojang/bedrock-samples/blob/main/behavior_pack/manifest.json, https://registry.npmjs.org/@minecraft/server, https://mojira.dev/MCPE-227874 (checked 2026-10-30)
+- magnitude: 0.15
+- applied: none (RESEARCH.md only)
 
 ### R-20261027-7 · 2026-10-27 · Testing: the example add-on's npm scripts
 - summary: In examples/given-jar with Node 24.18 and npm 11.16: npm ci (117 packages; allow-scripts warning for esbuild, build unaffected), typecheck pass, lint pass, node --test test/*.test.ts 40 of 40 pass, esbuild bundle 47.1 KB, pack wrote dist/given-jar-0.1.0.mcaddon (19 files, 388 KB). Confirms the Step 3 scripts and the --external:@minecraft/* wildcard.

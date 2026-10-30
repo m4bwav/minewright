@@ -6,7 +6,7 @@ Topic: Bedrock HUD and UI for add-ons: JSON UI hud_screen, Ore UI risk, title an
 
 ## Current understanding
 
-- `hud_screen.json` is still JSON UI in Mojang's samples (commit for 1.26.50.4, 2026-09-16), so resource packs can still change the HUD today.
+- `hud_screen.json` is still JSON UI in Mojang's samples (commit for v1.26.60.5, 2026-10-28; the hotbar was restructured there, R-20261030-1), so resource packs can still change the HUD today.
 - wiki.bedrock.dev (community) warns JSON UI is being deprecated for Ore UI, which packs cannot modify, and that JSON UI add-ons will eventually break. No Mojang statement or timeline was found. Feedback-site threads (user posts) say the hotbar selector moved to Ore UI. Emojis are not supported on Ore UI screens.
 - Patterns: Preserve Title Texts (hidden `data_control`, `#hud_title_text_string`, `binding_condition: "visibility_changed"`); string to number with `0 + #str`; `anim_type` offset, alpha and size with from, to, duration, easing, play_event, end_event, as used in Mojang's `ui_common.json` and the HUD's own item-name popup.
 - No JSON UI control renders an item by id; the hotbar uses a hard-coded `custom` renderer. Custom glyph sheets (`font/glyph_E0.png` to `glyph_F8.png`, 16 by 16 cells) are documented only by the community wiki, as not officially supported.
@@ -50,6 +50,13 @@ Best sources: Mojang/bedrock-samples, wiki.bedrock.dev, Microsoft Learn. Noisy: 
 ## Findings log
 
 Newest first. One entry per material finding. `Track` is subject, tooling, practice, or testing.
+
+### R-20261030-1 · 2026-10-30 · Subject: 1.26.60 restructured the JSON UI hotbar
+- summary: bedrock-samples v1.26.60.5 (2026-10-28) still ships hud_screen.json as JSON UI, but the hotbar changed: a new `hotbar_slots_renderer` (`custom` renderer, width 0, paints the slots itself) and `hud.hotbar_grid` now sit inside a new `hotbar_grid_frame` panel, and the old `hotbar_renderer@hotbar_renderer` child was removed. Paper doll and chat panels gained `#editor_chat_layout_active` view bindings. Packs that override `hotbar_grid`, `hotbar_renderer` or the hotbar's parent controls by path need re-checking against 1.26.60. No Mojang Ore UI statement since 10-27; server-ui 2.3.0 still latest (2.4.0 beta). Tooling, practice, testing: nothing new.
+- track: subject (tooling, practice, testing quiet)
+- sources: https://github.com/Mojang/bedrock-samples/commits/main/resource_pack/ui/hud_screen.json (diff of the last two commits, checked 2026-10-30), https://registry.npmjs.org/@minecraft/server-ui
+- magnitude: 0.4 (recommendation changed: re-check hotbar overrides)
+- applied: C-20261030-1
 
 ### R-20261027-7 · 2026-10-27 · Testing: BDS gives no evidence for resource-pack work
 - summary: Two BDS 1.26.60.6 runs (the fixture and the example) listed only the behavior pack in Pack Stack and never reported a resource-pack line, though both shipped one (the example with a JSON UI hud_screen.json). Applied to Step 6: HUD work is proven only in the game.
