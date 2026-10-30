@@ -22,4 +22,4 @@
 - Creator Tools only via npx; Linux BDS and Realms untested.
 
 ## Next single action
-Merge Dependabot #2 once rebased and green. Then housekeeping: refresh the evergreen plugin and comfyui-gen research; commit the two everlast-setup learnings.
+Housekeeping done 2026-10-30: everlast-setup learnings moved to m4bwav/everlast (PR #21); evergreen-protocol refresh PR #35 and comfyui-gen refresh PR #101 merged (claims due again 2026-11-02). Nothing owed for minewright unless the owner reports a miss; optional items are under Owed.
