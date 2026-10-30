@@ -1,0 +1,20 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "minewright fixture RP",
+    "description": "Test fixture for minewright's mw_check.py and bds_run.py",
+    "uuid": "e19f4845-e13e-4539-a33f-efa0b1f93573",
+    "version": [1, 0, 0],
+    "min_engine_version": [1, 26, 50]
+  },
+  "modules": [
+    {
+      "type": "resources",
+      "uuid": "d497e0e3-b5e0-49e9-bc72-1ad5480416f3",
+      "version": [1, 0, 0]
+    }
+  ],
+  "dependencies": [
+    { "uuid": "6f7e6e2d-5fe9-482e-9bf8-0e647d4658a7", "version": [1, 0, 0] }
+  ]
+}

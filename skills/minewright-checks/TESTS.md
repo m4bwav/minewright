@@ -8,6 +8,12 @@ Entry shape: `### T-YYYYMMDD-n · date · harness · env · passed/total`, then 
 
 ## Runs
 
+### T-20261030-1 · 2026-10-30 · evergreen.py worth --ab (claude -p stream-json, Claude Code 2.1.281, 3 runs per arm, SLASH_COMMAND_TOOL_CHAR_BUDGET=400000) · Windows dev machine · 1/1
+- outcome-1, first try: the case had no fixture, so the run folder was empty and every run answered "nothing to check" (harness/case defect, not the skill). Gave it `fixture: addon-ts` (evals/fixtures/addon-ts: the test add-on plus package.json, tsconfig, eslint config, src/main.ts, so typescript, lint and test skip on missing node_modules) and the prompt "in this folder".
+- Second try: all 3 skill runs ran mw_check.py and said "isn't verified yet", skips unchecked, run npm ci; the old regex wanted the literal "not verified" and failed them. Widened the regex; regraded by hand: with 3/3 on trace + regex.
+- Baseline contaminated: all 3 without-arm runs found the skill junction in ~/.claude/skills by Bash, read SKILL.md and ran mw_check.py (3/3 pass). Not a clean ablation; worth's CUT verdict on this case is not meaningful.
+- led to: L in LEARNINGS.md (without-arm reads installed skills)
+
 ### T-20261027-3 · 2026-10-27 · claude -p headless (Claude Code 2.1.281, stream-json, bypassPermissions), one run per case, trigger results via headless main loop · Windows dev machine, about 154 skills installed (116 listed name-only) · 5/6
 - Re-ran outcome-1 after C-20261027-3 (description adds 'checks were skipped, is it verified'), worktree skills swapped in. r1 default listing: no Skill call, regex pass ("it doesn't count as a pass"). r2 listing budget raised so the description was visible: still no Skill call; the answer named node_modules, npm install and a BDS run, but never said a skip is not a pass, regex miss. Two tuning steps used; left failing.
 - outcome-1 · outcome · undertrigger · the skill was not invoked in any of three runs, even with its description listed; the question is answerable from the description alone

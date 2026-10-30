@@ -53,3 +53,9 @@ Write an entry the moment a real signal happens: a user correction, the same err
 - Evidence: T-20261027-3; C-20261027-3
 - Scope: skill
 - Status: active · helpful 0 · harmful 0 · last_confirmed 2026-10-27
+
+### L · 2026-10-30 · the no-skill arm still finds the skill on disk
+- Trigger: T-20261030-1 outcome-1. All three `worth --ab` without-arm runs listed `~/.claude/skills`, found the minewright-checks junction, read SKILL.md and ran mw_check.py.
+- Hypothesis: on a machine where the skill is installed as a junction, a baseline with Bash is never skill-free; the `--setting-sources project` isolation only hides the listing.
+- Rule: treat baselines from this machine as contaminated when the trace touches `.claude/skills`; for a clean baseline run in a throwaway home (`claude plugin eval`, which needs WSL2 here for Bash cases) or with the junction temporarily absent.
+- Evidence: T-20261030-1 (scratch results ck2, without-1..3)

@@ -22,6 +22,7 @@ HOME_PATH = re.compile(r"(?i)\b[a-z]:[\\/]+users[\\/]+(?!<)[a-z0-9._-]+|/home/(?
 ATTRIBUTION = re.compile(r"(?i)co-authored-by:|generated with (claude|chatgpt|copilot)|written by (claude|an ai)")
 # Bedrock pack JSON may carry comments; these folders hold add-ons, so their JSON is parsed after stripping.
 PACK_ROOTS = (os.path.join(ROOT, "tests", "fixtures"), os.path.join(ROOT, "examples"))
+PACK_PARTS = (os.sep + os.path.join("evals", "fixtures") + os.sep,)  # eval fixtures inside skills
 
 problems = []
 
@@ -132,7 +133,7 @@ def check_json():
         if f.endswith(".json"):
             try:
                 text = open(f, encoding="utf-8-sig").read()
-                if f.startswith(PACK_ROOTS):
+                if f.startswith(PACK_ROOTS) or any(p in f for p in PACK_PARTS):
                     text = strip_comments(text)
                 json.loads(text)
             except ValueError as e:

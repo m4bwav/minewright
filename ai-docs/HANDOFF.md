@@ -13,12 +13,13 @@
 - 2026-10-29: 0.1.1 tested in game by the owner (looked good) and posted on CurseForge, project 1773067 (Minecraft Bedrock, Addons; file tagged 26.50, the newest CurseForge lists). Approved and public by 2026-10-30: https://www.curseforge.com/minecraft-bedrock/addons/the-given-given-jar (3 downloads at first check); linked from both READMEs, LISTING.md and the wiki. Process: skills/minewright-project/references/publishing.md; stage files with examples/given-jar/scripts/listing.py; page text in examples/given-jar/listing/LISTING.md.
 
 - 2026-10-30: family playtest of 0.1.1 passed; the owner reports "it works great", no misses to fix.
+- 2026-10-30: owed evals re-run (T-20261030-1 in both skills' TESTS.md): workflow action-1 3/3 with, 0/3 without (KEEP); checks outcome-1 now has fixture addon-ts and a wider regex, 3/3 with. Dependabot @types/node 26 and eslint 10 merged (#4, #3); #2 (@eslint/js 10) asked to rebase.
 
 ## Owed
 - MCPEDL as a second home only if the owner wants it. New CurseForge files go through moderation (publishing.md).
 - Known: eye_red's pupil sits about (66,69) of 128, so the iris cube crop is a few pixels off on the hunt eye (ART.md).
-- Eval re-runs with three runs per case (workflow action-1, checks outcome-1, baselines); trigger results skewed by about 154 installed skills.
+- Clean baselines: on this machine the no-skill arm finds the skill junctions in ~/.claude/skills (checks LEARNINGS 2026-10-30); a clean one needs `claude plugin eval` (WSL2 for Bash cases) or the junction removed for the run.
 - Creator Tools only via npx; Linux BDS and Realms untested.
 
 ## Next single action
-None from the playtest. Next: eval re-runs (three runs per case), then housekeeping (Dependabot failure, leftover worktree folders).
+Merge Dependabot #2 once rebased and green. Then housekeeping: refresh the evergreen plugin and comfyui-gen research; commit the two everlast-setup learnings.
