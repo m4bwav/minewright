@@ -4,7 +4,7 @@ Text and files for CurseForge (Minecraft Bedrock > Addons) and, optionally, MCPE
 
 Files: run `python scripts/listing.py` to copy the `.mcaddon` and images here (they are gitignored). Upload `given-jar-<version>.mcaddon`; `icon.png` is the project logo; `hero.jpg`, `eye-calm.png`, `eye-hunt.png` are the gallery.
 
-Live page: https://www.curseforge.com/minecraft-bedrock (project 1773067, submitted 2026-10-29, waiting for moderation).
+Live page: https://www.curseforge.com/minecraft-bedrock/addons/the-given-given-jar (project 1773067, submitted 2026-10-29, approved and public by 2026-10-30).
 
 ## Title
 The Given (given.jar)

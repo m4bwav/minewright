@@ -6,6 +6,7 @@ copy and drop it on the sphere before the clock runs out. If everyone delivers, 
 asks again. If someone does not, the whites of the eye turn blood red and The Given flies through walls to catch them, one player at a
 time.
 
+- Download: [CurseForge](https://www.curseforge.com/minecraft-bedrock/addons/the-given-given-jar) or the [GitHub release](https://github.com/m4bwav/minewright/releases/latest)
 - Players: [HOW-TO-PLAY.md](HOW-TO-PLAY.md) (one page)
 - Install on Windows: [INSTALL.md](INSTALL.md)
 - Manual test checklist: [PLAYTEST.md](PLAYTEST.md)
