@@ -29,7 +29,7 @@ player.onScreenDisplay.setActionBar("Diamond  29:41");
 
 JSON UI is the resource-pack UI language. `hud_screen.json` is still JSON UI in Mojang's current samples (updated for 1.26.50), so a pack can still restyle the HUD. But:
 
-- The community wiki warns that JSON UI is being replaced by Ore UI, which resource packs cannot modify, and that JSON UI add-ons will eventually break. Mojang has published no timeline. The hotbar selector has already moved to Ore UI (per community feedback threads).
+- The community wiki warns that JSON UI is being replaced by Ore UI, which resource packs cannot modify, and that JSON UI add-ons will eventually break. Mojang has published no timeline. The hotbar selector has already moved to Ore UI (per community feedback threads). In 1.26.60 (bedrock-samples v1.26.60.5) the JSON UI hotbar was restructured: slots are painted by a new `hotbar_slots_renderer` custom control, `hotbar_grid` sits inside a new `hotbar_grid_frame`, and the old `hotbar_renderer` child is gone, so re-check any pack that overrides hotbar controls by name.
 - Emojis and custom glyphs do not render on Ore UI screens.
 - So: JSON UI only for polish, only on the HUD, and always over the vanilla layer of Step 1. Tell the user this risk in one line before writing it.
 

@@ -20,3 +20,5 @@ Append-only. One line per operation: `## [YYYY-MM-DD] op | title` where op is on
 ## [2026-10-30] verify | eval re-runs T-20261030-1: workflow action-1 3/3 (KEEP); checks outcome-1 fixture + regex fixed, 3/3, baseline contaminated
 ## [2026-10-30] update | merged Dependabot #3 #4; leftover worktree folders removed
 ## [2026-10-30] handoff | evals done
+
+- 2026-10-30: evergreen refresh of minewright units (see RESEARCH R-20261030-1); next due recorded in evergreen.json.

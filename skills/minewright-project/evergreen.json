@@ -14,13 +14,13 @@
   "topic": "Bedrock add-on project layout: BP and RP manifests, UUIDs, module dependencies, TypeScript build with esbuild, .mcaddon packaging, install per platform",
   "tier": "fast",
   "interval_days": 3,
-  "last_checked": "2026-10-27",
-  "next_due": "2026-10-30",
+  "last_checked": "2026-10-30",
+  "next_due": "2026-11-02",
   "verify_at_use": false,
   "volatile_claims": [
     "@minecraft/server stable 2.11.0",
     "@minecraft/server-ui stable 2.3.0",
-    "min_engine_version [1, 26, 50] in bedrock-samples",
+    "min_engine_version [1, 26, 60] in bedrock-samples (skill uses 1.26.50)",
     "@minecraft/core-build-tasks 5.7.1",
     "eslint-plugin-minecraft-linting 2.0.13",
     "Windows GDK com.mojang path",
@@ -31,7 +31,7 @@
   "events": [],
   "streak": {
     "quiet": 0,
-    "pinned_min": 1,
+    "pinned_min": 0,
     "pinned_max": 0,
     "vau_quiet": 0
   },
@@ -47,12 +47,18 @@
       "m": 0.4,
       "interval_after": 3,
       "note": "given.jar findings folded in; contradiction fixed in C-20261027-2, cleared"
+    },
+    {
+      "date": "2026-10-30",
+      "m": 0.15,
+      "interval_after": 3,
+      "note": "quiet 2026-10-30: samples min_engine [1,26,60], npm versions unchanged, MCPE-227874 Confirmed; decoy-2 still failing (untouched); cost: searches 1 · fetches 0 · tool calls 6"
     }
   ],
   "counts": {
     "learnings": 9,
     "changes": 3,
-    "research": 7,
+    "research": 8,
     "tests": 3
   },
   "consolidate_every": 25,

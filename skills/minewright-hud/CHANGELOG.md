@@ -4,6 +4,11 @@ Every change to [SKILL.md](SKILL.md) and its companions, newest first, each with
 
 Entry shape: `### C-YYYYMMDD-n · date · one-line summary`, then `because:` (IDs or "user request"), `files:` (file and section), and a sentence on what changed. Cite section headings, not line numbers.
 
+### C-20261030-1 · 2026-10-30 · 1.26.60 hotbar restructure noted
+- because: R-20261030-1
+- files: SKILL.md (Ore UI risk paragraph), RESEARCH.md (Current understanding)
+- Names the new hotbar_slots_renderer and hotbar_grid_frame and says hotbar overrides must be re-checked.
+
 ### C-20261027-4 · 2026-10-27 · Prefix example matches the code: gj_item:
 - because: wiki verification run 2026-10-27 (ai-docs note), L-001
 - files: SKILL.md Step 3
