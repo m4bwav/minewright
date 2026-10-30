@@ -1,0 +1,13 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "fixture:dummy",
+      "materials": { "default": "entity_alphatest" },
+      "textures": { "default": "textures/entity/dummy" },
+      "geometry": { "default": "geometry.fixture.dummy" },
+      "render_controllers": ["controller.render.fixture_dummy"],
+      "spawn_egg": { "base_color": "#281e3c", "overlay_color": "#ffffff" }
+    }
+  }
+}

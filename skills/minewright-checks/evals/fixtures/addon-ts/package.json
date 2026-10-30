@@ -1,0 +1,7 @@
+{
+  "name": "fixture-addon",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": { "build": "tsc", "test": "node --test" },
+  "devDependencies": { "typescript": "^5.9.3", "eslint": "^9.39.5" }
+}

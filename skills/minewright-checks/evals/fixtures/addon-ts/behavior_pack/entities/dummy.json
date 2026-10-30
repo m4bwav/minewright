@@ -1,0 +1,19 @@
+{
+  "format_version": "1.21.0",
+  // Bedrock tolerates comments in pack JSON; mw_check.py strips them before parsing.
+  "minecraft:entity": {
+    "description": {
+      "identifier": "fixture:dummy",
+      "is_spawnable": true,
+      "is_summonable": true,
+      "is_experimental": false
+    },
+    "components": {
+      "minecraft:type_family": { "family": ["fixture", "inanimate"] },
+      "minecraft:collision_box": { "width": 0.8, "height": 0.8 },
+      "minecraft:health": { "value": 10, "max": 10 },
+      "minecraft:physics": { "has_gravity": false },
+      "minecraft:pushable": { "is_pushable": false, "is_pushable_by_piston": false }
+    }
+  }
+}

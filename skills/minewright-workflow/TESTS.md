@@ -8,6 +8,10 @@ Entry shape: `### T-YYYYMMDD-n · date · harness · env · passed/total`, then 
 
 ## Runs
 
+### T-20261030-1 · 2026-10-30 · evergreen.py worth --ab (claude -p stream-json, Claude Code 2.1.281, 3 runs per arm, SLASH_COMMAND_TOOL_CHAR_BUDGET=400000) · Windows dev machine · 1/1
+- action-1 only (owed since C-20261027-4): with the skill 3/3 pass (docs/ONE-PAGER.md written, skill fired), without 0/3. Verdict KEEP, +100 points at 0.77x the cost. Judge: file evidence, no llm grader. Untested elsewhere.
+- led to: none
+
 ### T-20261027-3 · 2026-10-27 · claude -p headless (Claude Code 2.1.281, stream-json, bypassPermissions), one run per case, trigger results via headless main loop · Windows dev machine, about 154 skills installed (116 listed name-only) · 3/6
 - Re-ran the two trigger failures after C-20261027-3 (description routed .mcaddon to minewright-project, added 'is this API real or current'), worktree skills swapped in for the run. Default listing (r1): trigger-2 and decoy-1 failed again. With the listing budget raised (r2, diagnostic, not this machine's default): trigger-2 invoked minewright-workflow, decoy-1 invoked minewright-project only. Both pass when descriptions are visible.
 - trigger-2 · trigger · environment · default listing: answered from memory ("I didn't check the current docs"), no Skill call; passes with descriptions visible

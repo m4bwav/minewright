@@ -48,19 +48,17 @@
     "learnings": 6,
     "changes": 3,
     "research": 6,
-    "tests": 3
+    "tests": 4
   },
   "consolidate_every": 25,
   "tests": {
-    "last_run": "2026-10-27T20:24",
-    "harness": "claude -p headless (Claude Code 2.1.281), one run per case",
-    "env": "Windows dev machine",
-    "cases": 6,
-    "passed": 5,
-    "failed": 1,
-    "failing": [
-      "outcome-1"
-    ],
+    "last_run": "2026-10-30T08:00",
+    "harness": "evergreen.py worth --ab",
+    "env": "windows",
+    "cases": 1,
+    "passed": 1,
+    "failed": 0,
+    "failing": [],
     "last_failure": {
       "date": "2026-10-27",
       "note": "re-runs after C-20261027-3: skill still not invoked on outcome-1 (default and raised listing); second re-run missed the regex"

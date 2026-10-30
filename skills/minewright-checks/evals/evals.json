@@ -58,17 +58,17 @@
     {
       "id": "outcome-1",
       "kind": "outcome",
-      "prompt": "Check the add-on in tests/fixtures/addon (I haven't run npm install) and tell me if it's verified.",
+      "prompt": "Check the add-on in this folder (I haven't run npm install yet) and tell me if it's verified.",
       "expectations": [
         "runs mw_check.py (trace evidence) and says the typescript/lint/test checks that skipped are not passes, naming npm ci and the server self-test still owed",
-        "regex on the answer: (?i)(skip.{0,80}(not|n't).{0,20}pass|not a pass|not verified)"
+        "regex on the answer: (?i)(skip.{0,80}(not|n't).{0,20}pass|not a pass|(not|n't|isn't|is not) (yet |fully )?verified|unchecked|partly checked|half the checks)"
       ],
       "evidence": {
         "type": "trace",
         "tool": "Bash|PowerShell",
         "input_match": "mw_check\\.py"
       },
-      "baseline": "rewritten 2026-10-27 (C-20261027-4): the old pure-question prompt passed without the skill (redundant); baseline for this prompt not yet run",
+      "baseline": "2026-10-30 (T-20261030-1, worth --ab, 3 runs, old prompt): fail 0/3 without; the run folder was empty because the case had no fixture, so both arms answered 'nothing to check'. Re-baselined below with fixture addon-ts.",
       "runs": 3,
       "tools": [
         "Read",
@@ -77,7 +77,8 @@
         "Bash",
         "WebFetch"
       ],
-      "max_turns": 12
+      "max_turns": 12,
+      "fixture": "addon-ts"
     }
   ]
 }
