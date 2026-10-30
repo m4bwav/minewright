@@ -23,7 +23,7 @@
     "@minecraft/vanilla-data": "1.26.60",
     "@types/node": "26.6.5",
     "esbuild": "0.28.2",
-    "eslint": "9.39.5",
+    "eslint": "10.13.0",
     "eslint-plugin-minecraft-linting": "2.0.13",
     "typescript": "5.9.3",
     "typescript-eslint": "8.72.1"
