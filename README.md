@@ -123,7 +123,8 @@ What it shows:
 Read next: [README](examples/given-jar/README.md) (rules and commands), [HOW-TO-PLAY](examples/given-jar/HOW-TO-PLAY.md)
 (one page for players), [INSTALL](examples/given-jar/INSTALL.md) (Windows) and [PLAYTEST](examples/given-jar/PLAYTEST.md)
 (the manual checklist). Building it taught the skills 24 lessons; they are in each skill's `LEARNINGS.md` and
-`CHANGELOG.md` (2026-10-27). Tagged releases attach its `.mcaddon`.
+`CHANGELOG.md` (2026-10-27). Tagged releases attach its `.mcaddon`, and players can download it from
+CurseForge: [The Given (given.jar)](https://www.curseforge.com/minecraft-bedrock/addons/the-given-given-jar).
 
 ## Testing
 

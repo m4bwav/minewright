@@ -10,13 +10,13 @@
 - Wiki updated for 0.1.1 (Given-Jar-Example page). How it was made: [notes/2026-10-27-github-wiki.md](notes/2026-10-27-github-wiki.md).
 - Decisions: [namespace and public layout](decisions/2026-10-27-given-jar-example-namespace-and-public-layout.md), [stable APIs and the BDS self-test](decisions/2026-10-27-stable-apis-only-bds-scriptevent-self-test-instead-of-gamete.md).
 
-- 2026-10-29: 0.1.1 tested in game by the owner (looked good) and posted on CurseForge, project 1773067 (Minecraft Bedrock, Addons; file tagged 26.50, the newest CurseForge lists). Waiting for moderation. Process: skills/minewright-project/references/publishing.md; stage files with examples/given-jar/scripts/listing.py; page text in examples/given-jar/listing/LISTING.md.
+- 2026-10-29: 0.1.1 tested in game by the owner (looked good) and posted on CurseForge, project 1773067 (Minecraft Bedrock, Addons; file tagged 26.50, the newest CurseForge lists). Approved and public by 2026-10-30: https://www.curseforge.com/minecraft-bedrock/addons/the-given-given-jar (3 downloads at first check); linked from both READMEs, LISTING.md and the wiki. Process: skills/minewright-project/references/publishing.md; stage files with examples/given-jar/scripts/listing.py; page text in examples/given-jar/listing/LISTING.md.
 
 ## Owed
-- Check CurseForge moderation; when approved, add the public page link to the README, wiki and LISTING.md. MCPEDL as a second home only if the owner wants it.
+- MCPEDL as a second home only if the owner wants it. New CurseForge files go through moderation (publishing.md).
 - Known: eye_red's pupil sits about (66,69) of 128, so the iris cube crop is a few pixels off on the hunt eye (ART.md).
 - Eval re-runs with three runs per case (workflow action-1, checks outcome-1, baselines); trigger results skewed by about 154 installed skills.
 - Creator Tools only via npx; Linux BDS and Realms untested.
 
 ## Next single action
-Check the CurseForge moderation status; then playtest misses into skill learnings.
+Playtest misses (PLAYTEST.md unseen items) into skill learnings.
