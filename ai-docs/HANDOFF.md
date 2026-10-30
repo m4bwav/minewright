@@ -12,6 +12,8 @@
 
 - 2026-10-29: 0.1.1 tested in game by the owner (looked good) and posted on CurseForge, project 1773067 (Minecraft Bedrock, Addons; file tagged 26.50, the newest CurseForge lists). Approved and public by 2026-10-30: https://www.curseforge.com/minecraft-bedrock/addons/the-given-given-jar (3 downloads at first check); linked from both READMEs, LISTING.md and the wiki. Process: skills/minewright-project/references/publishing.md; stage files with examples/given-jar/scripts/listing.py; page text in examples/given-jar/listing/LISTING.md.
 
+- 2026-10-30: family playtest of 0.1.1 passed; the owner reports "it works great", no misses to fix.
+
 ## Owed
 - MCPEDL as a second home only if the owner wants it. New CurseForge files go through moderation (publishing.md).
 - Known: eye_red's pupil sits about (66,69) of 128, so the iris cube crop is a few pixels off on the hunt eye (ART.md).
@@ -19,4 +21,4 @@
 - Creator Tools only via npx; Linux BDS and Realms untested.
 
 ## Next single action
-Playtest misses (PLAYTEST.md unseen items) into skill learnings.
+None from the playtest. Next: eval re-runs (three runs per case), then housekeeping (Dependabot failure, leftover worktree folders).
