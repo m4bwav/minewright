@@ -52,6 +52,13 @@ Best sources: npm registry, Mojang GitHub, Microsoft Learn, mojira.dev for bugs.
 
 Newest first. One entry per material finding. `Track` is subject, tooling, practice, or testing.
 
+### R-20261103-1 · 2026-11-03 · Quiet: pins hold; 2.12.0/2.4.0 in rc for 1.26.70
+- Summary: npm latest unchanged (`@minecraft/server` 2.11.0, `server-ui` 2.3.0, `core-build-tasks` 5.7.1); rc tags server 2.12.0-rc.1.26.70-preview.23, server-ui 2.4.0-rc. bedrock-protocol-docs tagged v1.26.60 on 2026-10-27, so the skill's 1.26.50 min_engine_version is one release behind but valid. The failing trigger decoy (T-20261027-3 decoy-2, Paper plugin prompt) is a listing-budget issue with ~154 skills, not a version change. Tooling, practice, testing: nothing new.
+- Track: subject, testing
+- Sources: https://registry.npmjs.org/@minecraft/server, https://github.com/Mojang/bedrock-protocol-docs/releases/tag/v1.26.60
+- Magnitude: 0.2
+- applied: none (note)
+
 ### R-20261030-1 · 2026-10-30 · Quiet: samples manifest moved to [1, 26, 60]
 - summary: bedrock-samples v1.26.60.5 (2026-10-28) raised `min_engine_version` in behavior_pack/manifest.json to [1, 26, 60]; the skill's [1, 26, 50] stays valid (a lower floor loads on more clients). npm: @minecraft/server 2.11.0 and server-ui 2.3.0 still latest (betas 2.12.0-beta / 2.4.0-beta for 1.26.61); core-build-tasks 5.7.1, eslint-plugin-minecraft-linting 2.0.13, creator-tools 0.20.0 unchanged. MCPE-227874 still Confirmed. Tooling, practice, testing: nothing new. Known failing case decoy-2 (listing budget) unchanged; not touched.
 - track: subject (tooling, practice, testing quiet)
