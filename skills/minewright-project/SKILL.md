@@ -32,7 +32,7 @@ Behavior pack `manifest.json` (current numbers checked 2026-10-27; re-check befo
 {
   "format_version": 2,
   "header": { "name": "pack.name", "description": "pack.description", "uuid": "<new>",
-              "version": [1, 0, 0], "min_engine_version": [1, 26, 50] },
+              "version": [1, 0, 0], "min_engine_version": [1, 26, 60] },
   "modules": [
     { "type": "data", "uuid": "<new>", "version": [1, 0, 0] },
     { "type": "script", "language": "javascript", "uuid": "<new>", "version": [1, 0, 0], "entry": "scripts/main.js" }
@@ -47,7 +47,7 @@ Behavior pack `manifest.json` (current numbers checked 2026-10-27; re-check befo
 
 - Every UUID is new (`python -c "import uuid; print(uuid.uuid4())"`) and used once: a UUID shared by two packs or modules can stop one of them loading.
 - Resource pack: one `resources` module, and a dependency on the behavior pack header UUID so they travel together.
-- `min_engine_version` `[1, 26, 50]` is what Mojang's own samples use today. Do not set it above the oldest game version your players have.
+- `min_engine_version` `[1, 26, 60]` is what Mojang's own samples (`Mojang/bedrock-samples` behavior_pack manifest) use today. Do not set it above the oldest game version your players have.
 - Module versions are plain strings. Bedrock Dedicated Server 1.26.60.6 accepts `@minecraft/server` 0.1.0, 1.19.0, 2.11.0, 2.12.0-beta and 3.0.0-alpha, and `@minecraft/server-ui` 0.1.0, 1.3.0, 2.3.0, 2.4.0-beta and 3.0.0-alpha (listed in its error when asked for a version it lacks). Use the stable one; `-beta` needs the Beta APIs experiment (minewright-workflow Step 3).
 - Bump `header.version` on every release you hand out, or a device that already has that version may keep its cached copy.
 

@@ -4,6 +4,11 @@ Every change to [SKILL.md](SKILL.md) and its companions, newest first, each with
 
 Entry shape: `### C-YYYYMMDD-n · date · one-line summary`, then `because:` (IDs or "user request"), `files:` (file and section), and a sentence on what changed. Cite section headings, not line numbers.
 
+### C-20261103-1 · 2026-11-03 · min_engine_version 1.26.60
+because: user request; Mojang/bedrock-samples behavior_pack manifest now uses [1, 26, 60] (follow-up to R-20261103-1)
+files: SKILL.md (Step 2 manifest example and its notes)
+The manifest example and the version note now say [1, 26, 60]. Examples and fixtures stay at 1.26.50, which still loads.
+
 ### C-20261029-1 · 2026-10-29 · Step 6: publish on CurseForge
 - because: user request; L-010, R-20261029-1
 - files: SKILL.md Step 6 (new); references/publishing.md (new); examples/given-jar/scripts/listing.py (new)
