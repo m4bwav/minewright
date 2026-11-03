@@ -51,6 +51,13 @@ Best sources: Mojang/bedrock-samples, wiki.bedrock.dev, Microsoft Learn. Noisy: 
 
 Newest first. One entry per material finding. `Track` is subject, tooling, practice, or testing.
 
+### R-20261103-1 · 2026-11-03 · Quiet: HUD still JSON UI; server-ui 2.4.0 at rc
+- Summary: no `hud_screen.json` commit in bedrock-samples since v1.26.60.5 (2026-10-28); no Mojang Ore UI statement. `@minecraft/server-ui` latest still 2.3.0, rc 2.4.0-rc.1.26.70-preview.23, beta 2.5.0 (2.4.0 likely stable with 1.26.70). Tooling: TanerTalas/codecraft, an unofficial read-only Bedrock MCP server with `validate_json` (Blockception schemas), no evidence it covers JSON UI; note only. Practice: nothing new. Testing: nothing new.
+- Track: subject, tooling
+- Sources: https://github.com/Mojang/bedrock-samples/commits/main/resource_pack/ui/hud_screen.json, https://registry.npmjs.org/@minecraft/server-ui, https://github.com/TanerTalas/codecraft
+- Magnitude: 0.15
+- applied: none (note)
+
 ### R-20261030-1 · 2026-10-30 · Subject: 1.26.60 restructured the JSON UI hotbar
 - summary: bedrock-samples v1.26.60.5 (2026-10-28) still ships hud_screen.json as JSON UI, but the hotbar changed: a new `hotbar_slots_renderer` (`custom` renderer, width 0, paints the slots itself) and `hud.hotbar_grid` now sit inside a new `hotbar_grid_frame` panel, and the old `hotbar_renderer@hotbar_renderer` child was removed. Paper doll and chat panels gained `#editor_chat_layout_active` view bindings. Packs that override `hotbar_grid`, `hotbar_renderer` or the hotbar's parent controls by path need re-checking against 1.26.60. No Mojang Ore UI statement since 10-27; server-ui 2.3.0 still latest (2.4.0 beta). Tooling, practice, testing: nothing new.
 - track: subject (tooling, practice, testing quiet)
