@@ -7,7 +7,7 @@ Topic: Bedrock add-on project layout: BP and RP manifests, UUIDs, module depende
 ## Current understanding
 
 - Versions on 2026-10-27: Minecraft Bedrock 1.26.60 (`@minecraft/vanilla-data` latest 1.26.60); `@minecraft/server` 2.11.0 and `@minecraft/server-ui` 2.3.0 stable on npm. The Learn server-ui module page still says 2.2.0 (doc lag); Bedrock Dedicated Server 1.26.60.6 accepts 2.3.0 (verified), so npm wins.
-- Manifests in `Mojang/bedrock-samples` main: `format_version` 2 and `min_engine_version` `[1, 26, 60]` since v1.26.60.5 (2026-10-28); the skill keeps [1, 26, 50] as a wider floor.
+- Manifests in `Mojang/bedrock-samples` main: `format_version` 2 and `min_engine_version` `[1, 26, 60]` since v1.26.60.5 (2026-10-28); the skill uses [1, 26, 60] since C-20261103-1, as a wider floor.
 - Build: `@minecraft/core-build-tasks` 5.7.1 (Mojang/minecraft-scripting-libraries); the `ts-starter` sample lives in `microsoft/minecraft-scripting-samples`, last touched 2025-11-07, with caret ranges `^2.0.0`. `eslint-plugin-minecraft-linting` 2.0.13. Creator Tools 0.20.0 needs Node 22+.
 - Windows GDK path `%appdata%\Minecraft Bedrock\users\shared\games\com.mojang`; the UWP LocalState path is legacy. MCPE-227874: double-click import silently fails while the game runs (confirmed, GDK label, fix slated for Preview 1.26.70.20).
 - Consoles: Microsoft's install tutorial gives no local import for consoles, only "activate on Windows, upload to a Realm". Experimental Script APIs do not run on Realms.
@@ -51,6 +51,11 @@ Best sources: npm registry, Mojang GitHub, Microsoft Learn, mojira.dev for bugs.
 ## Findings log
 
 Newest first. One entry per material finding. `Track` is subject, tooling, practice, or testing.
+
+### R-20261106-1 · 2026-11-06 · Quiet: pins hold
+- Summary: npm server 2.11.0 and server-ui 2.3.0 latest, rc 2.12.0/2.4.0; samples min_engine [1, 26, 60]; MCPE-227874 Open with fix version 26.70.20 Preview; preview 26.70.23 (mcpedl only), stable 1.26.70 not seen. Corrected RESEARCH's stale [1, 26, 50] line. core-build-tasks, linting plugin and creator-tools not checked.
+- Track: subject. Sources: https://registry.npmjs.org/@minecraft/server, https://mojira.dev/MCPE-227874
+- magnitude 0.15 · applied: none
 
 ### R-20261103-1 · 2026-11-03 · Quiet: pins hold; 2.12.0/2.4.0 in rc for 1.26.70
 - Summary: npm latest unchanged (`@minecraft/server` 2.11.0, `server-ui` 2.3.0, `core-build-tasks` 5.7.1); rc tags server 2.12.0-rc.1.26.70-preview.23, server-ui 2.4.0-rc. bedrock-protocol-docs tagged v1.26.60 on 2026-10-27, so the skill's 1.26.50 min_engine_version is one release behind but valid. The failing trigger decoy (T-20261027-3 decoy-2, Paper plugin prompt) is a listing-budget issue with ~154 skills, not a version change. Tooling, practice, testing: nothing new.
