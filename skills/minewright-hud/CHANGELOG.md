@@ -4,6 +4,10 @@ Every change to [SKILL.md](SKILL.md) and its companions, newest first, each with
 
 Entry shape: `### C-YYYYMMDD-n · date · one-line summary`, then `because:` (IDs or "user request"), `files:` (file and section), and a sentence on what changed. Cite section headings, not line numbers.
 
+### C-20261106-1 · 2026-11-06 · hud_screen.json sample version says 1.26.60
+- because: R-20261106-1
+- files: SKILL.md (JSON UI)
+
 ### C-20261030-1 · 2026-10-30 · 1.26.60 hotbar restructure noted
 - because: R-20261030-1
 - files: SKILL.md (Ore UI risk paragraph), RESEARCH.md (Current understanding)

@@ -51,6 +51,11 @@ Best sources: Mojang/bedrock-samples, wiki.bedrock.dev, Microsoft Learn. Noisy: 
 
 Newest first. One entry per material finding. `Track` is subject, tooling, practice, or testing.
 
+### R-20261106-1 · 2026-11-06 · Quiet; sample version wording corrected
+- Summary: No hud_screen.json commit since v1.26.60.5; no Ore UI statement found. Tooling, practice, testing: nothing new. The public wiki page HUD-and-UI still says 1.26.50.
+- Track: subject. Sources: https://github.com/Mojang/bedrock-samples/commits/main/resource_pack/ui/hud_screen.json
+- magnitude 0.15 · applied: C-20261106-1
+
 ### R-20261103-1 · 2026-11-03 · Quiet: HUD still JSON UI; server-ui 2.4.0 at rc
 - Summary: no `hud_screen.json` commit in bedrock-samples since v1.26.60.5 (2026-10-28); no Mojang Ore UI statement. `@minecraft/server-ui` latest still 2.3.0, rc 2.4.0-rc.1.26.70-preview.23, beta 2.5.0 (2.4.0 likely stable with 1.26.70). Tooling: TanerTalas/codecraft, an unofficial read-only Bedrock MCP server with `validate_json` (Blockception schemas), no evidence it covers JSON UI; note only. Practice: nothing new. Testing: nothing new.
 - Track: subject, tooling
