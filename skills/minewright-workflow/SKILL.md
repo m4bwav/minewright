@@ -56,6 +56,10 @@ Full examples and the reasons: [references/script-api-patterns.md](references/sc
 
 From [references/game-design.md](references/game-design.md): a threat always has a tell and a way out, timers are visible, failure is never permanent loss of a player's own items unless the user asked for it, no fast flashing, scary moments are short and announced by sound first, and an operator can always skip or pause. Write these into the one-pager.
 
+## Sfxwright, when installed
+
+If the sfxwright plugin is present, hand it the game events that need a new sound and read its `sounds.json` for the picked files. Add each to the resource pack and check its id in `sound_definitions.json` before `playSound`, as always. Without it, use vanilla sound ids; these steps work alone.
+
 ## Step 6: verify
 
 Run minewright-checks (static), the pure-module unit tests, then minewright-server's self-test on Bedrock Dedicated Server. A human playtest is the last word; hand over the checklist in the game-design reference (section 5) with the test-mode timings.
