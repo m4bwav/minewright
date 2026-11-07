@@ -4,6 +4,11 @@ Every change to [SKILL.md](SKILL.md) and its companions, newest first, each with
 
 Entry shape: `### C-YYYYMMDD-n · date · one-line summary`, then `because:` (IDs or "user request"), `files:` (file and section), and a sentence on what changed. Cite section headings, not line numbers.
 
+### C-20261106-1 · 2026-11-06 · Sfxwright, when installed
+- because: user request
+- files: SKILL.md (sfxwright note)
+- Hand sound effects to sfxwright when present and read its sounds.json; this plugin's own steps stay as the fallback.
+
 ### C-20261027-4 · 2026-10-27 · Step 1 writes the config file with the one-pager
 - because: T-20261027-2 (action-1, no-op), L-012
 - files: SKILL.md Step 1
