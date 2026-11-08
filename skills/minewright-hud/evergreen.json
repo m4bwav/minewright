@@ -14,8 +14,8 @@
   "topic": "Bedrock HUD and UI for add-ons: JSON UI hud_screen, Ore UI risk, title and actionbar patterns, animations, item textures, server-ui forms, vanilla fallback",
   "tier": "fast",
   "interval_days": 3,
-  "last_checked": "2026-11-06",
-  "next_due": "2026-11-08",
+  "last_checked": "2026-11-08",
+  "next_due": "2026-11-11",
   "verify_at_use": false,
   "volatile_claims": [
     "hud_screen.json is still JSON UI",
@@ -62,12 +62,18 @@
       "m": 0.15,
       "interval_after": 3,
       "note": "quiet, sample wording fixed; cost: searches 4 · fetches 5 · tool calls 13 (shared)"
+    },
+    {
+      "date": "2026-11-08",
+      "m": 0.1,
+      "interval_after": 3,
+      "note": "quiet: HUD still JSON UI, server-ui beta 1.26.63-stable; cost: searches 0 · fetches 2 · tool calls 6 (shared)"
     }
   ],
   "counts": {
     "learnings": 6,
     "changes": 3,
-    "research": 10,
+    "research": 11,
     "tests": 2
   },
   "consolidate_every": 25,

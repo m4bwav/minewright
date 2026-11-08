@@ -14,8 +14,8 @@
   "topic": "Bedrock add-on project layout: BP and RP manifests, UUIDs, module dependencies, TypeScript build with esbuild, .mcaddon packaging, install per platform",
   "tier": "fast",
   "interval_days": 3,
-  "last_checked": "2026-11-06",
-  "next_due": "2026-11-08",
+  "last_checked": "2026-11-08",
+  "next_due": "2026-11-10",
   "verify_at_use": false,
   "volatile_claims": [
     "@minecraft/server stable 2.11.0",
@@ -65,12 +65,18 @@
       "m": 0.15,
       "interval_after": 3,
       "note": "quiet, pins hold; cost shared with hud"
+    },
+    {
+      "date": "2026-11-08",
+      "m": 0.1,
+      "interval_after": 3,
+      "note": "quiet: pins hold, creator-tools 0.21.0, MCPE-227874 Open; decoy-2 still failing (listing budget), not re-run; cost: searches 0 · fetches 3 · tool calls 8 (shared)"
     }
   ],
   "counts": {
     "learnings": 9,
     "changes": 3,
-    "research": 10,
+    "research": 11,
     "tests": 3
   },
   "consolidate_every": 25,
