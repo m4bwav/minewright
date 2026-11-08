@@ -8,7 +8,7 @@ Topic: Bedrock add-on project layout: BP and RP manifests, UUIDs, module depende
 
 - Versions on 2026-10-27: Minecraft Bedrock 1.26.60 (`@minecraft/vanilla-data` latest 1.26.60); `@minecraft/server` 2.11.0 and `@minecraft/server-ui` 2.3.0 stable on npm. The Learn server-ui module page still says 2.2.0 (doc lag); Bedrock Dedicated Server 1.26.60.6 accepts 2.3.0 (verified), so npm wins.
 - Manifests in `Mojang/bedrock-samples` main: `format_version` 2 and `min_engine_version` `[1, 26, 60]` since v1.26.60.5 (2026-10-28); the skill uses [1, 26, 60] since C-20261103-1, as a wider floor.
-- Build: `@minecraft/core-build-tasks` 5.7.1 (Mojang/minecraft-scripting-libraries); the `ts-starter` sample lives in `microsoft/minecraft-scripting-samples`, last touched 2025-11-07, with caret ranges `^2.0.0`. `eslint-plugin-minecraft-linting` 2.0.13. Creator Tools 0.20.0 needs Node 22+.
+- Build: `@minecraft/core-build-tasks` 5.7.1 (Mojang/minecraft-scripting-libraries); the `ts-starter` sample lives in `microsoft/minecraft-scripting-samples`, last touched 2025-11-07, with caret ranges `^2.0.0`. `eslint-plugin-minecraft-linting` 2.0.13. Creator Tools 0.21.0 (2026-11-06; 0.20.0 needs Node 22+).
 - Windows GDK path `%appdata%\Minecraft Bedrock\users\shared\games\com.mojang`; the UWP LocalState path is legacy. MCPE-227874: double-click import silently fails while the game runs (confirmed, GDK label, fix slated for Preview 1.26.70.20).
 - Consoles: Microsoft's install tutorial gives no local import for consoles, only "activate on Windows, upload to a Realm". Experimental Script APIs do not run on Realms.
 - Pack size: Creator Tools validation warns above about 100 MB (mobile and Realms uploads).
@@ -51,6 +51,11 @@ Best sources: npm registry, Mojang GitHub, Microsoft Learn, mojira.dev for bugs.
 ## Findings log
 
 Newest first. One entry per material finding. `Track` is subject, tooling, practice, or testing.
+
+### R-20261108-1 · 2026-11-08 · Quiet: pins hold; Creator Tools 0.21.0
+- Summary: npm server 2.11.0 and server-ui 2.3.0 still latest (rc 2.12.0/2.4.0 for 1.26.70-preview.23); beta tag moved to 1.26.63-stable (hotfix line 1.26.61 to 1.26.63, 2026-10-29 to 11-06); vanilla-data 1.26.60; samples manifest min_engine [1, 26, 60], no commit since v1.26.60.5. MCPE-227874 still Open. core-build-tasks 5.7.1 and linting plugin 2.0.13 unchanged; @minecraft/creator-tools 0.21.0 released 2026-11-06 with empty release notes (no claim in SKILL.md depends on it). Practice, testing: nothing new. decoy-2 still failing (listing budget), not re-run (no paid evals).
+- Track: subject, tooling. Sources: https://registry.npmjs.org/@minecraft/server, https://registry.npmjs.org/@minecraft/creator-tools, https://github.com/Mojang/minecraft-creator-tools/releases/tag/v0.21.0, https://mojira.dev/MCPE-227874, https://github.com/Mojang/bedrock-samples/commits/main
+- magnitude 0.1 · applied: none
 
 ### R-20261106-1 · 2026-11-06 · Quiet: pins hold
 - Summary: npm server 2.11.0 and server-ui 2.3.0 latest, rc 2.12.0/2.4.0; samples min_engine [1, 26, 60]; MCPE-227874 Open with fix version 26.70.20 Preview; preview 26.70.23 (mcpedl only), stable 1.26.70 not seen. Corrected RESEARCH's stale [1, 26, 50] line. core-build-tasks, linting plugin and creator-tools not checked.
