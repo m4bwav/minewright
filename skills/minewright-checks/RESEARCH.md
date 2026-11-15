@@ -48,6 +48,11 @@ Best sources: Mojang's repositories and npm. Noisy: forum threads quoting old fo
 
 Newest first. One entry per material finding. `Track` is subject, tooling, practice, or testing.
 
+### R-20261115-1 · 2026-11-15 · Quiet
+- Summary: @minecraft/creator-tools 0.21.0 still latest (seen 2026-11-08 in minewright-project); Blockception schemas latest release still v1.21.73-0. Practice, testing: nothing new.
+- Track: tooling. Sources: https://registry.npmjs.org/@minecraft/creator-tools, https://github.com/Blockception/Minecraft-bedrock-json-schemas/releases
+- magnitude 0.1 · applied: none
+
 ### R-20261027-6 · 2026-10-27 · Testing: mw_check.py on the example add-on and the new checks
 - summary: `python skills/minewright-checks/scripts/mw_check.py examples/given-jar --mct-npx` (after npm ci): json, manifest, identifiers, components, typescript, lint, mct and test all pass (8 pass, 0 fail, 0 skip); mct via npx in about 20 s with 3 noise entries. tests/test_scripts.py covers the components check (fixture entity raised to 1.26.50 fails with the pushable_by_entity fix named) and the mct check against a fake mct (packs-only staging, noise, caution, error fails).
 - track: testing

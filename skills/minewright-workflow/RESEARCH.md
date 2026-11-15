@@ -56,6 +56,11 @@ Best sources: npm registry JSON, Microsoft Learn with `view=minecraft-bedrock-st
 
 Newest first. One entry per material finding. `Track` is subject, tooling, practice, or testing.
 
+### R-20261115-1 · 2026-11-15 · Quiet
+- Summary: @minecraft/server stable 2.11.0 (Sept 2026 notes: Dimension.playSound isBroadcast); 2.12.0 is rc and 2.13.0 beta on 1.26.70-preview.24; no new stable release since. Tooling, practice, testing: nothing new.
+- Track: subject. Sources: https://registry.npmjs.org/@minecraft/server, https://feedback.minecraft.net/hc/en-us/articles/48740748263565/
+- magnitude 0.1 · applied: none
+
 ### R-20261027-7 · 2026-10-27 · Subject: Bedrock sound ids
 - summary: beacon.activate, beacon.deactivate, random.orb, random.levelup, mob.elderguardian.curse, mob.warden.heartbeat, mob.endermen.scream and note.pling exist in the vanilla sound_definitions.json (checked by the example build). Applied to the patterns reference section 10.
 - track: subject

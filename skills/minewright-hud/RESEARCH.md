@@ -51,6 +51,11 @@ Best sources: Mojang/bedrock-samples, wiki.bedrock.dev, Microsoft Learn. Noisy: 
 
 Newest first. One entry per material finding. `Track` is subject, tooling, practice, or testing.
 
+### R-20261115-1 · 2026-11-15 · Quiet
+- Summary: hud_screen.json last touched 2026-10-28 (the 1.26.60.5 sync, still JSON UI); server-ui latest 2.3.0, rc 2.4.0-rc and beta 2.5.0-beta on 1.26.70-preview.24. Tooling, practice, testing: nothing new.
+- Track: subject. Sources: https://github.com/Mojang/bedrock-samples/commits/main/resource_pack/ui/hud_screen.json, https://registry.npmjs.org/@minecraft/server-ui
+- magnitude 0.1 · applied: none
+
 ### R-20261108-1 · 2026-11-08 · Quiet
 - Summary: no bedrock-samples commit since v1.26.60.5 (hud_screen.json still JSON UI); no Mojang Ore UI statement. `@minecraft/server-ui` latest 2.3.0, rc 2.4.0-rc.1.26.70-preview.23, beta now 2.4.0-beta.1.26.63-stable. Tooling, practice, testing: nothing new.
 - Track: subject. Sources: https://github.com/Mojang/bedrock-samples/commits/main/resource_pack/ui/hud_screen.json, https://registry.npmjs.org/@minecraft/server-ui
