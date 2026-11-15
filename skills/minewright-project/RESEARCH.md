@@ -52,6 +52,11 @@ Best sources: npm registry, Mojang GitHub, Microsoft Learn, mojira.dev for bugs.
 
 Newest first. One entry per material finding. `Track` is subject, tooling, practice, or testing.
 
+### R-20261115-1 · 2026-11-15 · Quiet: pins hold
+- Summary: server 2.11.0 and server-ui 2.3.0 still latest; rc 2.12.0/2.4.0 and beta 2.13.0/2.5.0 now on 1.26.70-preview.24; core-build-tasks 5.7.1, creator-tools 0.21.0 unchanged. Practice, testing: nothing new. decoy-2 cleared as environment-dependent (TESTS.md).
+- Track: subject, tooling. Sources: https://registry.npmjs.org/@minecraft/server, https://registry.npmjs.org/@minecraft/core-build-tasks
+- magnitude 0.1 · applied: none
+
 ### R-20261108-1 · 2026-11-08 · Quiet: pins hold; Creator Tools 0.21.0
 - Summary: npm server 2.11.0 and server-ui 2.3.0 still latest (rc 2.12.0/2.4.0 for 1.26.70-preview.23); beta tag moved to 1.26.63-stable (hotfix line 1.26.61 to 1.26.63, 2026-10-29 to 11-06); vanilla-data 1.26.60; samples manifest min_engine [1, 26, 60], no commit since v1.26.60.5. MCPE-227874 still Open. core-build-tasks 5.7.1 and linting plugin 2.0.13 unchanged; @minecraft/creator-tools 0.21.0 released 2026-11-06 with empty release notes (no claim in SKILL.md depends on it). Practice, testing: nothing new. decoy-2 still failing (listing budget), not re-run (no paid evals).
 - Track: subject, tooling. Sources: https://registry.npmjs.org/@minecraft/server, https://registry.npmjs.org/@minecraft/creator-tools, https://github.com/Mojang/minecraft-creator-tools/releases/tag/v0.21.0, https://mojira.dev/MCPE-227874, https://github.com/Mojang/bedrock-samples/commits/main

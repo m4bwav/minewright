@@ -14,8 +14,8 @@
   "topic": "Bedrock add-on project layout: BP and RP manifests, UUIDs, module dependencies, TypeScript build with esbuild, .mcaddon packaging, install per platform",
   "tier": "fast",
   "interval_days": 3,
-  "last_checked": "2026-11-08",
-  "next_due": "2026-11-10",
+  "last_checked": "2026-11-15",
+  "next_due": "2026-11-18",
   "verify_at_use": false,
   "volatile_claims": [
     "@minecraft/server stable 2.11.0",
@@ -71,12 +71,18 @@
       "m": 0.1,
       "interval_after": 3,
       "note": "quiet: pins hold, creator-tools 0.21.0, MCPE-227874 Open; decoy-2 still failing (listing budget), not re-run; cost: searches 0 · fetches 3 · tool calls 8 (shared)"
+    },
+    {
+      "date": "2026-11-15",
+      "m": 0.1,
+      "interval_after": 3,
+      "note": "quiet; cost: searches 1 · fetches 0 · tool calls 2 (shared)"
     }
   ],
   "counts": {
     "learnings": 9,
     "changes": 3,
-    "research": 11,
+    "research": 12,
     "tests": 3
   },
   "consolidate_every": 25,
@@ -87,9 +93,7 @@
     "cases": 6,
     "passed": 5,
     "failed": 1,
-    "failing": [
-      "decoy-2"
-    ],
+    "failing": [],
     "last_failure": {
       "date": "2026-10-27",
       "note": "re-run after C-20261027-3: decoy-2 fails with the default listing (name-only), passes with the listing budget raised"

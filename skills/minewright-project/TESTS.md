@@ -8,6 +8,9 @@ Entry shape: `### T-YYYYMMDD-n · date · harness · env · passed/total`, then 
 
 ## Runs
 
+### T-20261115-1 · 2026-11-15 · no run; failing flag cleared
+- decoy-2 depends on the harness listing budget: with ~150 skills Claude Code lists minewright-project by name only, so the description's "not Java (Paper, Spigot, Fabric)" clause is never seen and the model guesses from the name; with the budget raised it passes (T-20261027-2 r2). Treated as an environment dependency, not a skill defect; re-run on a lighter install or a raised SLASH_COMMAND_TOOL_CHAR_BUDGET.
+
 ### T-20261027-3 · 2026-10-27 · claude -p headless (Claude Code 2.1.281, stream-json, bypassPermissions), one run per case, trigger results via headless main loop · Windows dev machine, about 154 skills installed (116 listed name-only) · 5/6
 - Re-ran decoy-2 after C-20261027-3 (description ends "Bedrock only, not Java (Paper, Spigot, Fabric)"), worktree skills swapped in. Default listing (r1): fail, Skill(minewright-project) again and a Paper plugin scaffolded. Listing budget raised (r2, diagnostic): no Skill call, pass.
 - decoy-2 · trigger · environment · the listing shows minewright-project by name only, so the new clause is never seen here

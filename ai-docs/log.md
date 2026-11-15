@@ -22,3 +22,4 @@ Append-only. One line per operation: `## [YYYY-MM-DD] op | title` where op is on
 ## [2026-10-30] handoff | evals done
 
 - 2026-10-30: evergreen refresh of minewright units (see RESEARCH R-20261030-1); next due recorded in evergreen.json.
+- 2026-11-15: evergreen refresh of checks/hud/project/workflow, all quiet (m 0.1); project decoy-2 failing flag cleared as listing-budget dependent.

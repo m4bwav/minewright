@@ -14,8 +14,8 @@
   "topic": "Designing and writing Minecraft Bedrock add-ons with an AI agent: design before code, stable Script API patterns, kid-fair rules, playtest checklist",
   "tier": "moderate",
   "interval_days": 14,
-  "last_checked": "2026-10-27",
-  "next_due": "2026-11-10",
+  "last_checked": "2026-11-15",
+  "next_due": "2026-11-28",
   "verify_at_use": false,
   "volatile_claims": [
     "@minecraft/server stable 2.11.0",
@@ -29,7 +29,7 @@
   "events": [],
   "streak": {
     "quiet": 0,
-    "pinned_min": 1,
+    "pinned_min": 0,
     "pinned_max": 0,
     "vau_quiet": 0
   },
@@ -45,12 +45,18 @@
       "m": 0.4,
       "interval_after": 14,
       "note": "given.jar findings folded in; contradiction fixed in C-20261027-2, cleared"
+    },
+    {
+      "date": "2026-11-15",
+      "m": 0.1,
+      "interval_after": 14,
+      "note": "quiet; cost: searches 1 · fetches 0 · tool calls 2 (shared)"
     }
   ],
   "counts": {
     "learnings": 13,
     "changes": 3,
-    "research": 7,
+    "research": 8,
     "tests": 4
   },
   "consolidate_every": 25,
