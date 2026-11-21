@@ -52,6 +52,10 @@ Best sources: npm registry, Mojang GitHub, Microsoft Learn, mojira.dev for bugs.
 
 Newest first. One entry per material finding. `Track` is subject, tooling, practice, or testing.
 
+### R-20261120-1 · 2026-11-20 · Quiet: pins hold; preview 1.26.70.26
+- Summary: @minecraft/server latest still 2.11.0; rc now 2.12.0-rc.1.26.70-preview.26 (was preview.24), beta 2.12.0-beta.1.26.66-stable (a 1.26.66 hotfix line). MCPE-227874 still Open (fix version 26.70.20 Preview), unchanged since 10-13. server-ui, vanilla-data, creator-tools, core-build-tasks not checked; tooling, practice, testing not searched this pass. Next time fetch feedback.minecraft.net's Preview section directly (search does not index new preview notes yet).
+- Track: subject · Sources: https://registry.npmjs.org/@minecraft/server, https://mojira.dev/MCPE-227874 · Magnitude: 0.1 · Applied: none
+
 ### R-20261115-1 · 2026-11-15 · Quiet: pins hold
 - Summary: server 2.11.0 and server-ui 2.3.0 still latest; rc 2.12.0/2.4.0 and beta 2.13.0/2.5.0 now on 1.26.70-preview.24; core-build-tasks 5.7.1, creator-tools 0.21.0 unchanged. Practice, testing: nothing new. decoy-2 cleared as environment-dependent (TESTS.md).
 - Track: subject, tooling. Sources: https://registry.npmjs.org/@minecraft/server, https://registry.npmjs.org/@minecraft/core-build-tasks
