@@ -69,4 +69,4 @@ Not tested:
 4. Commit, push, then `wikiwright.py live m4bwav/minewright <wiki dir>`. Pages that name the version or the date: Home ("About these pages"), Checks-and-the-BDS-Harness (the opening paragraph), Research-and-Freshness (the state table and the research counts), Development-and-Release (releases, budget), FAQ (the release and Dependabot answers), Given-Jar-Example (the tests table, install), _Footer.
 5. When a tag is pushed, remove "no release tag yet" from the footer and the "no release" sentences from FAQ, Development-and-Release and Given-Jar-Example.
 
-Related: see also [../HANDOFF.md](../HANDOFF.md), [../log.md](../log.md).
+Related: see also [../HANDOFF.md](../HANDOFF.md), [../log.md](../log/).
